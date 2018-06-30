@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CoffeeManager</string>
+    <string name="hint_email">example@gmail.com</string>
+    <string name="hint_password">password</string>
+    <string name="text_sign_in">Sign in</string>
+    <string name="text_sign_up">Sign up</string>
+    <string name="text_reset_password">Reset password</string>
+    <string name="text_confirm_password">confirm password</string>
 </resources>
