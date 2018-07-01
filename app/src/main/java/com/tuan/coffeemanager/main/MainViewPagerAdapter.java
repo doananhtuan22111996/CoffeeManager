@@ -10,11 +10,11 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.main.fragment.SignInFragment;
 import com.tuan.coffeemanager.main.fragment.SignUpFragment;
 
-public class FragmentMainAdapter extends FragmentStatePagerAdapter {
+public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final int NUM_TAB = 2;
 
-    FragmentMainAdapter(FragmentManager fm) {
+    MainViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

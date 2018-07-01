@@ -9,4 +9,6 @@
     <color name="black">#000000</color>
     <color name="hint">#FF7F7D7D</color>
     <color name="white">#ffffff</color>
+    <color name="red">#EE0A04</color>
+    <color name="brown">#57330E</color>
 </resources>

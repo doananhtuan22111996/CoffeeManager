@@ -1,6 +1,5 @@
 package com.tuan.coffeemanager.main;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        viewPager.setAdapter(new FragmentMainAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabTextColors(getColor(R.color.hint), getColor(R.color.black));
