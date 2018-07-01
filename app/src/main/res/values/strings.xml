@@ -6,4 +6,6 @@
     <string name="text_sign_up">Sign up</string>
     <string name="text_reset_password">Reset password</string>
     <string name="text_confirm_password">confirm password</string>
+    <string name="title_coffee_manager">Coffee Manager</string>
+    <string name="text_send_to_email">Send to email</string>
 </resources>
