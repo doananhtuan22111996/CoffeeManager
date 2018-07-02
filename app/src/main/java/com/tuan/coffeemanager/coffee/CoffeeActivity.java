@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.tuan.coffeemanager.R;
 
 import java.util.Objects;
@@ -27,6 +28,7 @@ public class CoffeeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initViewPager();
+
     }
 
     private void initViewPager() {
