@@ -1,14 +1,12 @@
-package com.tuan.coffeemanager.main;
+package com.tuan.coffeemanager.feature.main;
 
-import android.content.res.Resources;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.main.fragment.SignInFragment;
-import com.tuan.coffeemanager.main.fragment.SignUpFragment;
+import com.tuan.coffeemanager.feature.main.fragment.SignInFragment;
+import com.tuan.coffeemanager.feature.main.fragment.SignUpFragment;
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.main.fragment;
+package com.tuan.coffeemanager.feature.main.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 
@@ -17,21 +16,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignInFragment extends Fragment {
+public class SignUpFragment extends Fragment {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
     @BindView(R.id.edtPassword)
     EditText edtPassword;
-    @BindView(R.id.btnSignIn)
-    Button btnSignIn;
-    @BindView(R.id.tvResetPassword)
-    TextView tvResetPassword;
+    @BindView(R.id.edtConfirmPassword)
+    EditText edtConfirmPassword;
+    @BindView(R.id.btnSignUp)
+    Button btnSignUp;
     Unbinder unbinder;
 
-    public static SignInFragment newInstance() {
+    public static SignUpFragment newInstance() {
         Bundle args = new Bundle();
-        SignInFragment fragment = new SignInFragment();
+        SignUpFragment fragment = new SignUpFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,7 +38,7 @@ public class SignInFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

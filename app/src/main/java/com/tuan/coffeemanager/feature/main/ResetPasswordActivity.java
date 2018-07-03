@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.main;
+package com.tuan.coffeemanager.feature.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

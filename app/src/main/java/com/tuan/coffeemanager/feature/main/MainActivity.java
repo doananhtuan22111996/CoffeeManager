@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.main;
+package com.tuan.coffeemanager.feature.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
