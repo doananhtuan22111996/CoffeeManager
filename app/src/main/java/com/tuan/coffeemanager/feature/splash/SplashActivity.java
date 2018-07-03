@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.splash;
+package com.tuan.coffeemanager.feature.splash;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

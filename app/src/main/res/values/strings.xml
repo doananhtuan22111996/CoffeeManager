@@ -11,4 +11,9 @@
     <string name="text_menu_coffee">Menu Coffee</string>
     <string name="text_table">Table</string>
     <string name="text_more">More</string>
+    <string name="text_edit_profile">Edit Profile</string>
+    <string name="text_change_password">Change Password</string>
+    <string name="text_feedback">Feedback</string>
+    <string name="text_about_coffee">About Coffee</string>
+    <string name="text_logout">Logout</string>
 </resources>

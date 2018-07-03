@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.coffee;
+package com.tuan.coffeemanager.feature.coffee;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

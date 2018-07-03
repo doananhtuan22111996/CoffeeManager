@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.coffee;
+package com.tuan.coffeemanager.feature.coffee;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
