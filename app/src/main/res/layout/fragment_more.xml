@@ -34,7 +34,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:src="@drawable/ic_Right"
+                android:src="@drawable/ic_right"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +60,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:src="@drawable/ic_Right"
+                android:src="@drawable/ic_right"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivRightEdit" />
 
@@ -85,7 +85,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:src="@drawable/ic_Right"
+                android:src="@drawable/ic_right"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivRightChange" />
 
@@ -110,7 +110,7 @@
                 android:layout_marginTop="32dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:src="@drawable/ic_Right"
+                android:src="@drawable/ic_right"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivRightFeedback" />
 
@@ -136,7 +136,7 @@
                 android:layout_marginTop="32dp"
                 android:background="@color/white"
                 android:padding="4dp"
-                android:src="@drawable/ic_Right"
+                android:src="@drawable/ic_right"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivRightAboutCoffee" />
 
