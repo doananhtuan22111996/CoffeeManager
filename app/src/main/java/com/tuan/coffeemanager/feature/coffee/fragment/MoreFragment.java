@@ -25,8 +25,4 @@ public class MoreFragment extends Fragment{
         return inflater.inflate(R.layout.fragment_more, container, false);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 }
