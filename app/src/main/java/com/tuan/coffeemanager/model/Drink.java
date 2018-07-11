@@ -6,15 +6,17 @@ public class Drink {
     private String name;
     private String description;
     private int price;
+    private int purchases;
 
     public Drink() {
     }
 
-    public Drink(String id, String name, String description, int price) {
+    public Drink(String id, String name, String description, int price, int purchases) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.purchases = purchases;
     }
 
     public String getId() {
@@ -49,4 +51,11 @@ public class Drink {
         this.price = price;
     }
 
+    public int getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(int purchases) {
+        this.purchases = purchases;
+    }
 }
