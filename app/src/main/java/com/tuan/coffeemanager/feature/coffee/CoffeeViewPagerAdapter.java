@@ -3,9 +3,9 @@ package com.tuan.coffeemanager.feature.coffee;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import com.tuan.coffeemanager.feature.coffee.fragment.MenuFragment;
-import com.tuan.coffeemanager.feature.coffee.fragment.MoreFragment;
-import com.tuan.coffeemanager.feature.coffee.fragment.TableFragment;
+import com.tuan.coffeemanager.feature.coffee.fragment.view.MenuFragment;
+import com.tuan.coffeemanager.feature.coffee.fragment.view.MoreFragment;
+import com.tuan.coffeemanager.feature.coffee.fragment.view.TableFragment;
 
 public class CoffeeViewPagerAdapter extends FragmentStatePagerAdapter {
 

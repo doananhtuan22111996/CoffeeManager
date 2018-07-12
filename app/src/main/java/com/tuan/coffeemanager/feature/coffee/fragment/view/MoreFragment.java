@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.coffee.fragment;
+package com.tuan.coffeemanager.feature.coffee.fragment.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

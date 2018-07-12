@@ -15,9 +15,9 @@ import java.util.List;
 public class FirebaseApp {
 
     private static DatabaseReference databaseReference;
-    private FirebaseListener firebaseListener;
+    private  FirebaseListener.ListDataListener firebaseListener;
 
-    public FirebaseApp(FirebaseListener firebaseListener) {
+    public FirebaseApp(FirebaseListener.ListDataListener firebaseListener) {
         this.firebaseListener = firebaseListener;
     }
 
@@ -33,8 +33,8 @@ public class FirebaseApp {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<T> tList = new ArrayList<>();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    T t = dataSnapshot.getValue(tClass);
+                for (DataSnapshot value : dataSnapshot.getChildren()) {
+                    T t = value.getValue(tClass);
                     tList.add(t);
                 }
                 firebaseListener.getDataSuccess(tList);
