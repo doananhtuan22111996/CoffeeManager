@@ -10,18 +10,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MenuPresenter implements FirebaseListener.ListDataListener<Drink> {
+public class MenuCoffeePresenter implements FirebaseListener.ListDataListener<Drink> {
 
     private FirebaseApp firebaseApp;
     private ViewListener.ViewListDataListener viewListDataListener;
 
-    public MenuPresenter(ViewListener.ViewListDataListener viewListDataListener) {
+    public MenuCoffeePresenter(ViewListener.ViewListDataListener viewListDataListener) {
         FirebaseApp.newIntance();
         this.viewListDataListener = viewListDataListener;
         this.firebaseApp = new FirebaseApp(this);
     }
 
-    public void getMenuData() {
+    public void getMenuListData() {
         firebaseApp.getListData(NodeBaseApp.NODE_DRINK, Drink.class);
     }
 

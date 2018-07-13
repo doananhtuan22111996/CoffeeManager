@@ -18,8 +18,11 @@
     <string name="text_logout">Logout</string>
     <string name="text_drink_americano">Americano</string>
     <string name="text_purchases">Purchases</string>
-    <string name="text_number_table">Table 1</string>
+    <string name="text_number_table">Table %1$s</string>
     <string name="text_pay">Pay</string>
     <string name="text_order">Order</string>
     <string name="text_repair">Repair</string>
+    <string name="text_description">Description</string>
+    <string name="text_price">Price</string>
+    <string name="text_title_detail">Coffee Detail</string>
 </resources>

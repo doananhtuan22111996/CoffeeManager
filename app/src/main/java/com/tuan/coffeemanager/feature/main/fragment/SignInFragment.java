@@ -1,5 +1,6 @@
 package com.tuan.coffeemanager.feature.main.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +44,17 @@ public class SignInFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), CoffeeActivity.class));
+            }
+        });
     }
 
     @Override

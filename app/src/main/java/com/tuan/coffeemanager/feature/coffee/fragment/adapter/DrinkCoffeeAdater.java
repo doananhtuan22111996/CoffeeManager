@@ -33,6 +33,10 @@ public class DrinkCoffeeAdater extends RecyclerView.Adapter<DrinkCoffeeAdater.Dr
         this.onItemClickListener = onItemClickListener;
     }
 
+    public List<Drink> getDrinkList() {
+        return drinkList;
+    }
+
     @NonNull
     @Override
     public DrinkCoffeeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

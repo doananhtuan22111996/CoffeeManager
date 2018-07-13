@@ -7,6 +7,7 @@ public class NodeBaseApp {
     public static final String NODE_DRINK = "DRINK";
     public static final String NODE_ORDER = "ORDER";
     public static final String NODE_ORDER_DETAIL = "ORDER_DETAIL";
+    public static final String DRINK_ID = "DRINK_ID";
 
 //    public static List<User> userList = new ArrayList<>();
 //    public static List<Table> tableList = new ArrayList<>();

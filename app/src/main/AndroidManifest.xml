@@ -13,23 +13,21 @@
         android:theme="@style/AppTheme">
         <activity android:name="feature.splash.SplashActivity" />
         <activity android:name=".feature.main.MainActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".feature.main.ResetPasswordActivity" />
-        <activity android:name=".feature.coffee.CoffeeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.coffeedetail.CoffeeDetailActivity"/>
+        <activity android:name=".feature.main.ResetPasswordActivity" />
+        <activity android:name=".feature.coffee.CoffeeActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".feature.coffeedetail.CoffeeDetailActivity" />
     </application>
 
 </manifest>
