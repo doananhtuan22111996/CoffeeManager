@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.feature.main.ResetPasswordActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +54,13 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), CoffeeActivity.class));
+            }
+        });
+
+        tvResetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
             }
         });
     }

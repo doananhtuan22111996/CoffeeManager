@@ -25,4 +25,13 @@
     <string name="text_description">Description</string>
     <string name="text_price">Price</string>
     <string name="text_title_detail">Coffee Detail</string>
+    <string name="text_edit_coffee_infomation">Edit Coffee Infomation</string>
+    <string name="text_remove_coffee">Remove Coffee</string>
+    <string name="text_coffee_name">Coffee Name:</string>
+    <string name="text_description_coffee">Description Coffee</string>
+    <string name="text_price_coffee">Price Coffee</string>
+    <string name="text_save">Save</string>
+    <string name="text_content">Content</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
 </resources>

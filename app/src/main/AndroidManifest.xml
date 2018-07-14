@@ -21,13 +21,16 @@
         </activity>
         <activity android:name=".feature.main.ResetPasswordActivity" />
         <activity android:name=".feature.coffee.CoffeeActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".feature.coffeedetail.CoffeeDetailActivity" />
+        <activity android:name=".feature.addcoffee.AddCoffeeActivity"></activity>
     </application>
 
 </manifest>
