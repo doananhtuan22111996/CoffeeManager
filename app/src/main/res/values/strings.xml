@@ -35,4 +35,13 @@
     <string name="text_yes">Yes</string>
     <string name="text_no">No</string>
     <string name="text_message_confirm_password">Confirm Password is not correct</string>
+    <string name="text_mesage_email_empty">Email is empty</string>
+    <string name="text_message_password_empty">Password is empty</string>
+    <string name="text_message_confirm_empty">Confirm is empty</string>
+    <string name="text_message_email_valid">Email is not Valid</string>
+    <string-array name="rule">
+        <item>Manager</item>
+        <item>Bartender</item>
+        <item>Employee</item>
+    </string-array>
 </resources>

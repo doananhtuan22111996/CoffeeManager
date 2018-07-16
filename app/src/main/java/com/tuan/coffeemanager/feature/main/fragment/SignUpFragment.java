@@ -1,6 +1,5 @@
 package com.tuan.coffeemanager.feature.main.fragment;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,15 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.base.BaseFragment;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignUpPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
-import com.tuan.coffeemanager.widget.CustomDialogFragment;
+import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.Objects;
 
@@ -58,7 +56,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         signUpPresenter = new SignUpPresenter(this);
 
@@ -68,12 +66,19 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
                 String email = edtEmail.getText().toString();
                 String password = edtPassword.getText().toString();
                 String cofpassword = edtConfirmPassword.getText().toString();
-                if (password.equals(cofpassword)) {
-                    CustomDialogFragment.showLoading(getFragmentManager());
-                    signUpPresenter.signUp(email, password, getActivity());
+                if (email.isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.text_mesage_email_empty, Toast.LENGTH_SHORT).show();
+                } else if (!isValidEmail(email)) {
+                    Toast.makeText(getActivity(), R.string.text_message_email_valid, Toast.LENGTH_SHORT).show();
+                } else if (password.isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.text_message_password_empty, Toast.LENGTH_SHORT).show();
+                } else if (cofpassword.isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.text_message_confirm_empty, Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(cofpassword)) {
+                    Toast.makeText(getActivity(), getString(R.string.text_message_confirm_password), Toast.LENGTH_SHORT).show();
                 } else {
-//                    BaseFragment.showPopUp(getContext(), getString(R.string.text_message_confirm_password));
-                 BaseFragment.showLoading(getFragmentManager());
+                    CustomDialogLoadingFragment.showLoading(getFragmentManager());
+                    signUpPresenter.signUp(email, password, getActivity());
                 }
             }
         });
@@ -87,7 +92,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
 
     @Override
     public void onSuccess(User user) {
-        CustomDialogFragment.hideLoading();
+        CustomDialogLoadingFragment.hideLoading();
         startActivity(new Intent(getActivity(), CoffeeActivity.class));
         Objects.requireNonNull(getActivity()).finish();
     }
@@ -95,5 +100,13 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     @Override
     public void onFailure(String error) {
 
+    }
+
+    private Boolean isValidEmail(String email) {
+        if (email.isEmpty()) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        }
     }
 }

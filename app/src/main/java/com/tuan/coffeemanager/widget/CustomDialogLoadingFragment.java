@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.base;
+package com.tuan.coffeemanager.widget;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -11,38 +11,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.widget.CustomDialogFragment;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+public class CustomDialogLoadingFragment extends DialogFragment {
 
-public class BaseFragment extends DialogFragment {
+    private static CustomDialogLoadingFragment customDialogLoadingFragment;
 
-    private static BaseFragment customDialogFragment;
-
-    private static BaseFragment newInstance() {
-        customDialogFragment = new BaseFragment();
-        return customDialogFragment;
+    private static CustomDialogLoadingFragment newInstance() {
+        customDialogLoadingFragment = new CustomDialogLoadingFragment();
+        return customDialogLoadingFragment;
     }
 
     public static void showLoading(FragmentManager fragmentManager) {
-        if (customDialogFragment == null) {
-            customDialogFragment = newInstance();
+        if (customDialogLoadingFragment == null) {
+            customDialogLoadingFragment = newInstance();
         }
-        customDialogFragment.show(fragmentManager, "fragment");
+        customDialogLoadingFragment.show(fragmentManager, "fragment");
     }
 
     public static void hideLoading() {
-        customDialogFragment.dismiss();
+        customDialogLoadingFragment.dismiss();
     }
 
     @NonNull
@@ -50,12 +41,12 @@ public class BaseFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog_main, null);
+        View view = inflater.inflate(R.layout.layout_loading, null);
         alertDialogBuilder.setView(view);
         AlertDialog dialog = alertDialogBuilder.create();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
-
 }
