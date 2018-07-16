@@ -8,17 +8,17 @@ public class User {
     private String address;
     private String birth_day;
     private String phone_number;
+    private String email;
 
     public User() {
     }
 
-    public User(String id, String name, String position, String address, String birth_day, String phone_number) {
-        this.id = id;
-        this.name = name;
-        this.position = position;
-        this.address = address;
-        this.birth_day = birth_day;
-        this.phone_number = phone_number;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getId() {

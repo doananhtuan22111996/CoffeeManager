@@ -1,26 +1,24 @@
 package com.tuan.coffeemanager.feature.coffeedetail.presenter;
 
-import com.tuan.coffeemanager.base.FirebaseApp;
+import com.tuan.coffeemanager.base.FirebaseDataApp;
 import com.tuan.coffeemanager.base.NodeBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 
-import java.util.List;
-
 public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drink> {
 
-    private FirebaseApp firebaseApp;
+    private FirebaseDataApp firebaseDataApp;
     private ViewListener.ViewDataListener viewDataListener;
 
     public CoffeeDetailPresenter(ViewListener.ViewDataListener viewDataListener) {
-        FirebaseApp.newIntance();
+        FirebaseDataApp.newIntance();
         this.viewDataListener = viewDataListener;
-        this.firebaseApp = new FirebaseApp(this);
+        this.firebaseDataApp = new FirebaseDataApp(this);
     }
 
     public void getData(String id) {
-        firebaseApp.getData(NodeBaseApp.NODE_DRINK, id, Drink.class);
+        firebaseDataApp.getData(NodeBaseApp.NODE_DRINK, id, Drink.class);
     }
 
 

@@ -14,17 +14,17 @@ import com.tuan.coffeemanager.listener.FirebaseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirebaseApp {
+public class FirebaseDataApp {
 
     private static DatabaseReference databaseReference;
     private FirebaseListener.ListDataListener listDataListener;
     private FirebaseListener.DataListener dataListener;
 
-    public FirebaseApp(FirebaseListener.ListDataListener listDataListener) {
+    public FirebaseDataApp(FirebaseListener.ListDataListener listDataListener) {
         this.listDataListener = listDataListener;
     }
 
-    public FirebaseApp(FirebaseListener.DataListener dataListener) {
+    public FirebaseDataApp(FirebaseListener.DataListener dataListener) {
         this.dataListener = dataListener;
     }
 

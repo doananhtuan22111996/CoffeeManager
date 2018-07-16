@@ -34,4 +34,5 @@
     <string name="text_content">Content</string>
     <string name="text_yes">Yes</string>
     <string name="text_no">No</string>
+    <string name="text_message_confirm_password">Confirm Password is not correct</string>
 </resources>

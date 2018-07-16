@@ -1,5 +1,6 @@
 package com.tuan.coffeemanager.feature.main.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,15 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.BaseFragment;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.feature.main.fragment.presenter.SignUpPresenter;
+import com.tuan.coffeemanager.listener.ViewListener;
+import com.tuan.coffeemanager.model.User;
+import com.tuan.coffeemanager.widget.CustomDialogFragment;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends Fragment implements ViewListener.ViewDataListener<User> {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
@@ -30,6 +39,8 @@ public class SignUpFragment extends Fragment {
     Button btnSignUp;
     Unbinder unbinder;
 
+    private SignUpPresenter signUpPresenter;
+
     public static SignUpFragment newInstance() {
         Bundle args = new Bundle();
         SignUpFragment fragment = new SignUpFragment();
@@ -40,6 +51,7 @@ public class SignUpFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -48,10 +60,21 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        signUpPresenter = new SignUpPresenter(this);
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CoffeeActivity.class));
+                String email = edtEmail.getText().toString();
+                String password = edtPassword.getText().toString();
+                String cofpassword = edtConfirmPassword.getText().toString();
+                if (password.equals(cofpassword)) {
+                    CustomDialogFragment.showLoading(getFragmentManager());
+                    signUpPresenter.signUp(email, password, getActivity());
+                } else {
+//                    BaseFragment.showPopUp(getContext(), getString(R.string.text_message_confirm_password));
+                 BaseFragment.showLoading(getFragmentManager());
+                }
             }
         });
     }
@@ -60,5 +83,17 @@ public class SignUpFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onSuccess(User user) {
+        CustomDialogFragment.hideLoading();
+        startActivity(new Intent(getActivity(), CoffeeActivity.class));
+        Objects.requireNonNull(getActivity()).finish();
+    }
+
+    @Override
+    public void onFailure(String error) {
+
     }
 }

@@ -1,6 +1,6 @@
 package com.tuan.coffeemanager.feature.coffee.fragment.presenter;
 
-import com.tuan.coffeemanager.base.FirebaseApp;
+import com.tuan.coffeemanager.base.FirebaseDataApp;
 import com.tuan.coffeemanager.base.NodeBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -12,17 +12,17 @@ import java.util.List;
 
 public class MenuCoffeePresenter implements FirebaseListener.ListDataListener<Drink> {
 
-    private FirebaseApp firebaseApp;
+    private FirebaseDataApp firebaseDataApp;
     private ViewListener.ViewListDataListener viewListDataListener;
 
     public MenuCoffeePresenter(ViewListener.ViewListDataListener viewListDataListener) {
-        FirebaseApp.newIntance();
+        FirebaseDataApp.newIntance();
         this.viewListDataListener = viewListDataListener;
-        this.firebaseApp = new FirebaseApp(this);
+        this.firebaseDataApp = new FirebaseDataApp(this);
     }
 
     public void getMenuListData() {
-        firebaseApp.getListData(NodeBaseApp.NODE_DRINK, Drink.class);
+        firebaseDataApp.getListData(NodeBaseApp.NODE_DRINK, Drink.class);
     }
 
     @Override
