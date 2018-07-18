@@ -27,7 +27,7 @@ public interface FirebaseListener {
 
     interface SignInListener {
 
-        void signInSuccess(User user);
+        void signInSuccess(String id);
 
         void signInFailure(String error);
     }

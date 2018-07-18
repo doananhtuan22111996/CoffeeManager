@@ -11,16 +11,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.main.ResetPasswordActivity;
+import com.tuan.coffeemanager.feature.main.fragment.presenter.SignInPresenter;
+import com.tuan.coffeemanager.listener.ViewListener;
+import com.tuan.coffeemanager.sharepref.DataUtil;
+import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends Fragment implements ViewListener.ViewSignInListener {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
@@ -31,6 +36,8 @@ public class SignInFragment extends Fragment {
     @BindView(R.id.tvResetPassword)
     TextView tvResetPassword;
     Unbinder unbinder;
+
+    private SignInPresenter signInPresenter;
 
     public static SignInFragment newInstance() {
         Bundle args = new Bundle();
@@ -50,10 +57,25 @@ public class SignInFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        DataUtil.newInstance(getContext());
+        signInPresenter = new SignInPresenter(this);
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CoffeeActivity.class));
+                String email = edtEmail.getText().toString();
+                String password = edtPassword.getText().toString();
+                if (email.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.text_mesage_email_empty), Toast.LENGTH_SHORT).show();
+                } else if (!isValidEmail(email)) {
+                    Toast.makeText(getActivity(), getString(R.string.text_message_email_valid), Toast.LENGTH_SHORT).show();
+                } else if (password.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.text_message_password_empty), Toast.LENGTH_SHORT).show();
+                } else {
+                    CustomDialogLoadingFragment.showLoading(getFragmentManager());
+                    signInPresenter.signIn(email, password, getActivity());
+                }
             }
         });
 
@@ -69,5 +91,26 @@ public class SignInFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onSuccess(String id) {
+        DataUtil.setIdUser(id);
+        CustomDialogLoadingFragment.hideLoading();
+        startActivity(new Intent(getActivity(), CoffeeActivity.class));
+    }
+
+    @Override
+    public void onFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    private Boolean isValidEmail(String email) {
+        if (email.isEmpty()) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        }
     }
 }

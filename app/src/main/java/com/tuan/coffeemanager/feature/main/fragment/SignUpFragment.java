@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.FirebasePostDataApp;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignUpPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
+import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.Objects;
@@ -58,6 +60,10 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     @Override
     public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        DataUtil.newInstance(getContext());
+        FirebasePostDataApp.newInstance();
+
         signUpPresenter = new SignUpPresenter(this);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +98,8 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
 
     @Override
     public void onSuccess(User user) {
+        DataUtil.setIdUser(user.getId());
+        FirebasePostDataApp.postDataUser(user);
         CustomDialogLoadingFragment.hideLoading();
         startActivity(new Intent(getActivity(), CoffeeActivity.class));
         Objects.requireNonNull(getActivity()).finish();
@@ -99,7 +107,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
 
     @Override
     public void onFailure(String error) {
-
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
     private Boolean isValidEmail(String email) {

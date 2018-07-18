@@ -39,6 +39,7 @@
     <string name="text_message_password_empty">Password is empty</string>
     <string name="text_message_confirm_empty">Confirm is empty</string>
     <string name="text_message_email_valid">Email is not Valid</string>
+    <string name="text_edit_drink_title">Edit Drink Coffee</string>
     <string-array name="rule">
         <item>Manager</item>
         <item>Bartender</item>

@@ -1,7 +1,7 @@
 package com.tuan.coffeemanager.feature.coffee.fragment.presenter;
 
+import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.base.FirebaseDataApp;
-import com.tuan.coffeemanager.base.NodeBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Table;
@@ -20,7 +20,7 @@ public class TableCoffeePresenter implements FirebaseListener.ListDataListener<T
     }
 
     public void getTableListData() {
-        firebaseDataApp.getListData(NodeBaseApp.NODE_TABLE, Table.class);
+        firebaseDataApp.getListData(ContactBaseApp.NODE_TABLE, Table.class);
     }
 
     @Override

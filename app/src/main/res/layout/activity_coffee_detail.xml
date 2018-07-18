@@ -20,8 +20,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
 
             <ImageView
                 android:id="@+id/ivCoffee"
@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/tvDescriptionCoffee"
                 android:layout_width="0dp"
-                android:layout_height="26dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/text_description"
                 android:textSize="15sp"
@@ -59,7 +59,7 @@
             <TextView
                 android:id="@+id/tvPriceCoffee"
                 android:layout_width="0dp"
-                android:layout_height="23dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/text_price"
                 android:textSize="15sp"
@@ -74,6 +74,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/white"
                 android:padding="10dp"
+                android:paddingStart="0dp"
                 android:text="@string/text_edit_coffee_infomation"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -99,6 +100,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/white"
                 android:padding="10dp"
+                android:paddingStart="0dp"
                 android:text="@string/text_remove_coffee"
                 android:textColor="@color/red"
                 android:textSize="15sp"

@@ -9,8 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/line_backgound_shape"
-        android:src="@drawable/ic_coffee_table"
+        android:src="@drawable/table_coffee"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

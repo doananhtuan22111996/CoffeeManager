@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.model.User;
 
+import java.util.Objects;
+
 public class FirebaseAuthApp {
 
     private static FirebaseAuth firebaseAuth;
@@ -40,13 +42,30 @@ public class FirebaseAuthApp {
                 if (task.isSuccessful()) {
                     User user = new User();
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                    user.setId(firebaseUser.getUid());
-                    user.setName(firebaseUser.getDisplayName());
-                    user.setEmail(firebaseUser.getEmail());
-                    Log.d("userrrrrrrrrr", firebaseUser.getUid());
+                    if (firebaseUser != null) {
+                        user.setId(firebaseUser.getUid());
+                        user.setName(firebaseUser.getDisplayName());
+                        user.setEmail(firebaseUser.getEmail());
+                    }
                     signUpListener.signUpSuccess(user);
                 } else {
-                    signUpListener.signUpFailure(task.getException().getMessage());
+                    signUpListener.signUpFailure(Objects.requireNonNull(task.getException()).getMessage());
+                }
+            }
+        });
+    }
+
+    public void signInEmail(String email, String password, Activity activity) {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    if (firebaseUser != null) {
+                        signInListener.signInSuccess(firebaseAuth.getUid());
+                    }
+                } else {
+                    signInListener.signInFailure(Objects.requireNonNull(task.getException()).getMessage());
                 }
             }
         });

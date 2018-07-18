@@ -15,4 +15,10 @@ public interface ViewListener {
 
         void onFailure(String error);
     }
+
+    interface ViewSignInListener {
+        void onSuccess(String id);
+
+        void onFailure(String error);
+    }
 }
