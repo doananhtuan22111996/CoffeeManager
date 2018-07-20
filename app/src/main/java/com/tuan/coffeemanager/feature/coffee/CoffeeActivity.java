@@ -1,5 +1,6 @@
 package com.tuan.coffeemanager.feature.coffee;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
+import com.tuan.coffeemanager.feature.main.MainActivity;
 
 import java.util.Objects;
 
@@ -32,6 +36,14 @@ public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPag
 
         initViewPager();
 
+        ivAddCoffee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(CoffeeActivity.this, AddCoffeeActivity.class);
+               intent.putExtra(ContactBaseApp.DRINK_ID, "");
+                startActivity(intent);
+            }
+        });
     }
 
     private void initViewPager() {
@@ -59,12 +71,15 @@ public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPag
         switch (i) {
             case 0: {
                 ivAddCoffee.setVisibility(View.VISIBLE);
+                break;
             }
             case 1: {
                 ivAddCoffee.setVisibility(View.GONE);
+                break;
             }
             case 2: {
                 ivAddCoffee.setVisibility(View.GONE);
+                break;
             }
         }
     }

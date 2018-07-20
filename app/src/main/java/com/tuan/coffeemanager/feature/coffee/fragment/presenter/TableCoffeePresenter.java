@@ -14,7 +14,6 @@ public class TableCoffeePresenter implements FirebaseListener.ListDataListener<T
     private ViewListener.ViewListDataListener viewListDataListener;
 
     public TableCoffeePresenter(ViewListener.ViewListDataListener viewListDataListener) {
-        FirebaseDataApp.newIntance();
         this.viewListDataListener = viewListDataListener;
         firebaseDataApp = new FirebaseDataApp(this);
     }

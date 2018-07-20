@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
+import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
@@ -22,7 +23,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddCoffeeActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener {
+public class AddCoffeeActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -38,31 +39,35 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     EditText edtPriceCoffee;
     @BindView(R.id.btnSaveCoffee)
     Button btnSaveCoffee;
-    private String id;
+
+    private String id = null;
+    private Drink drink = null;
     private EditCoffeePresenter editCoffeePresenter;
+    private PostCoffeePresenter postCoffeePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coffee);
         ButterKnife.bind(this);
-
-        id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID);
-
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID, "").trim();
+        if (!Objects.requireNonNull(id).isEmpty()) {
+            CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+            editCoffeePresenter = new EditCoffeePresenter(this, this);
+            editCoffeePresenter.getDataDrink(id);
+        } else {
+            postCoffeePresenter = new PostCoffeePresenter(this);
+        }
 
         tvTitle.setText(R.string.text_edit_drink_title);
-
-        if (!TextUtils.isEmpty(id)) {
-            editCoffeePresenter = new EditCoffeePresenter(this);
-            editCoffeePresenter.getDataDrink(id);
-        }
         ivBack.setOnClickListener(this);
+        btnSaveCoffee.setOnClickListener(this);
     }
 
     @Override
     public void onSuccess(Drink drink) {
         CustomDialogLoadingFragment.hideLoading();
+        this.drink = drink;
         setView(drink);
     }
 
@@ -85,6 +90,37 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 onBackPressed();
                 break;
             }
+            case R.id.btnSaveCoffee: {
+                String name = edtNameCoffee.getText().toString().trim();
+                String description = edtDescriptionCoffee.getText().toString().trim();
+                String price = edtPriceCoffee.getText().toString().trim();
+                if (name.isEmpty()) {
+                    Toast.makeText(this, R.string.text_message_name_empty, Toast.LENGTH_SHORT).show();
+                } else if (description.isEmpty()) {
+                    Toast.makeText(this, R.string.text_message_description_empty, Toast.LENGTH_SHORT).show();
+                } else if (price.isEmpty()) {
+                    Toast.makeText(this, R.string.text_message_price_empty, Toast.LENGTH_SHORT).show();
+                } else {
+                    if (id.isEmpty()) {
+                        Drink drink = new Drink(null, name, description, Integer.parseInt(price), 0);
+                        postCoffeePresenter.postDataDrink(this, drink);
+                    } else {
+                        Drink drink = new Drink(id, name, description, Integer.parseInt(price), this.drink.getPurchases());
+                        editCoffeePresenter.editDataDrink(this, drink);
+                    }
+                }
+                break;
+            }
         }
+    }
+
+    @Override
+    public void postSuccess(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postFailure(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

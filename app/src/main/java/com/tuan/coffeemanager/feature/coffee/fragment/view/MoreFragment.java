@@ -49,7 +49,6 @@ public class MoreFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
-        DataUtil.newInstance(getContext());
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -62,7 +61,7 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 CustomDialogLoadingFragment.showLoading(getFragmentManager());
-                DataUtil.setIdUser("");
+                DataUtil.setIdUser(getContext(),null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(Objects.requireNonNull(getContext()));

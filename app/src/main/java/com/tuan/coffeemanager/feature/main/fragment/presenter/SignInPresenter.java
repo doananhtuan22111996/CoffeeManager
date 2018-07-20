@@ -13,7 +13,6 @@ public class SignInPresenter implements FirebaseListener.SignInListener {
     private ViewListener.ViewSignInListener viewSignInListener;
 
     public SignInPresenter(ViewListener.ViewSignInListener viewSignInListener) {
-        FirebaseAuthApp.newInstance();
         this.viewSignInListener = viewSignInListener;
         firebaseAuthApp = new FirebaseAuthApp(this);
     }

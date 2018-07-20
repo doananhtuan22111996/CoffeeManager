@@ -20,7 +20,7 @@ public class DataUtil {
         return editor;
     }
 
-    public static void newInstance(Context context) {
+    private static void newInstance(Context context) {
         if (sharedPreferences == null) {
             sharedPreferences = initPref(context);
         }
@@ -29,12 +29,18 @@ public class DataUtil {
         }
     }
 
-    public static void setIdUser(String id) {
+    public static void setIdUser(Context context, String id) {
+        if (editor == null) {
+            newInstance(context);
+        }
         editor.putString(ContactBaseApp.ID_USER, id);
         editor.apply();
     }
 
-    public static String getIdUser() {
+    public static String getIdUser(Context context) {
+        if (sharedPreferences == null) {
+            initPref(context);
+        }
         return sharedPreferences.getString(ContactBaseApp.ID_USER, "");
     }
 }

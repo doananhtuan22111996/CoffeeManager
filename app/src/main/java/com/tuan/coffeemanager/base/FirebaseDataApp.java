@@ -28,19 +28,18 @@ public class FirebaseDataApp {
         this.dataListener = dataListener;
     }
 
-    public static DatabaseReference newIntance() {
-        if (databaseReference == null) {
-            databaseReference = FirebaseDatabase.getInstance().getReference();
-        }
-        return databaseReference;
+    private static void newIntance() {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public <T> void getListData(String node, final Class<T> tClass) {
+        if (databaseReference == null) {
+            newIntance();
+        }
         databaseReference.child(node).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<T> tList = new ArrayList<>();
-                Log.d("Threaddddd", Thread.currentThread().getName());
                 for (DataSnapshot value : dataSnapshot.getChildren()) {
                     T t = value.getValue(tClass);
                     tList.add(t);
@@ -56,6 +55,9 @@ public class FirebaseDataApp {
     }
 
     public <T> void getData(String nodeParent, String nodeChild, final Class<T> tClass) {
+        if (databaseReference == null) {
+            newIntance();
+        }
         databaseReference.child(nodeParent).child(nodeChild).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

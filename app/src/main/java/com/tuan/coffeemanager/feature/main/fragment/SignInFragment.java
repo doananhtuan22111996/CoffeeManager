@@ -58,14 +58,13 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        DataUtil.newInstance(getContext());
         signInPresenter = new SignInPresenter(this);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edtEmail.getText().toString();
-                String password = edtPassword.getText().toString();
+                String email = edtEmail.getText().toString().trim();
+                String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
                     Toast.makeText(getActivity(), getString(R.string.text_mesage_email_empty), Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
@@ -95,7 +94,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
 
     @Override
     public void onSuccess(String id) {
-        DataUtil.setIdUser(id);
+        DataUtil.setIdUser(getContext(), id);
         CustomDialogLoadingFragment.hideLoading();
         startActivity(new Intent(getActivity(), CoffeeActivity.class));
     }

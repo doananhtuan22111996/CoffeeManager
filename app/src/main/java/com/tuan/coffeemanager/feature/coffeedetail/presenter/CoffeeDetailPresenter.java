@@ -12,7 +12,6 @@ public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drin
     private ViewListener.ViewDataListener viewDataListener;
 
     public CoffeeDetailPresenter(ViewListener.ViewDataListener viewDataListener) {
-        FirebaseDataApp.newIntance();
         this.viewDataListener = viewDataListener;
         this.firebaseDataApp = new FirebaseDataApp(this);
     }

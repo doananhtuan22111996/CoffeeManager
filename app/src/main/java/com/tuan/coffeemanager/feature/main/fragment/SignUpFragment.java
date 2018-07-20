@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignUpFragment extends Fragment implements ViewListener.ViewDataListener<User> {
+public class SignUpFragment extends Fragment implements ViewListener.ViewDataListener<User>, ViewListener.ViewPostListener {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
@@ -61,17 +61,14 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        DataUtil.newInstance(getContext());
-        FirebasePostDataApp.newInstance();
-
-        signUpPresenter = new SignUpPresenter(this);
+        signUpPresenter = new SignUpPresenter(this, this);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edtEmail.getText().toString();
-                String password = edtPassword.getText().toString();
-                String cofpassword = edtConfirmPassword.getText().toString();
+                String email = edtEmail.getText().toString().trim();
+                String password = edtPassword.getText().toString().trim();
+                String cofpassword = edtConfirmPassword.getText().toString().trim();
                 if (email.isEmpty()) {
                     Toast.makeText(getActivity(), R.string.text_mesage_email_empty, Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
@@ -98,15 +95,13 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
 
     @Override
     public void onSuccess(User user) {
-        DataUtil.setIdUser(user.getId());
-        FirebasePostDataApp.postDataUser(user);
-        CustomDialogLoadingFragment.hideLoading();
-        startActivity(new Intent(getActivity(), CoffeeActivity.class));
-        Objects.requireNonNull(getActivity()).finish();
+        DataUtil.setIdUser(getContext(), user.getId());
+        signUpPresenter.postDataUser(getActivity(), user);
     }
 
     @Override
     public void onFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -116,5 +111,19 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
         }
+    }
+
+    @Override
+    public void postSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getActivity(), CoffeeActivity.class));
+        Objects.requireNonNull(getActivity()).finish();
+    }
+
+    @Override
+    public void postFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

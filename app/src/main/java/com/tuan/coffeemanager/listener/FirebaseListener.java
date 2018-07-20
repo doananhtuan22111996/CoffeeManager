@@ -32,4 +32,10 @@ public interface FirebaseListener {
         void signInFailure(String error);
     }
 
+    interface PostListener {
+        void postSuccess(String message);
+
+        void postFailure(String error);
+    }
+
 }

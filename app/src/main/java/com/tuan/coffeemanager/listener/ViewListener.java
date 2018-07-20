@@ -21,4 +21,10 @@ public interface ViewListener {
 
         void onFailure(String error);
     }
+
+    interface ViewPostListener {
+        void postSuccess(String message);
+
+        void postFailure(String error);
+    }
 }

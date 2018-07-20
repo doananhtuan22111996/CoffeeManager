@@ -16,7 +16,6 @@ public class MenuCoffeePresenter implements FirebaseListener.ListDataListener<Dr
     private ViewListener.ViewListDataListener viewListDataListener;
 
     public MenuCoffeePresenter(ViewListener.ViewListDataListener viewListDataListener) {
-        FirebaseDataApp.newIntance();
         this.viewListDataListener = viewListDataListener;
         this.firebaseDataApp = new FirebaseDataApp(this);
     }

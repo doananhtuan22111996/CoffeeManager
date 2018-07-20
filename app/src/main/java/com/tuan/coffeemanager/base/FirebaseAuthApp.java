@@ -28,14 +28,14 @@ public class FirebaseAuthApp {
         this.signInListener = signInListener;
     }
 
-    public static FirebaseAuth newInstance() {
-        if (firebaseAuth == null) {
-            firebaseAuth = FirebaseAuth.getInstance();
-        }
-        return firebaseAuth;
+    private static void newInstance() {
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     public void signUpEmail(String email, String password, Activity activity) {
+        if (firebaseAuth == null) {
+            newInstance();
+        }
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -44,7 +44,6 @@ public class FirebaseAuthApp {
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                     if (firebaseUser != null) {
                         user.setId(firebaseUser.getUid());
-                        user.setName(firebaseUser.getDisplayName());
                         user.setEmail(firebaseUser.getEmail());
                     }
                     signUpListener.signUpSuccess(user);
@@ -56,6 +55,9 @@ public class FirebaseAuthApp {
     }
 
     public void signInEmail(String email, String password, Activity activity) {
+        if (firebaseAuth == null) {
+            newInstance();
+        }
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

@@ -79,9 +79,11 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
     }
 
     private void setView(Drink drink) {
-        tvNameCoffee.setText(drink.getName());
-        tvDescriptionCoffee.setText(drink.getDescription());
-        tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
+        if (drink != null) {
+            tvNameCoffee.setText(drink.getName());
+            tvDescriptionCoffee.setText(drink.getDescription());
+            tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
+        }
     }
 
     @Override
