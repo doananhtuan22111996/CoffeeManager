@@ -7,16 +7,18 @@ public class Drink {
     private String description;
     private int price;
     private int purchases;
+    private String uuid;
 
     public Drink() {
     }
 
-    public Drink(String id, String name, String description, int price, int purchases) {
+    public Drink(String id, String name, String description, int price, int purchases, String uuid) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.purchases = purchases;
+        this.uuid = uuid;
     }
 
     public String getId() {
@@ -57,5 +59,13 @@ public class Drink {
 
     public void setPurchases(int purchases) {
         this.purchases = purchases;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

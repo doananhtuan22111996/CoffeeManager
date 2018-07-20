@@ -1,8 +1,18 @@
 package com.tuan.coffeemanager.feature.addcoffee;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.inputmethodservice.Keyboard;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,16 +24,21 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
+import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddCoffeeActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener {
+public class AddCoffeeActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener, ViewListener.ViewPostImageListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -39,11 +54,17 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     EditText edtPriceCoffee;
     @BindView(R.id.btnSaveCoffee)
     Button btnSaveCoffee;
+    @BindView(R.id.clContent)
+    ConstraintLayout clContent;
 
     private String id = null;
     private Drink drink = null;
+    private Uri uri = null;
     private EditCoffeePresenter editCoffeePresenter;
     private PostCoffeePresenter postCoffeePresenter;
+    private PostImagePresenter postImagePresenter;
+
+    private static final int PICK_FROM_GALLERY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +76,16 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
             CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
             editCoffeePresenter = new EditCoffeePresenter(this, this);
             editCoffeePresenter.getDataDrink(id);
+            tvTitle.setText(R.string.text_edit_drink_title);
         } else {
+            tvTitle.setText(R.string.text_add_drink_title);
             postCoffeePresenter = new PostCoffeePresenter(this);
+            postImagePresenter = new PostImagePresenter(this);
         }
 
-        tvTitle.setText(R.string.text_edit_drink_title);
+        clContent.setOnClickListener(this);
         ivBack.setOnClickListener(this);
+        ivCoffee.setOnClickListener(this);
         btnSaveCoffee.setOnClickListener(this);
     }
 
@@ -72,9 +97,11 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     }
 
     private void setView(Drink drink) {
-        edtNameCoffee.setText(drink.getName());
-        edtDescriptionCoffee.setText(drink.getDescription());
-        edtPriceCoffee.setText(String.valueOf(drink.getPrice()));
+        if (drink != null) {
+            edtNameCoffee.setText(drink.getName());
+            edtDescriptionCoffee.setText(drink.getDescription());
+            edtPriceCoffee.setText(String.valueOf(drink.getPrice()));
+        }
     }
 
     @Override
@@ -101,13 +128,42 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 } else if (price.isEmpty()) {
                     Toast.makeText(this, R.string.text_message_price_empty, Toast.LENGTH_SHORT).show();
                 } else {
+                    CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                     if (id.isEmpty()) {
-                        Drink drink = new Drink(null, name, description, Integer.parseInt(price), 0);
-                        postCoffeePresenter.postDataDrink(this, drink);
+                        drink = new Drink(null, name, description, Integer.parseInt(price), 0, null);
                     } else {
-                        Drink drink = new Drink(id, name, description, Integer.parseInt(price), this.drink.getPurchases());
-                        editCoffeePresenter.editDataDrink(this, drink);
+                        drink = new Drink(id, name, description, Integer.parseInt(price), this.drink.getPurchases(), null);
                     }
+                    if (uri != null) {
+                        postImagePresenter.postDataImage(this, uri);
+                    } else {
+                        if (id.isEmpty()) {
+                            postCoffeePresenter.postDataDrink(this, drink);
+                        } else {
+                            editCoffeePresenter.editDataDrink(this, drink);
+                        }
+                    }
+                }
+                break;
+            }
+            case R.id.clContent: {
+                CustomKeyBoard.hideKeyBoard(this);
+                break;
+            }
+            case R.id.ivCoffee: {
+                try {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+                    } else {
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+                        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                        String strImage = imageFile.getPath();
+                        Uri data = Uri.parse(strImage);
+                        galleryIntent.setDataAndType(data, "image/*");
+                        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
             }
@@ -115,12 +171,44 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_FROM_GALLERY) {
+            if (data != null) {
+                uri = data.getData();
+                try {
+                    InputStream inputStream = this.getContentResolver().openInputStream(uri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 500, 500, true);
+                    ivCoffee.setImageBitmap(scaled);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
     public void postSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void postFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postImageSucces(String uuid) {
+        drink.setUuid(uuid);
+        postCoffeePresenter.postDataDrink(this, drink);
+    }
+
+    @Override
+    public void postImageFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

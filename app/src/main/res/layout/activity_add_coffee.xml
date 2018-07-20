@@ -14,6 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/clContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
@@ -74,11 +75,13 @@
         <EditText
             android:id="@+id/edtDescriptionCoffee"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@android:color/transparent"
+            android:gravity="top"
             android:hint="@string/text_description_coffee"
             android:inputType="textMultiLine"
             android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/edtPriceCoffee"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescriptionCoffee" />
@@ -87,11 +90,13 @@
             android:id="@+id/tvPriceCoffee"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/text_price_coffee"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtDescriptionCoffee" />
 
@@ -99,12 +104,14 @@
             android:id="@+id/edtPriceCoffee"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:hint="@string/text_price_coffee"
-            android:inputType="number"
+            android:inputType="numberSigned"
             android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/tvPriceCoffee"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtDescriptionCoffee" />

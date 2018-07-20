@@ -27,4 +27,10 @@ public interface ViewListener {
 
         void postFailure(String error);
     }
+
+    interface ViewPostImageListener {
+        void postImageSucces(String uuid);
+
+        void postImageFailure(String error);
+    }
 }

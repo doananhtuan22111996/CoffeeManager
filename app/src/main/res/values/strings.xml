@@ -40,6 +40,7 @@
     <string name="text_message_confirm_empty">Confirm is empty</string>
     <string name="text_message_email_valid">Email is not Valid</string>
     <string name="text_edit_drink_title">Edit Drink Coffee</string>
+    <string name="text_add_drink_title">Add Drink Coffee</string>
     <string name="text_message_name_empty">Name is empty</string>
     <string name="text_message_description_empty">Description is empty</string>
     <string name="text_message_price_empty">Price is empty</string>
