@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +26,11 @@ import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
+import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.CustomGlide;
 import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
 import java.io.File;
@@ -72,15 +75,15 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
         setContentView(R.layout.activity_add_coffee);
         ButterKnife.bind(this);
         id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID, "").trim();
+        postImagePresenter = new PostImagePresenter(this);
         if (!Objects.requireNonNull(id).isEmpty()) {
             CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
-            editCoffeePresenter = new EditCoffeePresenter(this, this);
+            editCoffeePresenter = new EditCoffeePresenter(this, this, this);
             editCoffeePresenter.getDataDrink(id);
             tvTitle.setText(R.string.text_edit_drink_title);
         } else {
             tvTitle.setText(R.string.text_add_drink_title);
             postCoffeePresenter = new PostCoffeePresenter(this);
-            postImagePresenter = new PostImagePresenter(this);
         }
 
         clContent.setOnClickListener(this);
@@ -101,6 +104,9 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
             edtNameCoffee.setText(drink.getName());
             edtDescriptionCoffee.setText(drink.getDescription());
             edtPriceCoffee.setText(String.valueOf(drink.getPrice()));
+            if (drink.getUrl() != null) {
+                CustomGlide.showImage(this, ivCoffee, drink.getUrl());
+            }
         }
     }
 
@@ -130,15 +136,18 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 } else {
                     CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                     if (id.isEmpty()) {
-                        drink = new Drink(null, name, description, Integer.parseInt(price), 0, null);
-                    } else {
-                        drink = new Drink(id, name, description, Integer.parseInt(price), this.drink.getPurchases(), null);
-                    }
-                    if (uri != null) {
-                        postImagePresenter.postDataImage(this, uri);
-                    } else {
-                        if (id.isEmpty()) {
+                        drink = new Drink(null, name, description, Integer.parseInt(price), 0, null, null);
+                        if (uri != null) {
+                            postImagePresenter.postDataImage(this, uri);
+                        } else {
                             postCoffeePresenter.postDataDrink(this, drink);
+                        }
+                    } else {
+                        drink = new Drink(id, name, description, Integer.parseInt(price), this.drink.getPurchases(), this.drink.getUuid(), this.drink.getUrl());
+                        if (uri != null && this.drink.getUrl() == null) {
+                            postImagePresenter.postDataImage(this, uri);
+                        } else if (uri != null && this.drink.getUrl() != null) {
+                            editCoffeePresenter.editDataImage(this, uri, this.drink.getUuid());
                         } else {
                             editCoffeePresenter.editDataDrink(this, drink);
                         }
@@ -192,6 +201,10 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     public void postSuccess(String message) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        if (intent != null) {
+            NavUtils.navigateUpTo(AddCoffeeActivity.this, intent);
+        }
     }
 
     @Override
@@ -201,9 +214,14 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     }
 
     @Override
-    public void postImageSucces(String uuid) {
+    public void postImageSucces(String uuid, String url) {
         drink.setUuid(uuid);
-        postCoffeePresenter.postDataDrink(this, drink);
+        drink.setUrl(url);
+        if (id.isEmpty()) {
+            postCoffeePresenter.postDataDrink(this, drink);
+        } else {
+            editCoffeePresenter.editDataDrink(this, drink);
+        }
     }
 
     @Override

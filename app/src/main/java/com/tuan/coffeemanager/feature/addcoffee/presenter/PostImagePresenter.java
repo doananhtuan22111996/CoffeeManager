@@ -22,8 +22,8 @@ public class PostImagePresenter implements FirebaseListener.PostImageListener {
     }
 
     @Override
-    public void postImageSuccess(String uuid) {
-        viewPostImageListener.postImageSucces(uuid);
+    public void postImageSuccess(String uuid, String url) {
+        viewPostImageListener.postImageSucces(uuid, url);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.tuan.coffeemanager.base;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,9 +36,43 @@ public class FirebaseStorageApp {
         storageReference.child("images/" + uuid).putFile(uri).addOnSuccessListener(activity, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                postImageListener.postImageSuccess(uuid);
+                dowloadImageUrl(activity, uuid);
             }
-        }).addOnFailureListener(activity, new OnFailureListener() {
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                postImageListener.postImageFailure(e.getMessage());
+            }
+        });
+    }
+
+    public void editDataImage(final Activity activity, Uri uri, final String uuid) {
+        if (storageReference == null) {
+            newInstance();
+        }
+        storageReference.child("images/" + uuid).putFile(uri).addOnSuccessListener(activity, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                dowloadImageUrl(activity, uuid);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                postImageListener.postImageFailure(e.getMessage());
+            }
+        });
+    }
+
+    public void dowloadImageUrl(Activity activity, final String uuid) {
+        if (storageReference == null) {
+            newInstance();
+        }
+        storageReference.child("images/" + uuid).getDownloadUrl().addOnSuccessListener(activity, new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                postImageListener.postImageSuccess(uuid, uri.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 postImageListener.postImageFailure(e.getMessage());

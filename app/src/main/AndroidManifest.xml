@@ -23,7 +23,8 @@
         <activity android:name=".feature.main.ResetPasswordActivity" />
         <activity android:name=".feature.coffee.CoffeeActivity" />
         <activity android:name=".feature.coffeedetail.CoffeeDetailActivity" />
-        <activity android:name=".feature.addcoffee.AddCoffeeActivity" />
+        <activity android:name=".feature.addcoffee.AddCoffeeActivity"
+            android:parentActivityName=".feature.coffee.CoffeeActivity"/>
     </application>
 
 </manifest>

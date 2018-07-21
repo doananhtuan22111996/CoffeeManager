@@ -8,17 +8,19 @@ public class Drink {
     private int price;
     private int purchases;
     private String uuid;
+    private String url;
 
     public Drink() {
     }
 
-    public Drink(String id, String name, String description, int price, int purchases, String uuid) {
+    public Drink(String id, String name, String description, int price, int purchases, String uuid, String url) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.purchases = purchases;
         this.uuid = uuid;
+        this.url = url;
     }
 
     public String getId() {
@@ -59,6 +61,14 @@ public class Drink {
 
     public void setPurchases(int purchases) {
         this.purchases = purchases;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getUuid() {

@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.model.Drink;
+import com.tuan.coffeemanager.widget.CustomGlide;
 
 import java.util.List;
 
@@ -49,6 +51,9 @@ public class DrinkCoffeeAdater extends RecyclerView.Adapter<DrinkCoffeeAdater.Dr
         Drink drink = drinkList.get(i);
         drinkCoffeeViewHolder.tvNameCoffee.setText(drink.getName());
         drinkCoffeeViewHolder.tvPurchases.setText(String.valueOf(drink.getPurchases()));
+        if (drink.getUrl() != null){
+            CustomGlide.showImage(context, drinkCoffeeViewHolder.ivCoffee, drink.getUrl());
+        }
         drinkCoffeeViewHolder.ivCoffee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

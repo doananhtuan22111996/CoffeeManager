@@ -15,6 +15,7 @@ import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresent
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.CustomGlide;
 
 import java.util.Objects;
 
@@ -37,6 +38,8 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
     TextView tvEditCoffee;
     @BindView(R.id.tvRemoveCoffee)
     TextView tvRemoveCoffee;
+    @BindView(R.id.ivCoffee)
+    ImageView ivCoffee;
 
     private String id;
     private CoffeeDetailPresenter coffeeDetailPresenter;
@@ -83,6 +86,9 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
             tvNameCoffee.setText(drink.getName());
             tvDescriptionCoffee.setText(drink.getDescription());
             tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
+            if (drink.getUrl() != null) {
+                CustomGlide.showImage(this, ivCoffee, drink.getUrl());
+            }
         }
     }
 
