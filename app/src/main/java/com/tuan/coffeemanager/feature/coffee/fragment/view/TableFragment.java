@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.TableCoffeePresenter;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Table;
@@ -53,6 +54,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_table, container, false);
         unbinder = ButterKnife.bind(this, view);
+        FirebaseDataApp.isActivity = true;
         dlTable.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         rvTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -67,6 +69,12 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FirebaseDataApp.isActivity = false;
     }
 
     @Override

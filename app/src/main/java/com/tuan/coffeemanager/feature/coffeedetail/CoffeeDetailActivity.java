@@ -14,6 +14,7 @@ import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
 import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailImagePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
@@ -53,6 +54,8 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_detail);
         ButterKnife.bind(this);
+        FirebaseDataApp.isActivity = true;
+
         CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
 
         id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID);
@@ -87,7 +90,7 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
                 if (uuid != null) {
                     coffeeDetailImagePresenter = new CoffeeDetailImagePresenter(this);
                     coffeeDetailImagePresenter.deleteDataImage(this, uuid);
-                }else {
+                } else {
                     coffeeDetailPresenter.deleteData(this, id);
                 }
                 break;
@@ -147,4 +150,9 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseDataApp.isActivity = false;
+    }
 }

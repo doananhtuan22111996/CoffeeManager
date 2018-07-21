@@ -1,14 +1,11 @@
 package com.tuan.coffeemanager.interactor;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import java.util.List;
 public class FirebaseDataApp {
 
     private static DatabaseReference databaseReference;
+    public static Boolean isActivity = false;
     private FirebaseListener.ListDataListener listDataListener;
     private FirebaseListener.DataListener dataListener;
 
@@ -44,12 +42,16 @@ public class FirebaseDataApp {
                     T t = value.getValue(tClass);
                     tList.add(t);
                 }
-                listDataListener.getDataSuccess(tList);
+                if (isActivity) {
+                    listDataListener.getDataSuccess(tList);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                listDataListener.getDataFailure(databaseError.getMessage());
+                if (isActivity) {
+                    listDataListener.getDataFailure(databaseError.getMessage());
+                }
             }
         });
     }
@@ -61,12 +63,16 @@ public class FirebaseDataApp {
         databaseReference.child(nodeParent).child(nodeChild).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataListener.getDataSuccess(dataSnapshot.getValue(tClass));
+                if (isActivity){
+                    dataListener.getDataSuccess(dataSnapshot.getValue(tClass));
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                dataListener.getDataFailure(databaseError.getMessage());
+                if (isActivity){
+                    dataListener.getDataFailure(databaseError.getMessage());
+                }
             }
         });
     }

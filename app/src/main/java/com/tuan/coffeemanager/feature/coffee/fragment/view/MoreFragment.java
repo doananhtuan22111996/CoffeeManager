@@ -15,6 +15,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.main.MainActivity;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
@@ -56,7 +57,6 @@ public class MoreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

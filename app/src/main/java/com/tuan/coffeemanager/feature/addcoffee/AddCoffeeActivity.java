@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.inputmethodservice.Keyboard;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,7 +25,7 @@ import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
-import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
@@ -74,6 +73,8 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coffee);
         ButterKnife.bind(this);
+        FirebaseDataApp.isActivity = true;
+
         id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID, "").trim();
         postImagePresenter = new PostImagePresenter(this);
         if (!Objects.requireNonNull(id).isEmpty()) {
@@ -228,5 +229,11 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     public void postImageFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseDataApp.isActivity = false;
     }
 }

@@ -17,6 +17,7 @@ import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
@@ -47,6 +48,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        FirebaseDataApp.isActivity = true;
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -64,6 +66,12 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FirebaseDataApp.isActivity = false;
     }
 
     @Override

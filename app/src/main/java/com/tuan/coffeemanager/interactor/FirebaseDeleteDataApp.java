@@ -28,7 +28,7 @@ public class FirebaseDeleteDataApp {
         if (databaseReference == null){
             newInstance();
         }
-        databaseReference.child(nodeParent).child(nodeChild).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(nodeParent).child(nodeChild).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataSnapshot.getRef().removeValue();
