@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.addcoffee.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.base.FirebasePostDataApp;
+import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;

@@ -1,25 +1,35 @@
 package com.tuan.coffeemanager.feature.coffeedetail.presenter;
 
+import android.app.Activity;
+
 import com.tuan.coffeemanager.contact.ContactBaseApp;
-import com.tuan.coffeemanager.base.FirebaseDataApp;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
+import com.tuan.coffeemanager.interactor.FirebaseDeleteDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 
-public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drink> {
+public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drink>, FirebaseListener.DeleteListener {
 
     private FirebaseDataApp firebaseDataApp;
+    private FirebaseDeleteDataApp firebaseDeleteDataApp;
     private ViewListener.ViewDataListener viewDataListener;
+    private ViewListener.ViewDeleteListener viewDeleteListener;
 
-    public CoffeeDetailPresenter(ViewListener.ViewDataListener viewDataListener) {
+    public CoffeeDetailPresenter(ViewListener.ViewDataListener viewDataListener, ViewListener.ViewDeleteListener viewDeleteListener) {
         this.viewDataListener = viewDataListener;
+        this.viewDeleteListener = viewDeleteListener;
         this.firebaseDataApp = new FirebaseDataApp(this);
+        this.firebaseDeleteDataApp = new FirebaseDeleteDataApp(this);
     }
 
     public void getData(String id) {
         firebaseDataApp.getData(ContactBaseApp.NODE_DRINK, id, Drink.class);
     }
 
+    public void deleteData(Activity activity, String id) {
+        firebaseDeleteDataApp.deleteData(activity, ContactBaseApp.NODE_DRINK, id);
+    }
 
     @Override
     public void getDataSuccess(Drink drink) {
@@ -29,5 +39,15 @@ public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drin
     @Override
     public void getDataFailure(String error) {
         viewDataListener.onFailure(error);
+    }
+
+    @Override
+    public void deleteSuccess(String message) {
+        viewDeleteListener.deleteSuccess(message);
+    }
+
+    @Override
+    public void deleteFailure(String error) {
+        viewDeleteListener.deleteFailure(error);
     }
 }

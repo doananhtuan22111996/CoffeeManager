@@ -46,6 +46,8 @@
     <string name="text_message_price_empty">Price is empty</string>
     <string name="text_message_post_success">Post is success</string>
     <string name="text_message_edit_success">Edit is success</string>
+    <string name="text_message_delete_success">Delete is success</string>
+    <string name="text_message_delete_failure">Delete is failure</string>
     <string-array name="rule">
         <item>Manager</item>
         <item>Bartender</item>

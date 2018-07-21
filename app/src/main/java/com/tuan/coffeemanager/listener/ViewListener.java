@@ -33,4 +33,16 @@ public interface ViewListener {
 
         void postImageFailure(String error);
     }
+
+    interface ViewDeleteListener {
+        void deleteSuccess(String message);
+
+        void deleteFailure(String error);
+    }
+
+    interface ViewDeleteImageListener {
+        void deleteImageSuccess(String message);
+
+        void deleteImageFailure(String error);
+    }
 }

@@ -2,6 +2,7 @@ package com.tuan.coffeemanager.feature.coffeedetail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
+import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailImagePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
@@ -22,7 +24,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener {
+public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener, ViewListener.ViewDeleteImageListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -42,7 +44,9 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
     ImageView ivCoffee;
 
     private String id;
+    private String uuid = null;
     private CoffeeDetailPresenter coffeeDetailPresenter;
+    private CoffeeDetailImagePresenter coffeeDetailImagePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +59,14 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
 
         tvTitle.setText(this.getResources().getString(R.string.text_title_detail));
 
-        coffeeDetailPresenter = new CoffeeDetailPresenter(this);
+        coffeeDetailPresenter = new CoffeeDetailPresenter(this, this);
         if (id != null) {
             coffeeDetailPresenter.getData(id);
         }
 
         ivBack.setOnClickListener(this);
         tvEditCoffee.setOnClickListener(this);
+        tvRemoveCoffee.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +82,16 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
                 startActivity(intent);
                 break;
             }
+            case R.id.tvRemoveCoffee: {
+                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                if (uuid != null) {
+                    coffeeDetailImagePresenter = new CoffeeDetailImagePresenter(this);
+                    coffeeDetailImagePresenter.deleteDataImage(this, uuid);
+                }else {
+                    coffeeDetailPresenter.deleteData(this, id);
+                }
+                break;
+            }
         }
 
     }
@@ -86,8 +101,11 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
             tvNameCoffee.setText(drink.getName());
             tvDescriptionCoffee.setText(drink.getDescription());
             tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
-            if (drink.getUrl() != null) {
+            if (drink.getUrl() != null && drink.getUuid() != null) {
                 CustomGlide.showImage(this, ivCoffee, drink.getUrl());
+                uuid = drink.getUuid();
+            } else {
+                uuid = null;
             }
         }
     }
@@ -103,4 +121,30 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void deleteSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        NavUtils.navigateUpTo(this, intent);
+    }
+
+    @Override
+    public void deleteFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void deleteImageSuccess(String message) {
+        coffeeDetailPresenter.deleteData(this, id);
+    }
+
+    @Override
+    public void deleteImageFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
 }

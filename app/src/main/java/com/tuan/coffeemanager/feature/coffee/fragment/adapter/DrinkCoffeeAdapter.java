@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.model.Drink;
@@ -20,13 +19,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DrinkCoffeeAdater extends RecyclerView.Adapter<DrinkCoffeeAdater.DrinkCoffeeViewHolder> {
+public class DrinkCoffeeAdapter extends RecyclerView.Adapter<DrinkCoffeeAdapter.DrinkCoffeeViewHolder> {
 
     private Context context;
     private List<Drink> drinkList;
     private OnItemClickListener onItemClickListener;
 
-    public DrinkCoffeeAdater(Context context, List<Drink> drinkList) {
+    public DrinkCoffeeAdapter(Context context, List<Drink> drinkList) {
         this.context = context;
         this.drinkList = drinkList;
     }

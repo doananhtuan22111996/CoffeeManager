@@ -38,10 +38,22 @@ public interface FirebaseListener {
         void postFailure(String error);
     }
 
-    interface PostImageListener{
+    interface PostImageListener {
         void postImageSuccess(String uuid, String url);
 
         void postImageFailure(String error);
+    }
+
+    interface DeleteListener {
+        void deleteSuccess(String message);
+
+        void deleteFailure(String error);
+    }
+
+    interface DeleteImageListener {
+        void deleteImageSuccess(String message);
+
+        void deleteImageFailure(String error);
     }
 
 }

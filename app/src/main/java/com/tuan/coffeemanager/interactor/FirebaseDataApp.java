@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.base;
+package com.tuan.coffeemanager.interactor;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

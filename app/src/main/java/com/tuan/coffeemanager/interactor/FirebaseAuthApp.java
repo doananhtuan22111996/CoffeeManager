@@ -1,10 +1,10 @@
-package com.tuan.coffeemanager.base;
+package com.tuan.coffeemanager.interactor;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +51,11 @@ public class FirebaseAuthApp {
                     signUpListener.signUpFailure(Objects.requireNonNull(task.getException()).getMessage());
                 }
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                signUpListener.signUpFailure(e.getMessage());
+            }
         });
     }
 
@@ -69,6 +74,11 @@ public class FirebaseAuthApp {
                 } else {
                     signInListener.signInFailure(Objects.requireNonNull(task.getException()).getMessage());
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                signInListener.signInFailure(e.getMessage());
             }
         });
     }

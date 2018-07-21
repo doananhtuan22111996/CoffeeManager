@@ -1,9 +1,8 @@
-package com.tuan.coffeemanager.base;
+package com.tuan.coffeemanager.interactor;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,10 +17,15 @@ import java.util.UUID;
 public class FirebaseStorageApp {
 
     private FirebaseListener.PostImageListener postImageListener;
+    private FirebaseListener.DeleteImageListener deleteImageListener;
     private static StorageReference storageReference;
 
     public FirebaseStorageApp(FirebaseListener.PostImageListener postImageListener) {
         this.postImageListener = postImageListener;
+    }
+
+    public FirebaseStorageApp(FirebaseListener.DeleteImageListener deleteImageListener) {
+        this.deleteImageListener = deleteImageListener;
     }
 
     private static void newInstance() {
@@ -36,7 +40,7 @@ public class FirebaseStorageApp {
         storageReference.child("images/" + uuid).putFile(uri).addOnSuccessListener(activity, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                dowloadImageUrl(activity, uuid);
+                downloadImageUrl(activity, uuid);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -53,7 +57,7 @@ public class FirebaseStorageApp {
         storageReference.child("images/" + uuid).putFile(uri).addOnSuccessListener(activity, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                dowloadImageUrl(activity, uuid);
+                downloadImageUrl(activity, uuid);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -63,7 +67,7 @@ public class FirebaseStorageApp {
         });
     }
 
-    public void dowloadImageUrl(Activity activity, final String uuid) {
+    private void downloadImageUrl(Activity activity, final String uuid) {
         if (storageReference == null) {
             newInstance();
         }
@@ -76,6 +80,23 @@ public class FirebaseStorageApp {
             @Override
             public void onFailure(@NonNull Exception e) {
                 postImageListener.postImageFailure(e.getMessage());
+            }
+        });
+    }
+
+    public void deleteDataImage(final Activity activity, String uuid) {
+        if (storageReference == null) {
+            newInstance();
+        }
+        storageReference.child("images/" + uuid).delete().addOnSuccessListener(activity, new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                deleteImageListener.deleteImageSuccess(activity.getString(R.string.text_message_delete_success));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                deleteImageListener.deleteImageFailure(e.getMessage());
             }
         });
     }

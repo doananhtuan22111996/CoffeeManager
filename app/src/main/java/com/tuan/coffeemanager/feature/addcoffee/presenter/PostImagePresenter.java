@@ -3,7 +3,7 @@ package com.tuan.coffeemanager.feature.addcoffee.presenter;
 import android.app.Activity;
 import android.net.Uri;
 
-import com.tuan.coffeemanager.base.FirebaseStorageApp;
+import com.tuan.coffeemanager.interactor.FirebaseStorageApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 

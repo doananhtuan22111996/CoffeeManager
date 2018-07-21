@@ -1,9 +1,8 @@
 package com.tuan.coffeemanager.feature.main.fragment.presenter;
 
 import android.app.Activity;
-import android.view.View;
 
-import com.tuan.coffeemanager.base.FirebaseAuthApp;
+import com.tuan.coffeemanager.interactor.FirebaseAuthApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 

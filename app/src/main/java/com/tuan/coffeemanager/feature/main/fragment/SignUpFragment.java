@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.base.FirebasePostDataApp;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignUpPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;

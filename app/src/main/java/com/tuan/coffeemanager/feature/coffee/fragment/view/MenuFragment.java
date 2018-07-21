@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
-import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdater;
+import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
@@ -69,14 +69,14 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public void onSuccess(List<Drink> drinks) {
         CustomDialogLoadingFragment.hideLoading();
-        final DrinkCoffeeAdater drinkCoffeeAdater = new DrinkCoffeeAdater(getContext(), drinks);
-        rvMenu.setAdapter(drinkCoffeeAdater);
-        drinkCoffeeAdater.notifyDataSetChanged();
-        drinkCoffeeAdater.setOnItemClickListener(new OnItemClickListener() {
+        final DrinkCoffeeAdapter drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
+        rvMenu.setAdapter(drinkCoffeeAdapter);
+        drinkCoffeeAdapter.notifyDataSetChanged();
+        drinkCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
                 Intent intent = new Intent(getActivity(), CoffeeDetailActivity.class);
-                intent.putExtra(ContactBaseApp.DRINK_ID, drinkCoffeeAdater.getDrinkList().get(position).getId());
+                intent.putExtra(ContactBaseApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
                 startActivity(intent);
             }
         });
