@@ -45,4 +45,10 @@ public interface ViewListener {
 
         void deleteImageFailure(String error);
     }
+
+    interface ViewCurrentBill{
+        void onSuccess(String index);
+
+        void onFailure(String error);
+    }
 }

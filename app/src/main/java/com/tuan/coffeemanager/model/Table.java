@@ -1,6 +1,8 @@
 package com.tuan.coffeemanager.model;
 
-public class Table {
+import java.io.Serializable;
+
+public class Table implements Serializable {
 
     private String id;
     private int number;

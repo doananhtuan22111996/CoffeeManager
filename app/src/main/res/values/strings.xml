@@ -54,9 +54,10 @@
     <string name="text_employee_bill">Employee: %1$s</string>
     <string name="text_total_bill">Total: </string>
     <string name="text_order_title">Order Coffee</string>
+    <string name="text_example">Example</string>
+    <string name="text_menu">Menu</string>
     <string-array name="rule">
         <item>Manager</item>
-        <item>Bartender</item>
         <item>Employee</item>
     </string-array>
 </resources>

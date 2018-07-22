@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.TableCoffeePresenter;
@@ -46,6 +47,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     Unbinder unbinder;
 
     private TableCoffeePresenter tableCoffeePresenter;
+    private Table table;
 
     public static TableFragment newInstance() {
         Bundle args = new Bundle();
@@ -88,7 +90,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     }
 
     @Override
-    public void onSuccess(List<Table> tables) {
+    public void onSuccess(final List<Table> tables) {
         final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
         TableCoffeeAdapter tableCoffeeAdapter = new TableCoffeeAdapter(getContext(), tables);
         rvTable.setAdapter(tableCoffeeAdapter);
@@ -96,6 +98,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
         tableCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
+                table = tables.get(position);
                 tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
                 dlTable.openDrawer(Gravity.START);
             }
@@ -111,7 +114,9 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_Order: {
-                startActivity(new Intent(getActivity(), OrderActivity.class));
+                Intent intent = new Intent(getActivity(), OrderActivity.class);
+                intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
+                startActivity(intent);
                 dlTable.closeDrawer(Gravity.START);
                 break;
             }
