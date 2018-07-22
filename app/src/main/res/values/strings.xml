@@ -48,6 +48,12 @@
     <string name="text_message_edit_success">Edit is success</string>
     <string name="text_message_delete_success">Delete is success</string>
     <string name="text_message_delete_failure">Delete is failure</string>
+    <string name="text_title_bill">The coffee</string>
+    <string name="text_time_bill">Time: %1$s</string>
+    <string name="text_number_bill">Bill: %1$d</string>
+    <string name="text_employee_bill">Employee: %1$s</string>
+    <string name="text_total_bill">Total: </string>
+    <string name="text_order_title">Order Coffee</string>
     <string-array name="rule">
         <item>Manager</item>
         <item>Bartender</item>

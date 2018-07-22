@@ -22,10 +22,13 @@
         <activity android:name=".feature.main.MainActivity" />
         <activity android:name=".feature.main.ResetPasswordActivity" />
         <activity android:name=".feature.coffee.CoffeeActivity" />
-        <activity android:name=".feature.coffeedetail.CoffeeDetailActivity"
-            android:parentActivityName=".feature.coffee.CoffeeActivity"/>
-        <activity android:name=".feature.addcoffee.AddCoffeeActivity"
-            android:parentActivityName=".feature.coffee.CoffeeActivity"/>
+        <activity
+            android:name=".feature.coffeedetail.CoffeeDetailActivity"
+            android:parentActivityName=".feature.coffee.CoffeeActivity" />
+        <activity
+            android:name=".feature.addcoffee.AddCoffeeActivity"
+            android:parentActivityName=".feature.coffee.CoffeeActivity" />
+        <activity android:name=".feature.order.OrderActivity"/>
     </application>
 
 </manifest>
