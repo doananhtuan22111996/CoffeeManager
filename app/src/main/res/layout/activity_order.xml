@@ -168,12 +168,12 @@
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/btnSaveCoffee"
+        app:layout_constraintBottom_toTopOf="@id/tvSaveCoffee"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/glLine" />
 
     <TextView
-        android:id="@+id/btnSaveCoffee"
+        android:id="@+id/tvSaveCoffee"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

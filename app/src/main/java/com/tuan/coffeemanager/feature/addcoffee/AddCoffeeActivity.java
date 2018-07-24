@@ -137,14 +137,14 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 } else {
                     CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                     if (id.isEmpty()) {
-                        drink = new Drink(null, name, description, Integer.parseInt(price), 0, null, null);
+                        drink = new Drink(null, name, description,price, "0", null, null);
                         if (uri != null) {
                             postImagePresenter.postDataImage(this, uri);
                         } else {
                             postCoffeePresenter.postDataDrink(this, drink);
                         }
                     } else {
-                        drink = new Drink(id, name, description, Integer.parseInt(price), this.drink.getPurchases(), this.drink.getUuid(), this.drink.getUrl());
+                        drink = new Drink(id, name, description, price, this.drink.getPurchases(), this.drink.getUuid(), this.drink.getUrl());
                         if (uri != null && this.drink.getUrl() == null) {
                             postImagePresenter.postDataImage(this, uri);
                         } else if (uri != null && this.drink.getUrl() != null) {

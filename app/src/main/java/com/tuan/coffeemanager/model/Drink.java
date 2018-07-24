@@ -1,19 +1,22 @@
 package com.tuan.coffeemanager.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Drink {
 
     private String id;
     private String name;
     private String description;
-    private int price;
-    private int purchases;
+    private String price;
+    private String purchases;
     private String uuid;
     private String url;
 
     public Drink() {
     }
 
-    public Drink(String id, String name, String description, int price, int purchases, String uuid, String url) {
+    public Drink(String id, String name, String description, String price, String purchases, String uuid, String url) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -35,10 +38,6 @@ public class Drink {
         return description;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -51,15 +50,19 @@ public class Drink {
         this.description = description;
     }
 
-    public void setPrice(int price) {
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public int getPurchases() {
+    public String getPurchases() {
         return purchases;
     }
 
-    public void setPurchases(int purchases) {
+    public void setPurchases(String purchases) {
         this.purchases = purchases;
     }
 

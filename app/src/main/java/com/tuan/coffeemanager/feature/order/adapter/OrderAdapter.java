@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
-import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.widget.CustomGlide;
 
@@ -37,6 +36,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         this.onOrderItemClickListener = onOrderItemClickListener;
     }
 
+    public void setDrinkOrderList(List<DrinkOrder> drinkOrderList) {
+        this.drinkOrderList = drinkOrderList;
+    }
+
     public List<DrinkOrder> getDrinkOrderList() {
         return drinkOrderList;
     }
@@ -55,15 +58,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         orderViewHolder.tvNameCoffee.setText(drink.getName());
         amount = Integer.parseInt(drink.getAmount());
         orderViewHolder.tvAmount.setText(String.valueOf(amount));
-        orderViewHolder.tvPrice.setText(String.valueOf(amount * drink.getPrice()) + "$");
+        orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
         orderViewHolder.btnDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (amount > 1) {
+                if (Integer.parseInt(drink.getAmount()) > 1) {
                     amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                     amount--;
                     orderViewHolder.tvAmount.setText(String.valueOf(amount));
-                    orderViewHolder.tvPrice.setText(String.valueOf(amount * drink.getPrice()) + "$");
+                    orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
                     onOrderItemClickListener.onItemClickBtnListener(i, amount);
                 }
             }
@@ -74,8 +77,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                 amount++;
                 orderViewHolder.tvAmount.setText(String.valueOf(amount));
-                orderViewHolder.tvPrice.setText(String.valueOf(amount * drink.getPrice()) + "$");
+                orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
                 onOrderItemClickListener.onItemClickBtnListener(i, amount);
+            }
+        });
+        orderViewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOrderItemClickListener.onItemClickListener(i);
             }
         });
     }
@@ -99,6 +108,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         TextView tvAmount;
         @BindView(R.id.btnUp)
         Button btnUp;
+        @BindView(R.id.ivDelete)
+        ImageView ivDelete;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);

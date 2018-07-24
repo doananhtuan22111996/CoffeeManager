@@ -29,7 +29,7 @@ public class MenuCoffeePresenter implements FirebaseListener.ListDataListener<Dr
         Comparator<Drink> comparator = new Comparator<Drink>() {
             @Override
             public int compare(Drink drink, Drink t1) {
-                return t1.getPurchases() - drink.getPurchases();
+                return Integer.parseInt(t1.getPurchases()) - Integer.parseInt(drink.getPurchases());
             }
         };
         Collections.sort(drinks, comparator);

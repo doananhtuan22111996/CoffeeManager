@@ -12,6 +12,7 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.model.Drink;
+import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
 
 public class FirebasePostDataApp {
@@ -55,6 +56,29 @@ public class FirebasePostDataApp {
         String key = databaseReference.child(ContactBaseApp.NODE_DRINK).push().getKey();
         drink.setId(key);
         databaseReference.child(ContactBaseApp.NODE_DRINK).child(key).setValue(drink).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    postListener.postSuccess(activity.getString(R.string.text_message_post_success));
+                } else {
+                    postListener.postFailure(task.getException().getMessage());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                postListener.postFailure(e.getMessage());
+            }
+        });
+    }
+
+    public void postDataOrder(final Activity activity, OrderDetail orderDetail){
+        if (databaseReference == null) {
+            newInstance();
+        }
+        String key = databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).push().getKey();
+        orderDetail.setOrder_detail_id(key);
+        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(key).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

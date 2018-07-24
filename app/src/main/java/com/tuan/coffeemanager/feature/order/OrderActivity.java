@@ -21,6 +21,7 @@ import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.DrinkOrder;
+import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
@@ -32,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewCurrentBill {
+public class OrderActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewCurrentBill, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -52,11 +53,14 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     TextView tvTotal;
     @BindView(R.id.rvMenu)
     RecyclerView rvMenu;
+    @BindView(R.id.tvSaveCoffee)
+    TextView tvSaveCoffee;
 
     private OrderPresenter orderPresenter;
     private OrderCurrentPresenter orderCurrentPresenter;
     private Table table = null;
     private List<DrinkOrder> drinkOrderList = new ArrayList<>();
+    private List<DrinkOrder> drinkOrderListPost = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,12 +71,13 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
         CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
 
-        orderPresenter = new OrderPresenter(this);
+        orderPresenter = new OrderPresenter(this, this);
         rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         tvTitle.setText(R.string.text_order_title);
         tvTime.setText(getString(R.string.text_time_bill, getCalendar()));
         ivBack.setOnClickListener(this);
+        tvSaveCoffee.setOnClickListener(this);
 
         table = (Table) getIntent().getExtras().getSerializable(ContactBaseApp.TABLE_OBJ);
         if (table != null) {
@@ -103,6 +108,15 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 onBackPressed();
                 break;
             }
+            case R.id.tvSaveCoffee: {
+                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                for (DrinkOrder drinkOrder : drinkOrderList) {
+                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getId(), drinkOrder.getAmount()));
+                }
+                OrderDetail orderDetail = new OrderDetail(null, getCalendar(), drinkOrderListPost);
+                orderPresenter.postDataOrder(this, orderDetail);
+                break;
+            }
         }
     }
 
@@ -110,6 +124,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     public void onSuccess(final List<Drink> drinks) {
         CustomDialogLoadingFragment.hideLoading();
         OrderMenuAdapter orderMenuAdapter = new OrderMenuAdapter(this, drinks);
+        final OrderAdapter orderAdapter = new OrderAdapter(OrderActivity.this, drinkOrderList);
         rvMenu.setAdapter(orderMenuAdapter);
         orderMenuAdapter.notifyDataSetChanged();
         orderMenuAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -119,14 +134,17 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 if (!isExist(drink)) {
                     drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getPurchases(), drink.getUuid(), drink.getUrl(), "1"));
                     if (drinkOrderList.size() > 0) {
-                        OrderAdapter orderAdapter = new OrderAdapter(OrderActivity.this, drinkOrderList);
+                        orderAdapter.setDrinkOrderList(drinkOrderList);
                         rvOrder.setAdapter(orderAdapter);
                         orderAdapter.notifyDataSetChanged();
                         tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
                         orderAdapter.setOnOrderItemClickListener(new OnOrderItemClickListener() {
                             @Override
                             public void onItemClickListener(int position) {
-
+                                drinkOrderList.remove(position);
+                                orderAdapter.setDrinkOrderList(drinkOrderList);
+                                rvOrder.setAdapter(orderAdapter);
+                                orderAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -181,8 +199,20 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     private int total(List<DrinkOrder> drinkOrderList) {
         int sum = 0;
         for (DrinkOrder drinkOrder : drinkOrderList) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * drinkOrder.getPrice();
+            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
+    }
+
+    @Override
+    public void postSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

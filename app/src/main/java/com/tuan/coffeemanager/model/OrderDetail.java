@@ -1,31 +1,26 @@
 package com.tuan.coffeemanager.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
+@IgnoreExtraProperties
 public class OrderDetail {
-    private String id;
+    private String order_detail_id;
     private String date;
     private List<DrinkOrder> drinkOrderList;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String id, String date, List<DrinkOrder> drinkOrderList) {
-        this.id = id;
+    public OrderDetail(String order_detail_id, String date, List<DrinkOrder> drinkOrderList) {
+        this.order_detail_id = order_detail_id;
         this.date = date;
         this.drinkOrderList = drinkOrderList;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public String getDate() {
         return date;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setDate(String date) {
@@ -38,5 +33,13 @@ public class OrderDetail {
 
     public void setDrinkOrderList(List<DrinkOrder> drinkOrderList) {
         this.drinkOrderList = drinkOrderList;
+    }
+
+    public String getOrder_detail_id() {
+        return order_detail_id;
+    }
+
+    public void setOrder_detail_id(String order_detail_id) {
+        this.order_detail_id = order_detail_id;
     }
 }
