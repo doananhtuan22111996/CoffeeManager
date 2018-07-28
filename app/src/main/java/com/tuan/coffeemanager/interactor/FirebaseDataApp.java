@@ -1,6 +1,7 @@
 package com.tuan.coffeemanager.interactor;
 
 import android.support.annotation.NonNull;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +21,8 @@ public class FirebaseDataApp {
     public static Boolean isActivity = false;
     private FirebaseListener.ListDataListener listDataListener;
     private FirebaseListener.DataListener dataListener;
-    private FirebaseListener.ListDataTableOrderListener listDataTableOrderListener;
+    private FirebaseListener.ListDataDoubleListener listDataDoubleListener;
+    private FirebaseListener.ListDataObjectDoubleListener listDataObjectDoubleListener;
 
     public FirebaseDataApp(FirebaseListener.ListDataListener listDataListener) {
         this.listDataListener = listDataListener;
@@ -30,8 +32,12 @@ public class FirebaseDataApp {
         this.dataListener = dataListener;
     }
 
-    public FirebaseDataApp(FirebaseListener.ListDataTableOrderListener listDataTableOrderListener) {
-        this.listDataTableOrderListener = listDataTableOrderListener;
+    public FirebaseDataApp(FirebaseListener.ListDataDoubleListener listDataDoubleListener) {
+        this.listDataDoubleListener = listDataDoubleListener;
+    }
+
+    public FirebaseDataApp(FirebaseListener.ListDataObjectDoubleListener listDataObjectDoubleListener) {
+        this.listDataObjectDoubleListener = listDataObjectDoubleListener;
     }
 
     private static void newIntance() {
@@ -71,49 +77,49 @@ public class FirebaseDataApp {
         databaseReference.child(nodeParent).child(nodeChild).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (isActivity){
+                if (isActivity) {
                     dataListener.getDataSuccess(dataSnapshot.getValue(tClass));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                if (isActivity){
+                if (isActivity) {
                     dataListener.getDataFailure(databaseError.getMessage());
                 }
             }
         });
     }
 
-    public void getDataTableOrder(){
+    public <T, K> void getListDataDouble(String firstNode, final String secondNode, final Class<T> tClass, final Class<K> kClass) {
         if (databaseReference == null) {
             newIntance();
         }
-        databaseReference.child(ContactBaseApp.NODE_TABLE).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(firstNode).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final List<Table> tableList = new ArrayList<>();
+                final List<T> tList = new ArrayList<>();
                 for (DataSnapshot value : dataSnapshot.getChildren()) {
-                    Table table = value.getValue(Table.class);
-                    tableList.add(table);
+                    T t = value.getValue(tClass);
+                    tList.add(t);
                 }
-                databaseReference.child(ContactBaseApp.NODE_ORDER).addValueEventListener(new ValueEventListener() {
+                databaseReference.child(secondNode).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<Order> orderList = new ArrayList<>();
+                        List<K> kList = new ArrayList<>();
                         for (DataSnapshot value : dataSnapshot.getChildren()) {
-                            Order order = value.getValue(Order.class);
-                            orderList.add(order);
+                            K k = value.getValue(kClass);
+                            kList.add(k);
                         }
                         if (isActivity) {
-                            listDataTableOrderListener.getDataSuccess(tableList, orderList);
+                            listDataDoubleListener.getDataSuccess(tList, kList);
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         if (isActivity) {
-                            listDataTableOrderListener.getDataFailure(databaseError.getMessage());
+                            listDataDoubleListener.getDataFailure(databaseError.getMessage());
                         }
                     }
                 });
@@ -122,7 +128,46 @@ public class FirebaseDataApp {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 if (isActivity) {
-                    listDataTableOrderListener.getDataFailure(databaseError.getMessage());
+                    listDataDoubleListener.getDataFailure(databaseError.getMessage());
+                }
+            }
+        });
+    }
+
+    public <T, K> void getListDataObjectDouble(String firstNode, String firstNodeChild, final String secondNode, final Class<T> tClass, final Class<K> kClass) {
+        if (databaseReference == null) {
+            newIntance();
+        }
+        databaseReference.child(firstNode).child(firstNodeChild).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final T t = dataSnapshot.getValue(tClass);
+                databaseReference.child(secondNode).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<K> kList = new ArrayList<>();
+                        for (DataSnapshot value : dataSnapshot.getChildren()) {
+                            K k = value.getValue(kClass);
+                            kList.add(k);
+                        }
+                        if (isActivity) {
+                            listDataObjectDoubleListener.getDataSuccess(t, kList);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        if (isActivity) {
+                            listDataObjectDoubleListener.getDataFailure(databaseError.getMessage());
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (isActivity) {
+                    listDataObjectDoubleListener.getDataFailure(databaseError.getMessage());
                 }
             }
         });

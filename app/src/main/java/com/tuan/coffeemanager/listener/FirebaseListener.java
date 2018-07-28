@@ -1,6 +1,8 @@
 package com.tuan.coffeemanager.listener;
 
+import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.Order;
+import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.model.User;
 
@@ -14,8 +16,14 @@ public interface FirebaseListener {
         void getDataFailure(String error);
     }
 
-    interface ListDataTableOrderListener {
-        void getDataSuccess(List<Table> tableList, List<Order> orderList);
+    interface ListDataDoubleListener<T, K> {
+        void getDataSuccess(List<T> tList, List<K> kList);
+
+        void getDataFailure(String error);
+    }
+
+    interface ListDataObjectDoubleListener<T, K> {
+        void getDataSuccess(T t, List<K> kList);
 
         void getDataFailure(String error);
     }

@@ -23,7 +23,9 @@ import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableOrderCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.TableCoffeePresenter;
+import com.tuan.coffeemanager.feature.editorder.EditOrderActivity;
 import com.tuan.coffeemanager.feature.order.OrderActivity;
+import com.tuan.coffeemanager.feature.pay.PayActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -37,7 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataTableOrderListener, NavigationView.OnNavigationItemSelectedListener {
+public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataDoubleListener<Table, Order>, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.rvTable)
     RecyclerView rvTable;
@@ -49,6 +51,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
 
     private TableCoffeePresenter tableCoffeePresenter;
     private Table table;
+    private String order_drink_id = null;
 
     public static TableFragment newInstance() {
         Bundle args = new Bundle();
@@ -113,7 +116,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     }
 
     @Override
-    public void onSuccess(final List<Table> tableList, List<Order> orderList) {
+    public void onSuccess(final List<Table> tableList, final List<Order> orderList) {
         final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
         final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
         final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
@@ -139,6 +142,7 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
                 navPay.setEnabled(true);
                 navOrder.setEnabled(false);
                 navEditOrder.setEnabled(true);
+                order_drink_id = orderList.get(position).getOrder_detail_id();
                 dlTable.openDrawer(Gravity.START);
             }
         });
@@ -155,6 +159,22 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
             case R.id.nav_Order: {
                 Intent intent = new Intent(getActivity(), OrderActivity.class);
                 intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
+                startActivity(intent);
+                dlTable.closeDrawer(Gravity.START);
+                break;
+            }
+            case R.id.nav_EditOrder: {
+                Intent intent = new Intent(getActivity(), EditOrderActivity.class);
+                intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
+                intent.putExtra(ContactBaseApp.ORDER_DETAIL_ID, order_drink_id);
+                startActivity(intent);
+                dlTable.closeDrawer(Gravity.START);
+                break;
+            }
+            case R.id.nav_Pay: {
+                Intent intent = new Intent(getActivity(), PayActivity.class);
+                intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
+                intent.putExtra(ContactBaseApp.ORDER_DETAIL_ID, order_drink_id);
                 startActivity(intent);
                 dlTable.closeDrawer(Gravity.START);
                 break;

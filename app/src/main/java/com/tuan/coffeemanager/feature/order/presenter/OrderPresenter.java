@@ -19,11 +19,6 @@ public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>,
     private FirebaseDataApp firebaseDataApp;
     private FirebasePostDataApp firebasePostDataApp;
 
-    public OrderPresenter(ViewListener.ViewListDataListener viewListDataListener) {
-        this.viewListDataListener = viewListDataListener;
-        firebaseDataApp = new FirebaseDataApp(this);
-    }
-
     public OrderPresenter(ViewListener.ViewListDataListener viewListDataListener, ViewListener.ViewPostListener viewPostListener) {
         this.viewListDataListener = viewListDataListener;
         this.viewPostListener = viewPostListener;

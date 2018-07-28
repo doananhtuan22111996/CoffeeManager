@@ -138,4 +138,25 @@ public class FirebasePostDataApp {
             }
         });
     }
+
+    public void editOrderDetail(final Activity activity, OrderDetail orderDetail) {
+        if (databaseReference == null) {
+            newInstance();
+        }
+        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(orderDetail.getOrder_detail_id()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    postListener.postSuccess(activity.getString(R.string.text_message_post_success));
+                } else {
+                    postListener.postFailure(activity.getString(R.string.text_message_post_failure));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                postListener.postFailure(e.getMessage());
+            }
+        });
+    }
 }

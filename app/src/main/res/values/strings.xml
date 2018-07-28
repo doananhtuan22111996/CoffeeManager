@@ -58,4 +58,6 @@
     <string name="text_menu">Menu</string>
     <string name="text_message_post_failure">Post is failure</string>
     <string name="text_name">name</string>
+    <string name="text_title_edit_order">Edit Order</string>
+    <string name="text_title_pay">Pay Order Bill</string>
 </resources>

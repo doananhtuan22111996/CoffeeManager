@@ -19,8 +19,14 @@ public interface ViewListener {
         void onFailure(String error);
     }
 
-    interface ViewlistDataTableOrderListener {
-        void onSuccess(List<Table> tableList, List<Order> orderList);
+    interface ViewlistDataDoubleListener<T, K> {
+        void onSuccess(List<T> tList, List<K> kList);
+
+        void onFailure(String error);
+    }
+
+    interface ViewlistDataObjectDoubleListener<T, K> {
+        void onSuccess(T t, List<K> kList);
 
         void onFailure(String error);
     }

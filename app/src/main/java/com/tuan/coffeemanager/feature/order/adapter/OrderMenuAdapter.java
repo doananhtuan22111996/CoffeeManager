@@ -38,6 +38,10 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.Orde
         return drinkList;
     }
 
+    public void setDrinkList(List<Drink> drinkList) {
+        this.drinkList = drinkList;
+    }
+
     @NonNull
     @Override
     public OrderMenuViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

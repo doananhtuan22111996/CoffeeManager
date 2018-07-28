@@ -9,21 +9,21 @@ import com.tuan.coffeemanager.model.Table;
 
 import java.util.List;
 
-public class TableCoffeePresenter implements FirebaseListener.ListDataTableOrderListener {
+public class TableCoffeePresenter implements FirebaseListener.ListDataDoubleListener<Table, Order> {
 
     private FirebaseDataApp firebaseDataApp;
-    private ViewListener.ViewlistDataTableOrderListener viewlistDataTableOrderListener;
+    private ViewListener.ViewlistDataDoubleListener viewlistDataDoubleListener;
     private ViewListener.ViewListDataListener viewListDataListener;
 
-    public TableCoffeePresenter(ViewListener.ViewlistDataTableOrderListener viewlistDataTableOrderListener, ViewListener.ViewListDataListener viewListDataListener) {
-        this.viewlistDataTableOrderListener = viewlistDataTableOrderListener;
+    public TableCoffeePresenter(ViewListener.ViewlistDataDoubleListener viewlistDataDoubleListener, ViewListener.ViewListDataListener viewListDataListener) {
+        this.viewlistDataDoubleListener = viewlistDataDoubleListener;
         this.viewListDataListener = viewListDataListener;
         firebaseDataApp = new FirebaseDataApp(this);
 
     }
 
     public void getTableOrderListData() {
-        firebaseDataApp.getDataTableOrder();
+        firebaseDataApp.getListDataDouble(ContactBaseApp.NODE_TABLE, ContactBaseApp.NODE_ORDER, Table.class, Order.class);
     }
 
     @Override
@@ -31,12 +31,12 @@ public class TableCoffeePresenter implements FirebaseListener.ListDataTableOrder
         if (orderList.isEmpty()) {
             viewListDataListener.onSuccess(tableList);
         } else {
-            viewlistDataTableOrderListener.onSuccess(tableList, orderList);
+            viewlistDataDoubleListener.onSuccess(tableList, orderList);
         }
     }
 
     @Override
     public void getDataFailure(String error) {
-        viewlistDataTableOrderListener.onFailure(error);
+        viewlistDataDoubleListener.onFailure(error);
     }
 }
