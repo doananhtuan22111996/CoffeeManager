@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class DrinkOrder {
 
-    private String id;
+    private String drink_id;
     private String amount;
     private String name;
     private String price;
@@ -16,13 +16,13 @@ public class DrinkOrder {
     public DrinkOrder() {
     }
 
-    public DrinkOrder(String id, String amount) {
-        this.id = id;
+    public DrinkOrder(String drink_id, String amount) {
+        this.drink_id = drink_id;
         this.amount = amount;
     }
 
-    public DrinkOrder(String id, String name, String price, String purchases, String uuid, String url, String amount) {
-        this.id = id;
+    public DrinkOrder(String drink_id, String name, String price, String purchases, String uuid, String url, String amount) {
+        this.drink_id = drink_id;
         this.name = name;
         this.price = price;
         this.purchases = purchases;
@@ -31,12 +31,12 @@ public class DrinkOrder {
         this.amount = amount;
     }
 
-    public String getId() {
-        return id;
+    public String getDrink_id() {
+        return drink_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDrink_id(String drink_id) {
+        this.drink_id = drink_id;
     }
 
     public String getAmount() {

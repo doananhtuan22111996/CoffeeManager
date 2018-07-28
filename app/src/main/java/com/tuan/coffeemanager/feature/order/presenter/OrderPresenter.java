@@ -35,8 +35,8 @@ public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>,
         firebaseDataApp.getListData(ContactBaseApp.NODE_DRINK, Drink.class);
     }
 
-    public void postDataOrder(Activity activity, OrderDetail orderDetail) {
-        firebasePostDataApp.postDataOrder(activity, orderDetail);
+    public void postDataOrder(Activity activity, OrderDetail orderDetail, String table_id) {
+        firebasePostDataApp.postDataOrder(activity, orderDetail, table_id);
     }
 
     @Override

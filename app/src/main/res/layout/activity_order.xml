@@ -58,25 +58,14 @@
             app:layout_constraintTop_toBottomOf="@id/tvTitleBill" />
 
         <TextView
-            android:id="@+id/tvNumberBill"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/text_number_bill"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTime" />
-
-        <TextView
             android:id="@+id/tvUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/text_employee_bill"
-            android:textAlignment="textEnd"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvNumberBill"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNumberTable" />
 
         <View
@@ -86,7 +75,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNumberBill" />
+            app:layout_constraintTop_toBottomOf="@id/tvUser" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvOrder"

@@ -12,6 +12,7 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.model.Drink;
+import com.tuan.coffeemanager.model.Order;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
 
@@ -72,27 +73,31 @@ public class FirebasePostDataApp {
         });
     }
 
-    public void postDataOrder(final Activity activity, OrderDetail orderDetail){
+    public void postDataOrder(final Activity activity, final OrderDetail orderDetail, final String table_id) {
         if (databaseReference == null) {
             newInstance();
         }
-        String key = databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).push().getKey();
-        orderDetail.setOrder_detail_id(key);
-        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(key).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    postListener.postSuccess(activity.getString(R.string.text_message_post_success));
-                } else {
-                    postListener.postFailure(task.getException().getMessage());
+        if (orderDetail == null || table_id.isEmpty()) {
+            postListener.postFailure(activity.getString(R.string.text_message_post_failure));
+        } else {
+            final String key = databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).push().getKey();
+            orderDetail.setOrder_detail_id(key);
+            databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(key).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        postDataOrder(activity, table_id, key);
+                    } else {
+                        postListener.postFailure(task.getException().getMessage());
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                postListener.postFailure(e.getMessage());
-            }
-        });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    postListener.postFailure(e.getMessage());
+                }
+            });
+        }
     }
 
     public void editDataDrink(final Activity activity, Drink drink) {
@@ -107,6 +112,24 @@ public class FirebasePostDataApp {
                 } else {
                     postListener.postFailure(task.getException().getMessage());
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                postListener.postFailure(e.getMessage());
+            }
+        });
+    }
+
+    private void postDataOrder(final Activity activity, String table_id, String order_detail_id) {
+        if (databaseReference == null) {
+            newInstance();
+        }
+        Order order = new Order(table_id, order_detail_id);
+        databaseReference.child(ContactBaseApp.NODE_ORDER).child(table_id).setValue(order).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                postListener.postSuccess(activity.getString(R.string.text_message_post_success));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

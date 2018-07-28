@@ -48,7 +48,6 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        FirebaseDataApp.isActivity = true;
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -57,6 +56,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         CustomDialogLoadingFragment.showLoading(getFragmentManager());
+        FirebaseDataApp.isActivity = true;
         rvMenu.setLayoutManager(new GridLayoutManager(getContext(), 3));
         menuCoffeePresenter = new MenuCoffeePresenter(this);
         menuCoffeePresenter.getMenuListData();

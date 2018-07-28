@@ -32,7 +32,7 @@ public class FirebaseAuthApp {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public void signUpEmail(String email, String password, Activity activity) {
+    public void signUpEmail(String email, String password, final String name, Activity activity) {
         if (firebaseAuth == null) {
             newInstance();
         }
@@ -45,6 +45,7 @@ public class FirebaseAuthApp {
                     if (firebaseUser != null) {
                         user.setId(firebaseUser.getUid());
                         user.setEmail(firebaseUser.getEmail());
+                        user.setName(name);
                     }
                     signUpListener.signUpSuccess(user);
                 } else {

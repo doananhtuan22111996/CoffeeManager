@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     @BindView(R.id.btnSignUp)
     Button btnSignUp;
     Unbinder unbinder;
+    @BindView(R.id.edtName)
+    EditText edtName;
 
     private SignUpPresenter signUpPresenter;
 
@@ -68,6 +71,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String cofpassword = edtConfirmPassword.getText().toString().trim();
+                String name = edtName.getText().toString().trim();
                 if (email.isEmpty()) {
                     Toast.makeText(getActivity(), R.string.text_mesage_email_empty, Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
@@ -78,9 +82,11 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
                     Toast.makeText(getActivity(), R.string.text_message_confirm_empty, Toast.LENGTH_SHORT).show();
                 } else if (!password.equals(cofpassword)) {
                     Toast.makeText(getActivity(), getString(R.string.text_message_confirm_password), Toast.LENGTH_SHORT).show();
+                } else if (name.isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.text_message_name_empty, Toast.LENGTH_SHORT).show();
                 } else {
                     CustomDialogLoadingFragment.showLoading(getFragmentManager());
-                    signUpPresenter.signUp(email, password, getActivity());
+                    signUpPresenter.signUp(email, password, name, getActivity());
                 }
             }
         });
@@ -95,6 +101,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     @Override
     public void onSuccess(User user) {
         DataUtil.setIdUser(getContext(), user.getId());
+        DataUtil.setNameUser(getContext(), user.getName());
         signUpPresenter.postDataUser(getActivity(), user);
     }
 
@@ -108,7 +115,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
         if (email.isEmpty()) {
             return false;
         } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
         }
     }
 

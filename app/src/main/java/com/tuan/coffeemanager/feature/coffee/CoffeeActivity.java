@@ -36,19 +36,28 @@ public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPag
 
         initViewPager();
 
+        if (getIntent().getExtras() != null){
+            int page = getIntent().getExtras().getInt("FLAG", 0);
+            changePage(page);
+        }
+
         ivAddCoffee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(CoffeeActivity.this, AddCoffeeActivity.class);
-               intent.putExtra(ContactBaseApp.DRINK_ID, "");
+                Intent intent = new Intent(CoffeeActivity.this, AddCoffeeActivity.class);
+                intent.putExtra(ContactBaseApp.DRINK_ID, "");
                 startActivity(intent);
             }
         });
     }
 
+    private void changePage(int page){
+        viewPager.setCurrentItem(page);
+    }
+
     private void initViewPager() {
         viewPager.setAdapter(new CoffeeViewPagerAdapter(getSupportFragmentManager()));
-        viewPager.setOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         Objects.requireNonNull(tabLayout.getTabAt(0)).setCustomView(R.layout.tab_coffee);

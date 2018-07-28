@@ -204,6 +204,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         if (intent != null) {
+            intent.putExtra("FLAG", 0);
             NavUtils.navigateUpTo(AddCoffeeActivity.this, intent);
         }
     }

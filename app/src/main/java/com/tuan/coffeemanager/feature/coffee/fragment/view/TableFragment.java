@@ -20,8 +20,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
-import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableCoffeeAdapter;
+import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableOrderCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.TableCoffeePresenter;
 import com.tuan.coffeemanager.feature.order.OrderActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
@@ -29,6 +29,7 @@ import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Order;
 import com.tuan.coffeemanager.model.Table;
+import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, NavigationView.OnNavigationItemSelectedListener {
+public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataTableOrderListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.rvTable)
     RecyclerView rvTable;
@@ -61,20 +62,20 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_table, container, false);
         unbinder = ButterKnife.bind(this, view);
-        FirebaseDataApp.isActivity = true;
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FirebaseDataApp.isActivity = true;
         dlTable.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         navTable.setNavigationItemSelectedListener(this);
-
         rvTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
-
         TextView tvNameUser = navTable.getHeaderView(0).findViewById(R.id.tvNameUser);
         tvNameUser.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
-        tableCoffeePresenter = new TableCoffeePresenter(this);
-        tableCoffeePresenter.getTableListData();
-
-        return view;
+        tableCoffeePresenter = new TableCoffeePresenter(this, this);
+        tableCoffeePresenter.getTableOrderListData();
     }
 
     @Override
@@ -92,6 +93,9 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     @Override
     public void onSuccess(final List<Table> tables) {
         final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
+        final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
+        final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
+        final MenuItem navPay = navTable.getMenu().findItem(R.id.nav_Pay);
         TableCoffeeAdapter tableCoffeeAdapter = new TableCoffeeAdapter(getContext(), tables);
         rvTable.setAdapter(tableCoffeeAdapter);
         tableCoffeeAdapter.notifyDataSetChanged();
@@ -100,6 +104,41 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
             public void onItemClickListener(int position) {
                 table = tables.get(position);
                 tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
+                navPay.setEnabled(false);
+                navOrder.setEnabled(true);
+                navEditOrder.setEnabled(false);
+                dlTable.openDrawer(Gravity.START);
+            }
+        });
+    }
+
+    @Override
+    public void onSuccess(final List<Table> tableList, List<Order> orderList) {
+        final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
+        final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
+        final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
+        final MenuItem navPay = navTable.getMenu().findItem(R.id.nav_Pay);
+        TableOrderCoffeeAdapter tableOrderCoffeeAdapter = new TableOrderCoffeeAdapter(getContext(), tableList, orderList);
+        rvTable.setAdapter(tableOrderCoffeeAdapter);
+        tableOrderCoffeeAdapter.notifyDataSetChanged();
+        tableOrderCoffeeAdapter.setOnTableClickListener(new OnItemClickListener.OnTableClickListener() {
+            @Override
+            public void onItemOpenClickListener(int position) {
+                table = tableList.get(position);
+                tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
+                navPay.setEnabled(false);
+                navOrder.setEnabled(true);
+                navEditOrder.setEnabled(false);
+                dlTable.openDrawer(Gravity.START);
+            }
+
+            @Override
+            public void onItemCloseClickListener(int position) {
+                table = tableList.get(position);
+                tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
+                navPay.setEnabled(true);
+                navOrder.setEnabled(false);
+                navEditOrder.setEnabled(true);
                 dlTable.openDrawer(Gravity.START);
             }
         });

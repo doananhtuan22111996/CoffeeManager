@@ -21,7 +21,7 @@
     <string name="text_number_table">Table %1$s</string>
     <string name="text_pay">Pay</string>
     <string name="text_order">Order</string>
-    <string name="text_repair">Repair</string>
+    <string name="text_repair">Edit Order</string>
     <string name="text_description">Description</string>
     <string name="text_price">Price</string>
     <string name="text_title_detail">Coffee Detail</string>
@@ -56,8 +56,6 @@
     <string name="text_order_title">Order Coffee</string>
     <string name="text_example">Example</string>
     <string name="text_menu">Menu</string>
-    <string-array name="rule">
-        <item>Manager</item>
-        <item>Employee</item>
-    </string-array>
+    <string name="text_message_post_failure">Post is failure</string>
+    <string name="text_name">name</string>
 </resources>

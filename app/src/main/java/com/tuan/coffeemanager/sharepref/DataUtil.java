@@ -45,14 +45,6 @@ public class DataUtil {
         editor.apply();
     }
 
-    public static void setIndexBill(Context context, String index) {
-        if (editor == null) {
-            newInstance(context);
-        }
-        editor.putString(ContactBaseApp.INDEX_BILL, index);
-        editor.apply();
-    }
-
     public static String getIdUser(Context context) {
         if (sharedPreferences == null) {
             initPref(context);
@@ -65,12 +57,5 @@ public class DataUtil {
             initPref(context);
         }
         return sharedPreferences.getString(ContactBaseApp.NAME_USER, "");
-    }
-
-    public static String getIndexBill(Context context) {
-        if (sharedPreferences == null) {
-            initPref(context);
-        }
-        return sharedPreferences.getString(ContactBaseApp.INDEX_BILL, "");
     }
 }

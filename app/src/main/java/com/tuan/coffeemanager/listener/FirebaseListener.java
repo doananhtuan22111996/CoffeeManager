@@ -1,5 +1,7 @@
 package com.tuan.coffeemanager.listener;
 
+import com.tuan.coffeemanager.model.Order;
+import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.model.User;
 
 import java.util.List;
@@ -8,6 +10,12 @@ public interface FirebaseListener {
 
     interface ListDataListener<T> {
         void getDataSuccess(List<T> tList);
+
+        void getDataFailure(String error);
+    }
+
+    interface ListDataTableOrderListener {
+        void getDataSuccess(List<Table> tableList, List<Order> orderList);
 
         void getDataFailure(String error);
     }

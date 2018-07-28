@@ -1,7 +1,9 @@
 package com.tuan.coffeemanager.feature.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +14,9 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
-import com.tuan.coffeemanager.feature.order.presenter.OrderCurrentPresenter;
 import com.tuan.coffeemanager.feature.order.presenter.OrderPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
@@ -33,7 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewCurrentBill, ViewListener.ViewPostListener {
+public class OrderActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -43,8 +45,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     TextView tvNumberTable;
     @BindView(R.id.tvTime)
     TextView tvTime;
-    @BindView(R.id.tvNumberBill)
-    TextView tvNumberBill;
     @BindView(R.id.tvUser)
     TextView tvUser;
     @BindView(R.id.rvOrder)
@@ -57,8 +57,8 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     TextView tvSaveCoffee;
 
     private OrderPresenter orderPresenter;
-    private OrderCurrentPresenter orderCurrentPresenter;
     private Table table = null;
+    private String user_id = null;
     private List<DrinkOrder> drinkOrderList = new ArrayList<>();
     private List<DrinkOrder> drinkOrderListPost = new ArrayList<>();
 
@@ -84,21 +84,13 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
         }
         String nameUser = DataUtil.getNameUser(this);
+        user_id = DataUtil.getIdUser(this);
         if (nameUser.trim().isEmpty()) {
             tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
         } else {
             tvUser.setText(getString(R.string.text_employee_bill, nameUser));
         }
-
-        String numberBill = DataUtil.getIndexBill(this);
-        if (numberBill.trim().isEmpty()) {
-            orderCurrentPresenter = new OrderCurrentPresenter(this);
-            orderCurrentPresenter.getCurrentBill();
-        } else {
-            tvNumberBill.setText(getString(R.string.text_number_bill, Integer.parseInt(numberBill)));
-            orderPresenter.getListDataDrink();
-        }
-
+        orderPresenter.getListDataDrink();
     }
 
     @Override
@@ -111,10 +103,10 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tvSaveCoffee: {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                 for (DrinkOrder drinkOrder : drinkOrderList) {
-                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getId(), drinkOrder.getAmount()));
+                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount()));
                 }
-                OrderDetail orderDetail = new OrderDetail(null, getCalendar(), drinkOrderListPost);
-                orderPresenter.postDataOrder(this, orderDetail);
+                OrderDetail orderDetail = new OrderDetail(null,user_id, getCalendar(), drinkOrderListPost);
+                orderPresenter.postDataOrder(this, orderDetail, table.getId());
                 break;
             }
         }
@@ -161,13 +153,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onSuccess(String index) {
-        DataUtil.setIndexBill(this, index);
-        tvNumberBill.setText(getString(R.string.text_number_bill, Integer.parseInt(index) + 1));
-        orderPresenter.getListDataDrink();
-    }
-
-    @Override
     public void onFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
@@ -189,7 +174,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     private Boolean isExist(Drink drink) {
         for (DrinkOrder drinkOrder : drinkOrderList) {
-            if (drinkOrder.getId().equals(drink.getId())) {
+            if (drinkOrder.getDrink_id().equals(drink.getId())) {
                 return true;
             }
         }
@@ -208,6 +193,11 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     public void postSuccess(String message) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        assert intent != null;
+        intent.putExtra("FLAG", 1);
+        NavUtils.navigateUpTo(this, intent);
+        finish();
     }
 
     @Override

@@ -7,16 +7,26 @@ import java.util.List;
 @IgnoreExtraProperties
 public class OrderDetail {
     private String order_detail_id;
+    private String user_id;
     private String date;
     private List<DrinkOrder> drinkOrderList;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String order_detail_id, String date, List<DrinkOrder> drinkOrderList) {
+    public OrderDetail(String order_detail_id, String user_id, String date, List<DrinkOrder> drinkOrderList) {
         this.order_detail_id = order_detail_id;
+        this.user_id = user_id;
         this.date = date;
         this.drinkOrderList = drinkOrderList;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getDate() {

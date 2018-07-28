@@ -22,8 +22,8 @@ public class SignUpPresenter implements FirebaseListener.SignUpListener, Firebas
         firebasePostDataApp = new FirebasePostDataApp(this);
     }
 
-    public void signUp(String email, String password, Activity activity) {
-        firebaseAuth.signUpEmail(email, password, activity);
+    public void signUp(String email, String password, String name, Activity activity) {
+        firebaseAuth.signUpEmail(email, password, name, activity);
     }
 
     public void postDataUser(Activity activity, User user){

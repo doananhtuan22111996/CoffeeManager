@@ -1,5 +1,8 @@
 package com.tuan.coffeemanager.listener;
 
+import com.tuan.coffeemanager.model.Order;
+import com.tuan.coffeemanager.model.Table;
+
 import java.util.List;
 
 public interface ViewListener {
@@ -12,6 +15,12 @@ public interface ViewListener {
 
     interface ViewDataListener<T> {
         void onSuccess(T t);
+
+        void onFailure(String error);
+    }
+
+    interface ViewlistDataTableOrderListener {
+        void onSuccess(List<Table> tableList, List<Order> orderList);
 
         void onFailure(String error);
     }
@@ -44,11 +53,5 @@ public interface ViewListener {
         void deleteImageSuccess(String message);
 
         void deleteImageFailure(String error);
-    }
-
-    interface ViewCurrentBill{
-        void onSuccess(String index);
-
-        void onFailure(String error);
     }
 }

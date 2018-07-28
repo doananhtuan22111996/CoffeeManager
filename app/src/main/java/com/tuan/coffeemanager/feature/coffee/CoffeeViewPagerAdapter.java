@@ -11,7 +11,7 @@ public class CoffeeViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final int NUM_TAB = 3;
 
-    public CoffeeViewPagerAdapter(FragmentManager fm) {
+    CoffeeViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

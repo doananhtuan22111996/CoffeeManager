@@ -100,7 +100,7 @@
         app:layout_constraintTop_toBottomOf="@id/edtPassword" />
 
     <ImageView
-        android:id="@+id/ivRule"
+        android:id="@+id/ivName"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -109,16 +109,21 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivConfirmPassword" />
 
-    <Spinner
-        android:id="@+id/snRule"
+    <EditText
+        android:id="@+id/edtName"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        android:entries="@array/rule"
-        android:spinnerMode="dropdown"
+        android:background="@android:color/transparent"
+        android:hint="@string/text_name"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivRule"
+        app:layout_constraintStart_toEndOf="@id/ivName"
         app:layout_constraintTop_toBottomOf="@id/edtConfirmPassword" />
 
     <Button
@@ -135,6 +140,6 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/snRule" />
+        app:layout_constraintTop_toBottomOf="@id/edtName" />
 
 </android.support.constraint.ConstraintLayout>
