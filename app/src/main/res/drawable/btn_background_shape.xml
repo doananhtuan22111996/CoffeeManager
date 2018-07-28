@@ -5,11 +5,6 @@
         <shape android:shape="rectangle">
             <solid android:color="#491603" />
             <corners android:radius="25dp" />
-            <padding
-                android:bottom="5dp"
-                android:left="5dp"
-                android:right="5dp"
-                android:top="5dp" />
         </shape>
     </item>
 
@@ -20,11 +15,6 @@
                 android:endColor="#a78a67"
                 android:startColor="#491603" />
             <corners android:radius="25dp" />
-            <padding
-                android:bottom="5dp"
-                android:left="5dp"
-                android:right="5dp"
-                android:top="5dp" />
         </shape>
     </item>
 </ripple>

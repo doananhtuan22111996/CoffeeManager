@@ -1,10 +1,13 @@
 package com.tuan.coffeemanager.feature.pay;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PayActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewlistDataObjectDoubleListener<OrderDetail, Drink> {
+public class PayActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewlistDataObjectDoubleListener<OrderDetail, Drink>, ViewListener.ViewDeleteListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -43,6 +46,8 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     RecyclerView rvOrder;
     @BindView(R.id.tvTotal)
     TextView tvTotal;
+    @BindView(R.id.btnPay)
+    Button btnPay;
 
     private Table table = null;
     private String user_id = null;
@@ -78,10 +83,11 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        payPresenter = new PayPresenter(this);
+        payPresenter = new PayPresenter(this, this);
         payPresenter.getDataOrderDetail(order_drink_id);
 
         ivBack.setOnClickListener(this);
+        btnPay.setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +95,11 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.ivBack: {
                 onBackPressed();
+                break;
+            }
+            case R.id.btnPay: {
+                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                payPresenter.payOrder(this, table.getId());
                 break;
             }
         }
@@ -122,5 +133,22 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     protected void onStop() {
         super.onStop();
         FirebaseDataApp.isActivity = false;
+    }
+
+    @Override
+    public void deleteSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        assert intent != null;
+        intent.putExtra("FLAG", 1);
+        NavUtils.navigateUpTo(this, intent);
+        finish();
+    }
+
+    @Override
+    public void deleteFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

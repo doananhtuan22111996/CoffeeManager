@@ -34,6 +34,7 @@ import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +72,9 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (isVisible()){
+            CustomDialogLoadingFragment.showLoading(getChildFragmentManager());
+        }
         FirebaseDataApp.isActivity = true;
         dlTable.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         navTable.setNavigationItemSelectedListener(this);
@@ -95,6 +99,9 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
 
     @Override
     public void onSuccess(final List<Table> tables) {
+        if (isVisible()){
+            CustomDialogLoadingFragment.hideLoading();
+        }
         final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
         final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
         final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
@@ -117,6 +124,9 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
 
     @Override
     public void onSuccess(final List<Table> tableList, final List<Order> orderList) {
+        if (isVisible()){
+            CustomDialogLoadingFragment.hideLoading();
+        }
         final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
         final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
         final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
@@ -150,6 +160,9 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
 
     @Override
     public void onFailure(String error) {
+        if (isVisible()){
+            CustomDialogLoadingFragment.hideLoading();
+        }
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
