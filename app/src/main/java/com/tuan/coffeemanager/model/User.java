@@ -16,6 +16,16 @@ public class User {
     public User() {
     }
 
+    public User(String id, String name, String position, String address, String birth_day, String phone_number, String email) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        this.address = address;
+        this.birth_day = birth_day;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
+
     public String getEmail() {
         return email;
     }

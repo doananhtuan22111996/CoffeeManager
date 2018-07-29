@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
-import com.tuan.coffeemanager.event.AppEvent;
-import com.tuan.coffeemanager.event.AppEventImpl;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
@@ -58,9 +56,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (isVisible()){
-            CustomDialogLoadingFragment.showLoading(getFragmentManager());
-        }
+        CustomDialogLoadingFragment.showLoading(getFragmentManager());
         FirebaseDataApp.isActivity = true;
         rvMenu.setLayoutManager(new GridLayoutManager(getContext(), 3));
         menuCoffeePresenter = new MenuCoffeePresenter(this);
@@ -81,9 +77,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
 
     @Override
     public void onSuccess(List<Drink> drinks) {
-        if (isVisible()){
-            CustomDialogLoadingFragment.hideLoading();
-        }
+        CustomDialogLoadingFragment.hideLoading();
         final DrinkCoffeeAdapter drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
         rvMenu.setAdapter(drinkCoffeeAdapter);
         drinkCoffeeAdapter.notifyDataSetChanged();
@@ -99,9 +93,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
 
     @Override
     public void onFailure(String error) {
-        if (isVisible()){
-            CustomDialogLoadingFragment.hideLoading();
-        }
+        CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

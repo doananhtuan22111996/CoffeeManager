@@ -34,8 +34,13 @@
         <activity
             android:name=".feature.editorder.EditOrderActivity"
             android:parentActivityName=".feature.coffee.CoffeeActivity" />
-        <activity android:name=".feature.pay.PayActivity"
-            android:parentActivityName=".feature.coffee.CoffeeActivity"/>
+        <activity
+            android:name=".feature.pay.PayActivity"
+            android:parentActivityName=".feature.coffee.CoffeeActivity" />
+        <activity android:name=".feature.featureManager.signUpEmployee.SignUpEmployeeActivity" />
+        <activity android:name=".feature.featureManager.main.MainManagerActivity" />
+        <activity android:name=".feature.featureManager.employeeManager.EmployeeManagerActivity" />
+        <activity android:name=".feature.editProfile.EditProfileActivity"></activity>
     </application>
 
 </manifest>

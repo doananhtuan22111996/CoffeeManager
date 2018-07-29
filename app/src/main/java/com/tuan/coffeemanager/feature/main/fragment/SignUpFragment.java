@@ -15,11 +15,13 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignUpPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
 import java.util.Objects;
 
@@ -68,6 +70,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CustomKeyBoard.hideKeyBoard(getActivity());
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String cofpassword = edtConfirmPassword.getText().toString().trim();
@@ -100,6 +103,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
 
     @Override
     public void onSuccess(User user) {
+        user.setPosition("manager");
         DataUtil.setIdUser(getContext(), user.getId());
         DataUtil.setNameUser(getContext(), user.getName());
         signUpPresenter.postDataUser(getActivity(), user);
@@ -123,7 +127,7 @@ public class SignUpFragment extends Fragment implements ViewListener.ViewDataLis
     public void postSuccess(String message) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getActivity(), CoffeeActivity.class));
+        startActivity(new Intent(getActivity(), MainManagerActivity.class));
         Objects.requireNonNull(getActivity()).finish();
     }
 

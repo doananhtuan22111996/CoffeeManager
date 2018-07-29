@@ -15,17 +15,23 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
 import com.tuan.coffeemanager.feature.main.ResetPasswordActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignInPresenter;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
+import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.CustomKeyBoard;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignInFragment extends Fragment implements ViewListener.ViewSignInListener {
+public class SignInFragment extends Fragment implements ViewListener.ViewSignInListener, ViewListener.ViewDataListener<User> {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
@@ -58,11 +64,13 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        signInPresenter = new SignInPresenter(this);
+        FirebaseDataApp.isActivity = true;
+        signInPresenter = new SignInPresenter(this, this);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CustomKeyBoard.hideKeyBoard(getActivity());
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
@@ -95,8 +103,21 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     @Override
     public void onSuccess(String id) {
         DataUtil.setIdUser(getContext(), id);
+        FirebaseDataApp.isActivity = true;
+        signInPresenter.gerDataUser(id);
+    }
+
+    @Override
+    public void onSuccess(User user) {
         CustomDialogLoadingFragment.hideLoading();
-        startActivity(new Intent(getActivity(), CoffeeActivity.class));
+        DataUtil.setNameUser(getContext(), user.getName());
+        if (user.getPosition().equals("employee")) {
+            startActivity(new Intent(getActivity(), CoffeeActivity.class));
+            Objects.requireNonNull(getActivity()).finish();
+        } else {
+            startActivity(new Intent(getActivity(), MainManagerActivity.class));
+            Objects.requireNonNull(getActivity()).finish();
+        }
     }
 
     @Override
@@ -111,5 +132,11 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FirebaseDataApp.isActivity = false;
     }
 }

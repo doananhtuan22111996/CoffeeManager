@@ -68,6 +68,7 @@ public class MoreFragment extends Fragment {
                     authUI.signOut(Objects.requireNonNull(getContext()));
                     CustomDialogLoadingFragment.hideLoading();
                     startActivity(new Intent(getActivity(), MainActivity.class));
+                    Objects.requireNonNull(getActivity()).finish();
                 }
             }
         });

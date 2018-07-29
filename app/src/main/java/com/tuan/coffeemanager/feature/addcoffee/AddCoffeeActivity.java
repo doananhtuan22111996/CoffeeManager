@@ -125,6 +125,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 break;
             }
             case R.id.btnSaveCoffee: {
+                CustomKeyBoard.hideKeyBoard(this);
                 String name = edtNameCoffee.getText().toString().trim();
                 String description = edtDescriptionCoffee.getText().toString().trim();
                 String price = edtPriceCoffee.getText().toString().trim();

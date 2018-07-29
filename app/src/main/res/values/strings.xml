@@ -27,7 +27,7 @@
     <string name="text_title_detail">Coffee Detail</string>
     <string name="text_edit_coffee_infomation">Edit Coffee Infomation</string>
     <string name="text_remove_coffee">Remove Coffee</string>
-    <string name="text_coffee_name">Coffee Name:</string>
+    <string name="text_coffee_name">Coffee Name</string>
     <string name="text_description_coffee">Description Coffee</string>
     <string name="text_price_coffee">Price Coffee</string>
     <string name="text_save">Save</string>
@@ -60,4 +60,15 @@
     <string name="text_name">name</string>
     <string name="text_title_edit_order">Edit Order</string>
     <string name="text_title_pay">Pay Order Bill</string>
+    <string name="text_manager_employee">Employee Manager</string>
+    <string name="text_revenue_manager">Revenue manager</string>
+    <string name="text_sign_up_employee">Sign Up Employee</string>
+    <string name="text_name_user">Name User</string>
+    <string name="text_email_user">Email User</string>
+    <string name="text_birth_day">Birth Day</string>
+    <string name="text_phone_user">Phone User</string>
+    <string name="text_address_user">Address User</string>
+    <string name="text_employee_name_example">Employee Name: %1$s</string>
+    <string name="text_phone_number">Phone Number: %1$s</string>
+    <string name="text_title_employee_manger">Employee Manager</string>
 </resources>
