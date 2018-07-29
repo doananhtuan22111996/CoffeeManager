@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textColor="@drawable/tab_selected"
         android:text="@string/text_more"
-        android:textSize="15sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivCoffeeSmall" />

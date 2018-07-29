@@ -71,4 +71,7 @@
     <string name="text_employee_name_example">Employee Name: %1$s</string>
     <string name="text_phone_number">Phone Number: %1$s</string>
     <string name="text_title_employee_manger">Employee Manager</string>
+    <string name="text_profile">Profile Employee</string>
+    <string name="text_position">Position</string>
+    <string name="text_remove_employee">Remove Employee</string>
 </resources>

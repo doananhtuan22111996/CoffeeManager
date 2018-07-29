@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.model.User;
 
 import java.util.List;
@@ -21,10 +22,15 @@ public class EmployeeManagerAdapter extends RecyclerView.Adapter<EmployeeManager
 
     private Context context;
     private List<User> userList;
+    private OnItemClickListener onItemClickListener;
 
     public EmployeeManagerAdapter(Context context, List<User> userList) {
         this.context = context;
         this.userList = userList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -35,10 +41,16 @@ public class EmployeeManagerAdapter extends RecyclerView.Adapter<EmployeeManager
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EmployeeManagerViewHolder employeeManagerViewHolder, int i) {
+    public void onBindViewHolder(@NonNull EmployeeManagerViewHolder employeeManagerViewHolder, final int i) {
         User user = userList.get(i);
         employeeManagerViewHolder.tvNameUser.setText(context.getString(R.string.text_employee_name_example, user.getName()));
         employeeManagerViewHolder.tvPhone.setText(context.getString(R.string.text_phone_number, user.getPhone_number()));
+        employeeManagerViewHolder.clEmployee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(i);
+            }
+        });
     }
 
     @Override

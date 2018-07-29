@@ -1,5 +1,6 @@
 package com.tuan.coffeemanager.feature.featureManager.employeeManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.adapter.EmployeeManagerAdapter;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.presenter.EmployeeManagerPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
+import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
@@ -55,16 +59,31 @@ public class EmployeeManagerActivity extends AppCompatActivity implements ViewLi
     }
 
     @Override
-    public void onSuccess(List<User> users) {
+    public void onSuccess(final List<User> users) {
         CustomDialogLoadingFragment.hideLoading();
         EmployeeManagerAdapter employeeManagerAdapter = new EmployeeManagerAdapter(this, users);
         rvEmployee.setAdapter(employeeManagerAdapter);
         employeeManagerAdapter.notifyDataSetChanged();
+        employeeManagerAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position) {
+                Intent intent = new Intent(EmployeeManagerActivity.this, EditProfileActivity.class);
+                intent.putExtra(ContactBaseApp.ID_USER, users.get(position).getId());
+                intent.putExtra(ContactBaseApp.STATUS, false);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseDataApp.isActivity = false;
     }
 }

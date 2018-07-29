@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -81,6 +82,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
                     Toast.makeText(getActivity(), getString(R.string.text_message_password_empty), Toast.LENGTH_SHORT).show();
                 } else {
                     CustomDialogLoadingFragment.showLoading(getFragmentManager());
+                    CustomKeyBoard.hideKeyBoard(getActivity());
                     signInPresenter.signIn(email, password, getActivity());
                 }
             }
