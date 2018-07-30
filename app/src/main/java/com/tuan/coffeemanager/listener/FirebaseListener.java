@@ -66,10 +66,4 @@ public interface FirebaseListener {
         void deleteFailure(String error);
     }
 
-    interface DeleteImageListener {
-        void deleteImageSuccess(String message);
-
-        void deleteImageFailure(String error);
-    }
-
 }

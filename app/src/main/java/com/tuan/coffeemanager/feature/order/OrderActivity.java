@@ -142,7 +142,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             public void onItemClickListener(int position) {
                 final Drink drink = drinks.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getPurchases(), drink.getUuid(), drink.getUrl(), "1"));
+                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1"));
                     if (drinkOrderList.size() > 0) {
                         orderAdapter.setDrinkOrderList(drinkOrderList);
                         rvOrder.setAdapter(orderAdapter);

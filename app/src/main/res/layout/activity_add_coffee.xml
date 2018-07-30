@@ -16,8 +16,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/incToolbar">
 
@@ -26,6 +26,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp">
+
+            <LinearLayout
+                android:id="@+id/dummy"
+                android:layout_width="0dp"
+                android:layout_height="0.1dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/ivCoffee"
@@ -130,20 +140,19 @@
                 android:id="@+id/btnSaveCoffee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_margin="8dp"
                 android:background="@drawable/btn_background_shape"
                 android:text="@string/text_save"
-                android:layout_gravity="bottom"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/edtPriceCoffee"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/edtPriceCoffee" />
 
         </android.support.constraint.ConstraintLayout>
-
 
 
     </ScrollView>

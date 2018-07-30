@@ -37,10 +37,11 @@
         <activity
             android:name=".feature.pay.PayActivity"
             android:parentActivityName=".feature.coffee.CoffeeActivity" />
-        <activity android:name=".feature.featureManager.signUpEmployee.SignUpEmployeeActivity" />
+        <activity android:name=".feature.featureManager.signUpEmployee.SignUpActivity"
+            android:parentActivityName=".feature.featureManager.main.MainManagerActivity"/>
         <activity android:name=".feature.featureManager.main.MainManagerActivity" />
         <activity android:name=".feature.featureManager.employeeManager.EmployeeManagerActivity" />
-        <activity android:name=".feature.editProfile.EditProfileActivity"></activity>
+        <activity android:name=".feature.editProfile.EditProfileActivity"/>
     </application>
 
 </manifest>

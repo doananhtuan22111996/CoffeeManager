@@ -49,7 +49,6 @@ public class DrinkCoffeeAdapter extends RecyclerView.Adapter<DrinkCoffeeAdapter.
     public void onBindViewHolder(@NonNull DrinkCoffeeViewHolder drinkCoffeeViewHolder, final int i) {
         Drink drink = drinkList.get(i);
         drinkCoffeeViewHolder.tvNameCoffee.setText(drink.getName());
-        drinkCoffeeViewHolder.tvPurchases.setText(String.valueOf(drink.getPurchases()));
         if (drink.getUrl() != null){
             CustomGlide.showImage(context, drinkCoffeeViewHolder.ivCoffee, drink.getUrl());
         }
@@ -72,8 +71,6 @@ public class DrinkCoffeeAdapter extends RecyclerView.Adapter<DrinkCoffeeAdapter.
         ImageView ivCoffee;
         @BindView(R.id.tvNameCoffee)
         TextView tvNameCoffee;
-        @BindView(R.id.tvPurchases)
-        TextView tvPurchases;
 
         DrinkCoffeeViewHolder(@NonNull View itemView) {
             super(itemView);

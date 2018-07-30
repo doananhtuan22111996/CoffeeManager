@@ -55,9 +55,4 @@ public interface ViewListener {
         void deleteFailure(String error);
     }
 
-    interface ViewDeleteImageListener {
-        void deleteImageSuccess(String message);
-
-        void deleteImageFailure(String error);
-    }
 }

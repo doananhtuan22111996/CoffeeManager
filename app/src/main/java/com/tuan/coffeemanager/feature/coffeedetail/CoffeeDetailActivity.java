@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
-import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailImagePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -25,7 +24,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener, ViewListener.ViewDeleteImageListener {
+public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener{
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -45,9 +44,7 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
     ImageView ivCoffee;
 
     private String id;
-    private String uuid = null;
     private CoffeeDetailPresenter coffeeDetailPresenter;
-    private CoffeeDetailImagePresenter coffeeDetailImagePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +84,7 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
             }
             case R.id.tvRemoveCoffee: {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
-                if (uuid != null) {
-                    coffeeDetailImagePresenter = new CoffeeDetailImagePresenter(this);
-                    coffeeDetailImagePresenter.deleteDataImage(this, uuid);
-                } else {
-                    coffeeDetailPresenter.deleteData(this, id);
-                }
+                coffeeDetailPresenter.deleteData(this, id);
                 break;
             }
         }
@@ -106,9 +98,6 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
             tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
             if (drink.getUrl() != null && drink.getUuid() != null) {
                 CustomGlide.showImage(this, ivCoffee, drink.getUrl());
-                uuid = drink.getUuid();
-            } else {
-                uuid = null;
             }
         }
     }
@@ -135,17 +124,6 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
 
     @Override
     public void deleteFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void deleteImageSuccess(String message) {
-        coffeeDetailPresenter.deleteData(this, id);
-    }
-
-    @Override
-    public void deleteImageFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }

@@ -10,6 +10,7 @@ import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.OrderDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>, FirebaseListener.PostListener {
@@ -36,7 +37,13 @@ public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>,
 
     @Override
     public void getDataSuccess(List<Drink> drinks) {
-        viewListDataListener.onSuccess(drinks);
+        List<Drink> drinkList = new ArrayList<>();
+        for (Drink drink : drinks){
+            if (drink.getIsStatus()){
+                drinkList.add(drink);
+            }
+        }
+        viewListDataListener.onSuccess(drinkList);
     }
 
     @Override

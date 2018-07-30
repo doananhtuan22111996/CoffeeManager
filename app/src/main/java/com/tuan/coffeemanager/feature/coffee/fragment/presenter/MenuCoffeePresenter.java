@@ -6,6 +6,7 @@ import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,14 +27,13 @@ public class MenuCoffeePresenter implements FirebaseListener.ListDataListener<Dr
 
     @Override
     public void getDataSuccess(List<Drink> drinks) {
-        Comparator<Drink> comparator = new Comparator<Drink>() {
-            @Override
-            public int compare(Drink drink, Drink t1) {
-                return Integer.parseInt(t1.getPurchases()) - Integer.parseInt(drink.getPurchases());
-            }
-        };
-        Collections.sort(drinks, comparator);
-        viewListDataListener.onSuccess(drinks);
+       List<Drink> drinkList = new ArrayList<>();
+       for (Drink drink : drinks){
+           if (drink.getIsStatus()){
+               drinkList.add(drink);
+           }
+       }
+        viewListDataListener.onSuccess(drinkList);
     }
 
     @Override

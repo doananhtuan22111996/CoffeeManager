@@ -16,13 +16,14 @@ import com.tuan.coffeemanager.feature.editProfile.presenter.EditProfilePresenter
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
+import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditProfileActivity extends AppCompatActivity implements ViewListener.ViewDataListener<User>, View.OnClickListener {
+public class EditProfileActivity extends AppCompatActivity implements ViewListener.ViewDataListener<User>, View.OnClickListener, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -47,6 +48,7 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
 
     private String id = null;
     private boolean isEdit = false;
+    private User user = null;
 
     private EditProfilePresenter editProfilePresenter;
 
@@ -55,27 +57,34 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
+        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
         FirebaseDataApp.isActivity = true;
-        editProfilePresenter = new EditProfilePresenter(this);
+
+        editProfilePresenter = new EditProfilePresenter(this, this);
+        id = DataUtil.getIdUser(this);
 
         if (getIntent().getExtras() != null) {
-            id = getIntent().getExtras().getString(ContactBaseApp.ID_USER, null);
             isEdit = getIntent().getExtras().getBoolean(ContactBaseApp.STATUS, false);
-            if (id != null && !isEdit) {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+            if (!isEdit) {
                 tvTitle.setText(R.string.text_profile);
                 btnSave.setText(R.string.text_remove_employee);
-                editProfilePresenter.getDataUser(id);
+            } else {
+                tvTitle.setText(R.string.text_edit_profile);
+                btnSave.setText(R.string.text_save);
             }
         }
 
+        editProfilePresenter.getDataUser(id);
+
         ivBack.setOnClickListener(this);
         clContent.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
     }
 
     @Override
     public void onSuccess(User user) {
         CustomDialogLoadingFragment.hideLoading();
+        this.user = user;
         setView(user, isEdit);
     }
 
@@ -92,7 +101,7 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
     }
 
     private void setView(User user, Boolean isEdit) {
-        if (!isEdit){
+        if (!isEdit) {
             edtName.setEnabled(false);
             edtAddress.setEnabled(false);
             edtPhone.setEnabled(false);
@@ -129,6 +138,45 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
                 CustomKeyBoard.hideKeyBoard(this);
                 break;
             }
+            case R.id.btnSave: {
+                CustomKeyBoard.hideKeyBoard(this);
+                if (isEdit) {
+                    String name = edtName.getText().toString().trim();
+                    String birthDay = editBirthDay.getText().toString().trim();
+                    String phone = edtPhone.getText().toString().trim();
+                    String address = edtAddress.getText().toString().trim();
+                    if (!name.isEmpty()) {
+                        user.setName(name);
+                    }
+                    if (!birthDay.isEmpty()) {
+                        user.setBirth_day(birthDay);
+                    }
+                    if (!phone.isEmpty()) {
+                        user.setPhone_number(phone);
+                    }
+                    if (!address.isEmpty()) {
+                        user.setAddress(address);
+                    }
+                    editProfilePresenter.postDataUser(this, user);
+                } else {
+                    CustomDialogLoadingFragment.hideLoading();
+                    Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
         }
+    }
+
+    @Override
+    public void postSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void postFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

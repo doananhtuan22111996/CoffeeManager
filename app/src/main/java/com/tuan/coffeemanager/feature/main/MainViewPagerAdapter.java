@@ -6,11 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.tuan.coffeemanager.feature.main.fragment.SignInFragment;
-import com.tuan.coffeemanager.feature.main.fragment.SignUpFragment;
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final int NUM_TAB = 2;
+    private final int NUM_TAB = 1;
 
     MainViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -22,10 +21,6 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0: {
                 return SignInFragment.newInstance();
             }
-            case 1: {
-                return SignUpFragment.newInstance();
-            }
-
             default: {
                 return SignInFragment.newInstance();
             }
@@ -40,10 +35,6 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0){
-            return String.valueOf("Sign In");
-        }else {
-            return String.valueOf("Sign Up");
-        }
+        return String.valueOf("Sign In");
     }
 }

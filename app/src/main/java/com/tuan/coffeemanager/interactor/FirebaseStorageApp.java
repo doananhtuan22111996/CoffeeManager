@@ -17,15 +17,10 @@ import java.util.UUID;
 public class FirebaseStorageApp {
 
     private FirebaseListener.PostImageListener postImageListener;
-    private FirebaseListener.DeleteImageListener deleteImageListener;
     private static StorageReference storageReference;
 
     public FirebaseStorageApp(FirebaseListener.PostImageListener postImageListener) {
         this.postImageListener = postImageListener;
-    }
-
-    public FirebaseStorageApp(FirebaseListener.DeleteImageListener deleteImageListener) {
-        this.deleteImageListener = deleteImageListener;
     }
 
     private static void newInstance() {
@@ -84,20 +79,4 @@ public class FirebaseStorageApp {
         });
     }
 
-    public void deleteDataImage(final Activity activity, String uuid) {
-        if (storageReference == null) {
-            newInstance();
-        }
-        storageReference.child("images/" + uuid).delete().addOnSuccessListener(activity, new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                deleteImageListener.deleteImageSuccess(activity.getString(R.string.text_message_delete_success));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                deleteImageListener.deleteImageFailure(e.getMessage());
-            }
-        });
-    }
 }

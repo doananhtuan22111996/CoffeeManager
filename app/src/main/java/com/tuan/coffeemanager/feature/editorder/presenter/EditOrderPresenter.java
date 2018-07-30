@@ -49,7 +49,6 @@ public class EditOrderPresenter implements FirebaseListener.ListDataDoubleListen
                     DrinkOrder drinkOrder = orderDetail.getDrinkOrderList().get(i);
                     for (Drink drink : drinkList) {
                         if (drinkOrder.getDrink_id().equals(drink.getId())) {
-                            drinkOrder.setPurchases(drink.getPurchases());
                             drinkOrder.setPrice(drink.getPrice());
                             drinkOrder.setUrl(drink.getUrl());
                             drinkOrder.setUuid(drink.getUuid());

@@ -10,13 +10,14 @@ import android.widget.ImageView;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.EmployeeManagerActivity;
+import com.tuan.coffeemanager.feature.featureManager.signUpEmployee.SignUpActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +50,7 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
         btnManagerEmployee.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
         btnEditProfile.setOnClickListener(this);
+        btnSignUpEmployee.setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +71,15 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }
+                break;
+            }
+            case R.id.btnEditProfile: {
+                startActivity(new Intent(this, EditProfileActivity.class)
+                        .putExtra(ContactBaseApp.STATUS, true));
+                break;
+            }
+            case R.id.btnSignUpEmployee: {
+                startActivity(new Intent(this, SignUpActivity.class));
                 break;
             }
         }

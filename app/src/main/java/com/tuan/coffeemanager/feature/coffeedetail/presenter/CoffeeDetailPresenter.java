@@ -28,7 +28,7 @@ public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drin
     }
 
     public void deleteData(Activity activity, String id) {
-        firebaseDeleteDataApp.deleteData(activity, ContactBaseApp.NODE_DRINK, id);
+        firebaseDeleteDataApp.deleteDataStatus(activity, ContactBaseApp.NODE_DRINK, id);
     }
 
     @Override

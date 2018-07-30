@@ -74,4 +74,9 @@
     <string name="text_profile">Profile Employee</string>
     <string name="text_position">Position</string>
     <string name="text_remove_employee">Remove Employee</string>
+    <string name="text_employee">employee</string>
+    <string-array name="position">
+        <item>employee</item>
+        <item>manager</item>
+    </string-array>
 </resources>

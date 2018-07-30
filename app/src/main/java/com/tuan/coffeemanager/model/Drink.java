@@ -9,21 +9,21 @@ public class Drink {
     private String name;
     private String description;
     private String price;
-    private String purchases;
     private String uuid;
     private String url;
+    private Boolean isStatus;
 
     public Drink() {
     }
 
-    public Drink(String id, String name, String description, String price, String purchases, String uuid, String url) {
+    public Drink(String id, String name, String description, String price, String uuid, String url, Boolean isStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.purchases = purchases;
         this.uuid = uuid;
         this.url = url;
+        this.isStatus = isStatus;
     }
 
     public String getId() {
@@ -58,14 +58,6 @@ public class Drink {
         this.price = price;
     }
 
-    public String getPurchases() {
-        return purchases;
-    }
-
-    public void setPurchases(String purchases) {
-        this.purchases = purchases;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -80,5 +72,13 @@ public class Drink {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public Boolean getIsStatus() {
+        return isStatus;
+    }
+
+    public void setIsStatus(Boolean status) {
+        isStatus = status;
     }
 }
