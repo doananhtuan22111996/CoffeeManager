@@ -15,8 +15,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
@@ -33,14 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager() {
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(1);
-        tabLayout.setupWithViewPager(viewPager);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tabLayout.setTabTextColors(getColor(R.color.hint), getColor(R.color.black));
-            tabLayout.setSelectedTabIndicatorColor(getColor(R.color.black));
-        }else {
-            tabLayout.setTabTextColors(getResources().getColor(R.color.hint), getColor(R.color.black));
-            tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.black));
-        }
     }
 
 }

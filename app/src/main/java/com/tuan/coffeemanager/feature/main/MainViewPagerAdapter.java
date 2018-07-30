@@ -32,9 +32,4 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         return NUM_TAB;
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return String.valueOf("Sign In");
-    }
 }

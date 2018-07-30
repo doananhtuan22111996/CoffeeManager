@@ -2,6 +2,7 @@ package com.tuan.coffeemanager.feature.featureManager.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -75,6 +76,7 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
             }
             case R.id.btnEditProfile: {
                 startActivity(new Intent(this, EditProfileActivity.class)
+                        .putExtra(ContactBaseApp.ID_USER, DataUtil.getIdUser(this))
                         .putExtra(ContactBaseApp.STATUS, true));
                 break;
             }

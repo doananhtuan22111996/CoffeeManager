@@ -27,7 +27,7 @@ public class EmployeeManagerPresenter implements FirebaseListener.ListDataListen
     public void getDataSuccess(List<User> users) {
         List<User> userList = new ArrayList<>();
         for (User user : users){
-            if (user.getPosition().equals("employee")){
+            if (user.getPosition().equals("employee") && user.getIsStatus()){
                 userList.add(user);
             }
         }

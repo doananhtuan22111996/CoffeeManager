@@ -127,6 +127,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onSuccess(User user) {
         user.setPosition(position);
+        user.setIsStatus(true);
         signUpPresenter.postDataUser(this, user);
     }
 

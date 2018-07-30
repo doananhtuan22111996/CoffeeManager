@@ -41,7 +41,8 @@
             android:parentActivityName=".feature.featureManager.main.MainManagerActivity"/>
         <activity android:name=".feature.featureManager.main.MainManagerActivity" />
         <activity android:name=".feature.featureManager.employeeManager.EmployeeManagerActivity" />
-        <activity android:name=".feature.editProfile.EditProfileActivity"/>
+        <activity android:name=".feature.editProfile.EditProfileActivity"
+            android:parentActivityName=".feature.featureManager.employeeManager.EmployeeManagerActivity"/>
     </application>
 
 </manifest>

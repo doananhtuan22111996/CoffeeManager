@@ -1,7 +1,9 @@
 package com.tuan.coffeemanager.feature.editProfile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.feature.editProfile.presenter.EditProfileDeletePresenter;
 import com.tuan.coffeemanager.feature.editProfile.presenter.EditProfilePresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -23,7 +26,7 @@ import com.tuan.coffeemanager.widget.CustomKeyBoard;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditProfileActivity extends AppCompatActivity implements ViewListener.ViewDataListener<User>, View.OnClickListener, ViewListener.ViewPostListener {
+public class EditProfileActivity extends AppCompatActivity implements ViewListener.ViewDataListener<User>, View.OnClickListener, ViewListener.ViewPostListener, ViewListener.ViewDeleteListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -64,6 +67,7 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
         id = DataUtil.getIdUser(this);
 
         if (getIntent().getExtras() != null) {
+            id = getIntent().getExtras().getString(ContactBaseApp.ID_USER, null);
             isEdit = getIntent().getExtras().getBoolean(ContactBaseApp.STATUS, false);
             if (!isEdit) {
                 tvTitle.setText(R.string.text_profile);
@@ -157,10 +161,12 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
                     if (!address.isEmpty()) {
                         user.setAddress(address);
                     }
+                    CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                     editProfilePresenter.postDataUser(this, user);
                 } else {
-                    CustomDialogLoadingFragment.hideLoading();
-                    Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
+                    CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                    EditProfileDeletePresenter editProfileDeletePresenter = new EditProfileDeletePresenter(this);
+                    editProfileDeletePresenter.deleteDataUser(this, id);
                 }
                 break;
             }
@@ -176,6 +182,22 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
 
     @Override
     public void postFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void deleteSuccess(String message) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        assert intent != null;
+        NavUtils.navigateUpTo(this, intent);
+        finish();
+    }
+
+    @Override
+    public void deleteFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }

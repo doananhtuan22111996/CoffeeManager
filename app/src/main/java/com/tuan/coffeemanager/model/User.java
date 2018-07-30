@@ -12,11 +12,12 @@ public class User {
     private String birth_day;
     private String phone_number;
     private String email;
+    private Boolean isStatus;
 
     public User() {
     }
 
-    public User(String id, String name, String position, String address, String birth_day, String phone_number, String email) {
+    public User(String id, String name, String position, String address, String birth_day, String phone_number, String email, Boolean isStatus) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -24,6 +25,7 @@ public class User {
         this.birth_day = birth_day;
         this.phone_number = phone_number;
         this.email = email;
+        this.isStatus = isStatus;
     }
 
     public String getEmail() {
@@ -80,5 +82,13 @@ public class User {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public Boolean getIsStatus() {
+        return isStatus;
+    }
+
+    public void setIsStatus(Boolean status) {
+        isStatus = status;
     }
 }
