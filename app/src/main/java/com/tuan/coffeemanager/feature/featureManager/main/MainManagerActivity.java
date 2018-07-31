@@ -2,7 +2,6 @@ package com.tuan.coffeemanager.feature.featureManager.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +13,8 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.EmployeeManagerActivity;
-import com.tuan.coffeemanager.feature.featureManager.signUpEmployee.SignUpActivity;
+import com.tuan.coffeemanager.feature.featureManager.revenue.RevenueManagerActivity;
+import com.tuan.coffeemanager.feature.featureManager.signup.SignUpActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.sharepref.DataUtil;
@@ -52,6 +52,7 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
         btnLogout.setOnClickListener(this);
         btnEditProfile.setOnClickListener(this);
         btnSignUpEmployee.setOnClickListener(this);
+        btnRevenueManager.setOnClickListener(this);
     }
 
     @Override
@@ -82,6 +83,10 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
             }
             case R.id.btnSignUpEmployee: {
                 startActivity(new Intent(this, SignUpActivity.class));
+                break;
+            }
+            case R.id.btnRevenueManager: {
+                startActivity(new Intent(this, RevenueManagerActivity.class));
                 break;
             }
         }

@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.featureManager.signUpEmployee;
+package com.tuan.coffeemanager.feature.featureManager.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.feature.featureManager.signUpEmployee.presenter.SignUpPresenter;
+import com.tuan.coffeemanager.feature.featureManager.signup.presenter.SignUpPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;

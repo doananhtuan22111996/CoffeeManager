@@ -75,6 +75,13 @@
     <string name="text_position">Position</string>
     <string name="text_remove_employee">Remove Employee</string>
     <string name="text_employee">employee</string>
+    <string name="text_search_date">Search Date</string>
+    <string name="text_total_bill_manger">Total Bill: %1$s</string>
+    <string name="text_total_money_manager">Total Money: %1$s</string>
+    <string name="text_date">Date: %1$s</string>
+    <string name="text_total_only_bill">Total: %1$s</string>
+    <string name="text_bill_detail">Bill Detail</string>
+    <string name="text_title_revenue_manager">Revenue Manager</string>
     <string-array name="position">
         <item>employee</item>
         <item>manager</item>

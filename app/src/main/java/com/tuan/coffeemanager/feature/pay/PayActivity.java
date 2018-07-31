@@ -50,7 +50,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     Button btnPay;
 
     private Table table = null;
-    private String user_id = null;
+    private String nameUser = null;
     private String order_drink_id = null;
 
     private PayPresenter payPresenter;
@@ -65,21 +65,31 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         FirebaseDataApp.isActivity = true;
         CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
 
-        tvTitle.setText(R.string.text_title_pay);
-
         if (getIntent().getExtras() != null) {
             table = (Table) getIntent().getExtras().getSerializable(ContactBaseApp.TABLE_OBJ);
             order_drink_id = getIntent().getExtras().getString(ContactBaseApp.ORDER_DETAIL_ID);
             if (table != null) {
+                tvTitle.setText(R.string.text_title_pay);
+                tvNumberTable.setVisibility(View.VISIBLE);
+                btnPay.setVisibility(View.VISIBLE);
                 tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
+                String nameUser = DataUtil.getNameUser(this);
+                if (nameUser.trim().isEmpty()) {
+                    tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
+                } else {
+                    tvUser.setText(getString(R.string.text_employee_bill, nameUser));
+                }
+            } else {
+                this.nameUser = getIntent().getExtras().getString(ContactBaseApp.NAME_USER, null);
+                tvTitle.setText(R.string.text_bill_detail);
+                tvNumberTable.setVisibility(View.GONE);
+                btnPay.setVisibility(View.GONE);
+                if (nameUser != null) {
+                    tvUser.setText(getString(R.string.text_employee_bill, nameUser));
+                } else {
+                    tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
+                }
             }
-        }
-        String nameUser = DataUtil.getNameUser(this);
-        user_id = DataUtil.getIdUser(this);
-        if (nameUser.trim().isEmpty()) {
-            tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
-        } else {
-            tvUser.setText(getString(R.string.text_employee_bill, nameUser));
         }
 
         rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

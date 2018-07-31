@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".feature.featureManager.signUpEmployee.SignUpActivity">
+    tools:context=".feature.featureManager.signup.SignUpActivity">
 
     <include
         android:id="@+id/tbMain"
