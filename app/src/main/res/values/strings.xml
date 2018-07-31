@@ -82,6 +82,7 @@
     <string name="text_total_only_bill">Total: %1$s</string>
     <string name="text_bill_detail">Bill Detail</string>
     <string name="text_title_revenue_manager">Revenue Manager</string>
+    <string name="text_search_drink">Search Drink</string>
     <string-array name="position">
         <item>employee</item>
         <item>manager</item>

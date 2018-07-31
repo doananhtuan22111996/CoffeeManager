@@ -7,9 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
@@ -22,21 +25,26 @@ import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MenuFragment extends Fragment implements ViewListener.ViewListDataListener<Drink> {
+public class MenuFragment extends Fragment implements ViewListener.ViewListDataListener<Drink>, TextWatcher {
 
     @BindView(R.id.rvMenu)
     RecyclerView rvMenu;
     Unbinder unbinder;
+    @BindView(R.id.edtSearch)
+    EditText edtSearch;
 
     private MenuCoffeePresenter menuCoffeePresenter;
+    private DrinkCoffeeAdapter drinkCoffeeAdapter;
+    private List<Drink> drinkList;
 
     public static MenuFragment newInstance() {
         Bundle args = new Bundle();
@@ -61,6 +69,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
         rvMenu.setLayoutManager(new GridLayoutManager(getContext(), 3));
         menuCoffeePresenter = new MenuCoffeePresenter(this);
         menuCoffeePresenter.getMenuListData();
+        edtSearch.addTextChangedListener(this);
     }
 
     @Override
@@ -78,12 +87,14 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public void onSuccess(List<Drink> drinks) {
         CustomDialogLoadingFragment.hideLoading();
-        final DrinkCoffeeAdapter drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
+        drinkList = drinks;
+        drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
         rvMenu.setAdapter(drinkCoffeeAdapter);
         drinkCoffeeAdapter.notifyDataSetChanged();
         drinkCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
+                CustomKeyBoard.hideKeyBoard(getActivity());
                 Intent intent = new Intent(getActivity(), CoffeeDetailActivity.class);
                 intent.putExtra(ContactBaseApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
                 startActivity(intent);
@@ -95,5 +106,35 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     public void onFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        searchDrink(charSequence.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+    }
+
+    private void searchDrink(String search) {
+        List<Drink> drinkList = new ArrayList<>();
+        if (search.isEmpty()) {
+            drinkCoffeeAdapter.setDrinkList(this.drinkList);
+            drinkCoffeeAdapter.notifyDataSetChanged();
+        } else {
+            for (Drink drink : this.drinkList) {
+                if (drink.getName().toLowerCase().contains(search)) {
+                    drinkList.add(drink);
+                }
+            }
+            drinkCoffeeAdapter.setDrinkList(drinkList);
+            drinkCoffeeAdapter.notifyDataSetChanged();
+        }
     }
 }

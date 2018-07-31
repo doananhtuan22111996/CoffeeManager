@@ -13,6 +13,7 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
+import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
 import java.util.Objects;
 
@@ -77,6 +78,7 @@ public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int i) {
+        CustomKeyBoard.hideKeyBoard(this);
         switch (i) {
             case 0: {
                 ivAddCoffee.setVisibility(View.VISIBLE);

@@ -38,6 +38,10 @@ public class DrinkCoffeeAdapter extends RecyclerView.Adapter<DrinkCoffeeAdapter.
         return drinkList;
     }
 
+    public void setDrinkList(List<Drink> drinkList) {
+        this.drinkList = drinkList;
+    }
+
     @NonNull
     @Override
     public DrinkCoffeeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
