@@ -31,10 +31,6 @@ public class MoreFragment extends Fragment {
 
     @BindView(R.id.tvEditProfile)
     TextView tvEditProfile;
-    @BindView(R.id.tvChangePassword)
-    TextView tvChangePassword;
-    @BindView(R.id.tvFeedBack)
-    TextView tvFeedBack;
     @BindView(R.id.tvAboutCoffee)
     TextView tvAboutCoffee;
     @BindView(R.id.tvLogOut)

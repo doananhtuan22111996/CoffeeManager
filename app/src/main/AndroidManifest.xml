@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".feature.main.MainActivity" />
-        <activity android:name=".feature.main.ResetPasswordActivity" />
+        <activity android:name=".feature.main.reset.ResetPasswordActivity" />
         <activity android:name=".feature.coffee.CoffeeActivity" />
         <activity
             android:name=".feature.coffeedetail.CoffeeDetailActivity"
@@ -45,7 +45,7 @@
         <activity
             android:name=".feature.editProfile.EditProfileActivity"
             android:parentActivityName=".feature.featureManager.employeeManager.EmployeeManagerActivity" />
-        <activity android:name=".feature.featureManager.revenue.RevenueManagerActivity"></activity>
+        <activity android:name=".feature.featureManager.revenue.RevenueManagerActivity"/>
     </application>
 
 </manifest>

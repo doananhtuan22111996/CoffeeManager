@@ -66,4 +66,10 @@ public interface FirebaseListener {
         void deleteFailure(String error);
     }
 
+    interface ResetPasswordListener {
+        void resetSuccess(String message);
+
+        void resetFailure(String error);
+    }
+
 }

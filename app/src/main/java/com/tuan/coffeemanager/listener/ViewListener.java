@@ -55,4 +55,10 @@ public interface ViewListener {
         void deleteFailure(String error);
     }
 
+    interface ViewResetPasswordListener {
+        void onSuccess(String message);
+
+        void onFailure(String error);
+    }
+
 }

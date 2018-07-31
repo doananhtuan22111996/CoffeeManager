@@ -83,6 +83,8 @@
     <string name="text_bill_detail">Bill Detail</string>
     <string name="text_title_revenue_manager">Revenue Manager</string>
     <string name="text_search_drink">Search Drink</string>
+    <string name="text_reset_password_title">Reset Password</string>
+    <string name="text_message_reset_success">Reset is success</string>
     <string-array name="position">
         <item>employee</item>
         <item>manager</item>
