@@ -112,6 +112,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     public void onSuccess(User user) {
         CustomDialogLoadingFragment.hideLoading();
         DataUtil.setNameUser(getContext(), user.getName());
+        DataUtil.setPosition(getContext(), user.getPosition());
         if (user.getPosition().equals("employee")) {
             startActivity(new Intent(getActivity(), CoffeeActivity.class));
             Objects.requireNonNull(getActivity()).finish();

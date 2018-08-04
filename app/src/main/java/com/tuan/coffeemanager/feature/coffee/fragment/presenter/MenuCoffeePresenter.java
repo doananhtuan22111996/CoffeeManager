@@ -29,7 +29,7 @@ public class MenuCoffeePresenter implements FirebaseListener.ListDataListener<Dr
     public void getDataSuccess(List<Drink> drinks) {
        List<Drink> drinkList = new ArrayList<>();
        for (Drink drink : drinks){
-           if (drink.getIsStatus()){
+           if (drink.getIsStatus() == true){
                drinkList.add(drink);
            }
        }

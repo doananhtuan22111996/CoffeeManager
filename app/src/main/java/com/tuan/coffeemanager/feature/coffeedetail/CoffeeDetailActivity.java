@@ -16,15 +16,14 @@ import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresent
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
+import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 import com.tuan.coffeemanager.widget.CustomGlide;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener{
+public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -42,6 +41,10 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
     TextView tvRemoveCoffee;
     @BindView(R.id.ivCoffee)
     ImageView ivCoffee;
+    @BindView(R.id.ivRightEdit)
+    ImageView ivRightEdit;
+    @BindView(R.id.ivRightRemove)
+    ImageView ivRightRemove;
 
     private String id;
     private CoffeeDetailPresenter coffeeDetailPresenter;
@@ -55,7 +58,11 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
 
         CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
 
-        id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID);
+        setInitView();
+
+        if (getIntent().getExtras() != null) {
+            id = getIntent().getExtras().getString(ContactBaseApp.DRINK_ID);
+        }
 
         tvTitle.setText(this.getResources().getString(R.string.text_title_detail));
 
@@ -132,5 +139,17 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
     protected void onStop() {
         super.onStop();
         FirebaseDataApp.isActivity = false;
+    }
+
+    private void setInitView() {
+        if (DataUtil.getPisitionUser(this).equals("manager")) {
+            tvEditCoffee.setEnabled(true);
+            tvRemoveCoffee.setEnabled(true);
+        } else if (DataUtil.getPisitionUser(this).equals("employee")) {
+            tvEditCoffee.setTextColor(getResources().getColor(R.color.hint));
+            tvRemoveCoffee.setTextColor(getResources().getColor(R.color.hint));
+            tvEditCoffee.setEnabled(false);
+            tvRemoveCoffee.setEnabled(false);
+        }
     }
 }

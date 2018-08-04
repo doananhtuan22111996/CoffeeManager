@@ -70,9 +70,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     private PostCoffeePresenter postCoffeePresenter;
     private PostImagePresenter postImagePresenter;
 
-    private static final int PICK_FROM_GALLERY = 1;
-    private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
-    private static final int REQUEST_ID_IMAGE_CAPTURE = 100;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +79,11 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
 
-        id = Objects.requireNonNull(getIntent().getExtras()).getString(ContactBaseApp.DRINK_ID, "").trim();
+        if (getIntent().getExtras() != null) {
+            id = getIntent().getExtras().getString(ContactBaseApp.DRINK_ID, null).trim();
+        }
         postImagePresenter = new PostImagePresenter(this);
-        if (!Objects.requireNonNull(id).isEmpty()) {
+        if (id != null) {
             CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
             editCoffeePresenter = new EditCoffeePresenter(this, this, this);
             editCoffeePresenter.getDataDrink(id);
@@ -143,7 +143,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                     Toast.makeText(this, R.string.text_message_price_empty, Toast.LENGTH_SHORT).show();
                 } else {
                     CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
-                    if (id.isEmpty()) {
+                    if (id == null) {
                         drink = new Drink(null, name, description, price, null, null, true);
                         if (uri != null) {
                             postImagePresenter.postDataImage(this, uri);
@@ -182,9 +182,13 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-                if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_ID_IMAGE_CAPTURE);
+                } else {
+                    if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
+                    }
                 }
                 break;
             }
@@ -205,9 +209,11 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                     Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                     ivCoffee.setImageBitmap(bitmap);
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                    String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Image", null);
-                    uri = Uri.parse(path);
+                    if (bitmap != null) {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Image", null);
+                        uri = Uri.parse(path);
+                    }
 //                    try {
 //                        InputStream inputStream = this.getContentResolver().openInputStream(uri);
 //                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -226,10 +232,8 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
-        if (intent != null) {
-            intent.putExtra("FLAG", 0);
-            NavUtils.navigateUpTo(AddCoffeeActivity.this, intent);
-        }
+        assert intent != null;
+        NavUtils.navigateUpTo(AddCoffeeActivity.this, intent);
     }
 
     @Override
@@ -242,7 +246,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     public void postImageSucces(String uuid, String url) {
         drink.setUuid(uuid);
         drink.setUrl(url);
-        if (id.isEmpty()) {
+        if (id == null) {
             postCoffeePresenter.postDataDrink(this, drink);
         } else {
             editCoffeePresenter.editDataDrink(this, drink);

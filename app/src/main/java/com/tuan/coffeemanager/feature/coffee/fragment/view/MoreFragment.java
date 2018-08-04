@@ -61,6 +61,7 @@ public class MoreFragment extends Fragment {
                 CustomDialogLoadingFragment.showLoading(getFragmentManager());
                 DataUtil.setIdUser(getContext(), null);
                 DataUtil.setNameUser(getContext(), null);
+                DataUtil.setPosition(getContext(), null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(Objects.requireNonNull(getContext()));

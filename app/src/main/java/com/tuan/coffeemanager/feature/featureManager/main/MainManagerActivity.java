@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
+import com.tuan.coffeemanager.feature.featureManager.CoffeeManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.EmployeeManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.revenue.RevenueManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.signup.SignUpActivity;
@@ -37,6 +38,8 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
     Button btnRevenueManager;
     @BindView(R.id.btnLogout)
     Button btnLogout;
+    @BindView(R.id.btnCoffeeManager)
+    Button btnCoffeeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
         btnEditProfile.setOnClickListener(this);
         btnSignUpEmployee.setOnClickListener(this);
         btnRevenueManager.setOnClickListener(this);
+        btnCoffeeManager.setOnClickListener(this);
     }
 
     @Override
@@ -66,6 +70,7 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                 DataUtil.setIdUser(this, null);
                 DataUtil.setNameUser(this, null);
+                DataUtil.setPosition(this, null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(this);
@@ -87,6 +92,10 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
             }
             case R.id.btnRevenueManager: {
                 startActivity(new Intent(this, RevenueManagerActivity.class));
+                break;
+            }
+            case R.id.btnCoffeeManager: {
+                startActivity(new Intent(this, CoffeeManagerActivity.class));
                 break;
             }
         }

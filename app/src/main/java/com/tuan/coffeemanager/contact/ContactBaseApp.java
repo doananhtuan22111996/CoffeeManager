@@ -12,6 +12,7 @@ public class ContactBaseApp {
     public static final String SHARED_PREF = "SHARED_PREF";
     public static final String ID_USER = "ID_USER";
     public static final String NAME_USER = "NAME_USER";
+    public static final String POSITION_USER = "POSITION_USER";
     public static final String TABLE_OBJ = "TABLE_OBJ";
     public static final String ORDER_DETAIL_ID = "ORDER_DETAIL_ID";
 

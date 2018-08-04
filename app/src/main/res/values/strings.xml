@@ -63,6 +63,7 @@
     <string name="text_manager_employee">Employee Manager</string>
     <string name="text_revenue_manager">Revenue manager</string>
     <string name="text_sign_up_employee">Sign Up Employee</string>
+    <string name="text_drink_coffee">Coffee Manager</string>
     <string name="text_name_user">Name User</string>
     <string name="text_email_user">Email User</string>
     <string name="text_birth_day">Birth Day</string>

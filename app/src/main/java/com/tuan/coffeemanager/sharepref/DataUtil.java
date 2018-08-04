@@ -58,4 +58,19 @@ public class DataUtil {
         }
         return sharedPreferences.getString(ContactBaseApp.NAME_USER, "");
     }
+
+    public static void setPosition(Context context, String position){
+        if (editor == null) {
+            newInstance(context);
+        }
+        editor.putString(ContactBaseApp.POSITION_USER, position);
+        editor.apply();
+    }
+
+    public static String getPisitionUser(Context context) {
+        if (sharedPreferences == null) {
+            initPref(context);
+        }
+        return sharedPreferences.getString(ContactBaseApp.POSITION_USER, "");
+    }
 }

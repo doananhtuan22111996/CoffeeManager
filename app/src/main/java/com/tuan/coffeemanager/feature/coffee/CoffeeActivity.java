@@ -20,7 +20,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class CoffeeActivity extends AppCompatActivity {
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -57,8 +57,8 @@ public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPag
     }
 
     private void initViewPager() {
+        ivAddCoffee.setVisibility(View.GONE);
         viewPager.setAdapter(new CoffeeViewPagerAdapter(getSupportFragmentManager()));
-        viewPager.addOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         Objects.requireNonNull(tabLayout.getTabAt(0)).setCustomView(R.layout.tab_coffee);
@@ -71,32 +71,4 @@ public class CoffeeActivity extends AppCompatActivity implements ViewPager.OnPag
         }
     }
 
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-        CustomKeyBoard.hideKeyBoard(this);
-        switch (i) {
-            case 0: {
-                ivAddCoffee.setVisibility(View.VISIBLE);
-                break;
-            }
-            case 1: {
-                ivAddCoffee.setVisibility(View.GONE);
-                break;
-            }
-            case 2: {
-                ivAddCoffee.setVisibility(View.GONE);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
-    }
 }
