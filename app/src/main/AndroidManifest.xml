@@ -25,10 +25,10 @@
         <activity android:name=".feature.coffee.CoffeeActivity" />
         <activity
             android:name=".feature.coffeedetail.CoffeeDetailActivity"
-            android:parentActivityName=".feature.featureManager.CoffeeManagerActivity" />
+            android:parentActivityName=".feature.featureManager.coffeeManage.CoffeeManagerActivity" />
         <activity
             android:name=".feature.addcoffee.AddCoffeeActivity"
-            android:parentActivityName=".feature.featureManager.CoffeeManagerActivity" />
+            android:parentActivityName=".feature.featureManager.coffeeManage.CoffeeManagerActivity" />
         <activity
             android:name=".feature.order.OrderActivity"
             android:parentActivityName=".feature.coffee.CoffeeActivity" />
@@ -47,7 +47,7 @@
             android:name=".feature.editProfile.EditProfileActivity"
             android:parentActivityName=".feature.featureManager.employeeManager.EmployeeManagerActivity" />
         <activity android:name=".feature.featureManager.revenue.RevenueManagerActivity" />
-        <activity android:name=".feature.featureManager.CoffeeManagerActivity"></activity>
+        <activity android:name=".feature.featureManager.coffeeManage.CoffeeManagerActivity"></activity>
     </application>
 
 </manifest>

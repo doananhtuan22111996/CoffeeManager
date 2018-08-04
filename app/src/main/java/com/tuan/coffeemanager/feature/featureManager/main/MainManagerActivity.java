@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
-import com.tuan.coffeemanager.feature.featureManager.CoffeeManagerActivity;
+import com.tuan.coffeemanager.feature.featureManager.coffeeManage.CoffeeManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.EmployeeManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.revenue.RevenueManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.signup.SignUpActivity;

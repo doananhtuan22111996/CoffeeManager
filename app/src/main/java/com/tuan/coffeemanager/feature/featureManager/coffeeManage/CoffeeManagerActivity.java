@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.featureManager;
+package com.tuan.coffeemanager.feature.featureManager.coffeeManage;
 
 import android.content.Intent;
 import android.os.Bundle;
