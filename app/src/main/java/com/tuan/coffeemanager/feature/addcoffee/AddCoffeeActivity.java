@@ -8,11 +8,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -33,6 +35,7 @@ import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 import com.tuan.coffeemanager.widget.CustomGlide;
 import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -68,6 +71,8 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
     private PostImagePresenter postImagePresenter;
 
     private static final int PICK_FROM_GALLERY = 1;
+    private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
+    private static final int REQUEST_ID_IMAGE_CAPTURE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +144,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 } else {
                     CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                     if (id.isEmpty()) {
-                        drink = new Drink(null, name, description,price, null, null, true);
+                        drink = new Drink(null, name, description, price, null, null, true);
                         if (uri != null) {
                             postImagePresenter.postDataImage(this, uri);
                         } else {
@@ -163,38 +168,54 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 break;
             }
             case R.id.ivCoffee: {
-                try {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
-                    } else {
-                        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
-                        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                        String strImage = imageFile.getPath();
-                        Uri data = Uri.parse(strImage);
-                        galleryIntent.setDataAndType(data, "image/*");
-                        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+//                try {
+//                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+//                    } else {
+//                        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+//                        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//                        String strImage = imageFile.getPath();
+//                        Uri data = Uri.parse(strImage);
+//                        galleryIntent.setDataAndType(data, "image/*");
+//                        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+                if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
                 }
                 break;
             }
         }
     }
 
+//    private void captureImage() {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
+//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_FROM_GALLERY) {
-            if (data != null) {
-                uri = data.getData();
-                try {
-                    InputStream inputStream = this.getContentResolver().openInputStream(uri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 500, 500, true);
-                    ivCoffee.setImageBitmap(scaled);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+            if (resultCode == RESULT_OK) {
+                if (data != null && data.getExtras() != null) {
+                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    ivCoffee.setImageBitmap(bitmap);
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Image", null);
+                    uri = Uri.parse(path);
+//                    try {
+//                        InputStream inputStream = this.getContentResolver().openInputStream(uri);
+//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                        Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 500, 500, true);
+//                        ivCoffee.setImageBitmap(scaled);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         }

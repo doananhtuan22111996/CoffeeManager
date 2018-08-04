@@ -154,6 +154,8 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
         if (search.isEmpty()) {
             revenueManagerAdapter.setOrderDetailList(this.orderDetailList);
             revenueManagerAdapter.notifyDataSetChanged();
+            tvTotalBill.setText(getString(R.string.text_total_bill_manger, String.valueOf(this.orderDetailList.size())));
+            tvTotalMoney.setText(getString(R.string.text_total_money_manager, String.valueOf(totalBill(this.orderDetailList))));
         } else {
             for (OrderDetail orderDetail : this.orderDetailList) {
                 if (orderDetail.getDate().contains(search)) {
@@ -162,6 +164,8 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
             }
             revenueManagerAdapter.setOrderDetailList(orderDetailList);
             revenueManagerAdapter.notifyDataSetChanged();
+            tvTotalBill.setText(getString(R.string.text_total_bill_manger, String.valueOf(orderDetailList.size())));
+            tvTotalMoney.setText(getString(R.string.text_total_money_manager, String.valueOf(totalBill(orderDetailList))));
         }
     }
 }

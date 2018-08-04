@@ -64,7 +64,6 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
         FirebaseDataApp.isActivity = true;
 
         editProfilePresenter = new EditProfilePresenter(this, this);
-        id = DataUtil.getIdUser(this);
 
         if (getIntent().getExtras() != null) {
             id = getIntent().getExtras().getString(ContactBaseApp.ID_USER, null);
@@ -75,6 +74,9 @@ public class EditProfileActivity extends AppCompatActivity implements ViewListen
             } else {
                 tvTitle.setText(R.string.text_edit_profile);
                 btnSave.setText(R.string.text_save);
+            }
+            if (id == null){
+                id = DataUtil.getIdUser(this);
             }
         }
 
