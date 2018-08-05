@@ -143,7 +143,11 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
                 navPay.setEnabled(true);
                 navOrder.setEnabled(false);
                 navEditOrder.setEnabled(true);
-                order_drink_id = orderList.get(position).getOrder_detail_id();
+                for (Order order : orderList) {
+                    if (order.getTable_id().equals(table.getId())) {
+                        order_drink_id = order.getOrder_detail_id();
+                    }
+                }
                 dlTable.openDrawer(Gravity.START);
             }
         });

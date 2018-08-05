@@ -18,6 +18,8 @@ public class ContactBaseApp {
 
     public static final String STATUS = "STATUS";
 
+    public static final String BARTENDER = "BARTENDER";
+
 //    public static List<User> userList = new ArrayList<>();
 //    public static List<Table> tableList = new ArrayList<>();
 //    public static List<Drink> drinkList = new ArrayList<>();

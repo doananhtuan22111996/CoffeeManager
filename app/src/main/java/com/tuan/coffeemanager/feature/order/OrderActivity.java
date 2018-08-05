@@ -107,7 +107,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 for (DrinkOrder drinkOrder : drinkOrderList) {
                     drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount()));
                 }
-                OrderDetail orderDetail = new OrderDetail(null, user_id, getCalendar(), drinkOrderListPost);
+                OrderDetail orderDetail = new OrderDetail(null, user_id, getCalendar(), true, drinkOrderListPost);
                 orderPresenter.postDataOrder(this, orderDetail, table.getId());
                 break;
             }

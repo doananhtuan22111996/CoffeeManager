@@ -28,7 +28,7 @@ public class TableCoffeePresenter implements FirebaseListener.ListDataDoubleList
 
     @Override
     public void getDataSuccess(List<Table> tableList, List<Order> orderList) {
-        if (orderList.isEmpty()) {
+        if (orderList == null) {
             viewListDataListener.onSuccess(tableList);
         } else {
             viewlistDataDoubleListener.onSuccess(tableList, orderList);

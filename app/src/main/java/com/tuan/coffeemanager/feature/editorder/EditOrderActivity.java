@@ -181,7 +181,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
                 for (DrinkOrder drinkOrder : drinkOrderList) {
                     drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount()));
                 }
-                OrderDetail orderDetail = new OrderDetail(order_drink_id, user_id, tvTime.getText().toString(), drinkOrderListPost);
+                OrderDetail orderDetail = new OrderDetail(order_drink_id, user_id, tvTime.getText().toString(), true, drinkOrderListPost);
                 editOrderPresenter.editOrderDetail(this, orderDetail);
                 break;
             }

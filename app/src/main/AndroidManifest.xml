@@ -47,7 +47,11 @@
             android:name=".feature.editProfile.EditProfileActivity"
             android:parentActivityName=".feature.featureManager.employeeManager.EmployeeManagerActivity" />
         <activity android:name=".feature.featureManager.revenue.RevenueManagerActivity" />
-        <activity android:name=".feature.featureManager.coffeeManage.CoffeeManagerActivity"></activity>
+        <activity android:name=".feature.featureManager.coffeeManage.CoffeeManagerActivity" />
+        <activity android:name=".feature.featureBartender.OrderBartenderActivity" />
+        <activity
+            android:name=".feature.featureBartender.OrderDetail.OrderDetailBartenderActivity"
+            android:parentActivityName=".feature.featureBartender.OrderBartenderActivity" />
     </application>
 
 </manifest>

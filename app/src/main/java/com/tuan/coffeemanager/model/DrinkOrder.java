@@ -2,8 +2,10 @@ package com.tuan.coffeemanager.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
+
 @IgnoreExtraProperties
-public class DrinkOrder {
+public class DrinkOrder implements Serializable{
 
     private String drink_id;
     private String amount;

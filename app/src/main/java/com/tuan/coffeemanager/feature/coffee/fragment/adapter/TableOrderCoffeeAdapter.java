@@ -80,9 +80,11 @@ public class TableOrderCoffeeAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if (orderList.size() > position) {
-            if (orderList.get(position).getTable_id().equals(tableList.get(position).getId())) {
-                return R.layout.item_coffee_table_close;
+        if (tableList.size() > position) {
+            for (Order order : orderList) {
+                if (order.getTable_id().equals(tableList.get(position).getId())) {
+                    return R.layout.item_coffee_table_close;
+                }
             }
         }
         return R.layout.item_coffee_table;
