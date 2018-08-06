@@ -137,4 +137,11 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
             drinkCoffeeAdapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseDataApp.isActivity = true;
+        menuCoffeePresenter.getMenuListData();
+    }
 }

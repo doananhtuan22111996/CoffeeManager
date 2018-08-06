@@ -52,6 +52,7 @@
         <activity
             android:name=".feature.featureBartender.OrderDetail.OrderDetailBartenderActivity"
             android:parentActivityName=".feature.featureBartender.OrderBartenderActivity" />
+        <activity android:name=".feature.featureManager.tableManager.TableManagerActivity"></activity>
     </application>
 
 </manifest>

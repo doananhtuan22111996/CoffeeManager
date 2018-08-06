@@ -187,4 +187,11 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
         }
         return false;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseDataApp.isActivity = true;
+        tableCoffeePresenter.getTableOrderListData();
+    }
 }

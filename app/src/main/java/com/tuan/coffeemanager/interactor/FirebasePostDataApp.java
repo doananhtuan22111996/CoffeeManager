@@ -14,6 +14,7 @@ import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.Order;
 import com.tuan.coffeemanager.model.OrderDetail;
+import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.model.User;
 
 public class FirebasePostDataApp {
@@ -27,6 +28,29 @@ public class FirebasePostDataApp {
 
     private static void newInstance() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public void postDataTable(final Activity activity, Table table){
+        if (databaseReference == null) {
+            newInstance();
+        }
+        String key = databaseReference.child(ContactBaseApp.NODE_TABLE).push().getKey();
+        table.setId(key);
+        databaseReference.child(ContactBaseApp.NODE_TABLE).child(table.getId()).setValue(table).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    postListener.postSuccess(activity.getString(R.string.text_message_post_success));
+                } else {
+                    postListener.postFailure(task.getException().getMessage());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                postListener.postFailure(e.getMessage());
+            }
+        });
     }
 
     public void postDataUser(final Activity activity, User user) {

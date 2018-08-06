@@ -16,6 +16,7 @@ import com.tuan.coffeemanager.feature.featureManager.coffeeManage.CoffeeManagerA
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.EmployeeManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.revenue.RevenueManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.signup.SignUpActivity;
+import com.tuan.coffeemanager.feature.featureManager.tableManager.TableManagerActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.sharepref.DataUtil;
@@ -40,6 +41,10 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
     Button btnLogout;
     @BindView(R.id.btnCoffeeManager)
     Button btnCoffeeManager;
+    @BindView(R.id.ivCoffee)
+    ImageView ivCoffee;
+    @BindView(R.id.btnTableManager)
+    Button btnTableManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
         btnSignUpEmployee.setOnClickListener(this);
         btnRevenueManager.setOnClickListener(this);
         btnCoffeeManager.setOnClickListener(this);
+        btnTableManager.setOnClickListener(this);
     }
 
     @Override
@@ -96,6 +102,10 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
             }
             case R.id.btnCoffeeManager: {
                 startActivity(new Intent(this, CoffeeManagerActivity.class));
+                break;
+            }
+            case R.id.btnTableManager: {
+                startActivity(new Intent(this, TableManagerActivity.class));
                 break;
             }
         }

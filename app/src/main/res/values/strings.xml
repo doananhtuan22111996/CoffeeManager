@@ -88,6 +88,7 @@
     <string name="text_reset_password_title">Reset Password</string>
     <string name="text_message_reset_success">Reset is success</string>
     <string name="text_order_bartender">Order Bartender</string>
+    <string name="table_manager">Table Manager</string>
     <string-array name="position">
         <item>employee</item>
         <item>manager</item>

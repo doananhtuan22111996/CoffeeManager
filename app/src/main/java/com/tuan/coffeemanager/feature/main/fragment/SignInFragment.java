@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.feature.featureBartender.OrderBartenderActivity;
 import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
 import com.tuan.coffeemanager.feature.main.reset.ResetPasswordActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignInPresenter;
@@ -115,6 +116,9 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
         DataUtil.setPosition(getContext(), user.getPosition());
         if (user.getPosition().equals("employee")) {
             startActivity(new Intent(getActivity(), CoffeeActivity.class));
+            Objects.requireNonNull(getActivity()).finish();
+        } else if (user.getPosition().equals("bartender")) {
+            startActivity(new Intent(getActivity(), OrderBartenderActivity.class));
             Objects.requireNonNull(getActivity()).finish();
         } else {
             startActivity(new Intent(getActivity(), MainManagerActivity.class));
