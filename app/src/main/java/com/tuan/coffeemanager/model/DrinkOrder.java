@@ -1,34 +1,34 @@
 package com.tuan.coffeemanager.model;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.io.Serializable;
 
-@IgnoreExtraProperties
-public class DrinkOrder implements Serializable{
+public class DrinkOrder implements Serializable {
 
     private String drink_id;
     private String amount;
     private String name;
     private String price;
+    private Boolean isStatus_detail;
     private String uuid;
     private String url;
 
     public DrinkOrder() {
     }
 
-    public DrinkOrder(String drink_id, String amount) {
+    public DrinkOrder(String drink_id, String amount, Boolean isStatus_detail) {
         this.drink_id = drink_id;
         this.amount = amount;
+        this.isStatus_detail = isStatus_detail;
     }
 
-    public DrinkOrder(String drink_id, String name, String price, String uuid, String url, String amount) {
+    public DrinkOrder(String drink_id, String name, String price, String uuid, String url, String amount, Boolean isStatus_detail) {
         this.drink_id = drink_id;
         this.name = name;
         this.price = price;
         this.uuid = uuid;
         this.url = url;
         this.amount = amount;
+        this.isStatus_detail = isStatus_detail;
     }
 
     public String getDrink_id() {
@@ -79,4 +79,11 @@ public class DrinkOrder implements Serializable{
         this.url = url;
     }
 
+    public Boolean getIsStatus_detail() {
+        return isStatus_detail;
+    }
+
+    public void setIsStatus_detail(Boolean status_detail) {
+        isStatus_detail = status_detail;
+    }
 }

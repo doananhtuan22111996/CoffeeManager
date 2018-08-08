@@ -62,6 +62,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
     private Table table = null;
     private String user_id = null;
     private String order_drink_id = null;
+    private String date = null;
     private List<DrinkOrder> drinkOrderList = new ArrayList<>();
     private List<DrinkOrder> drinkOrderListPost = new ArrayList<>();
 
@@ -119,6 +120,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
                 orderAdapter.setDrinkOrderList(drinkOrderList);
                 rvOrder.setAdapter(orderAdapter);
                 orderAdapter.notifyDataSetChanged();
+                tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
             }
 
             @Override
@@ -133,7 +135,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
             public void onItemClickListener(int position) {
                 final Drink drink = drinkList.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1"));
+                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice() ,drink.getUuid(), drink.getUrl(), "1", false));
                     if (drinkOrderList.size() > 0) {
                         orderAdapter.setDrinkOrderList(drinkOrderList);
                         rvOrder.setAdapter(orderAdapter);
@@ -148,6 +150,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
     @Override
     public void onSuccess(OrderDetail orderDetail) {
         tvTime.setText(getString(R.string.text_time_bill, orderDetail.getDate()));
+        date = orderDetail.getDate();
     }
 
     @Override
@@ -166,7 +169,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
 
     private Boolean isExist(Drink drink) {
         for (DrinkOrder drinkOrder : drinkOrderList) {
-            if (drinkOrder.getDrink_id().equals(drink.getId())) {
+            if (drinkOrder.getDrink_id().equals(drink.getId()) && drinkOrder.getIsStatus_detail() == false) {
                 return true;
             }
         }
@@ -179,9 +182,9 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
             case R.id.tvSaveCoffee: {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                 for (DrinkOrder drinkOrder : drinkOrderList) {
-                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount()));
+                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount(), drinkOrder.getIsStatus_detail()));
                 }
-                OrderDetail orderDetail = new OrderDetail(order_drink_id, user_id, tvTime.getText().toString(), true, drinkOrderListPost);
+                OrderDetail orderDetail = new OrderDetail(order_drink_id, user_id, date, true, drinkOrderListPost);
                 editOrderPresenter.editOrderDetail(this, orderDetail);
                 break;
             }

@@ -123,6 +123,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         payAdapter = new PayAdapter(this, orderDetail.getDrinkOrderList());
         rvOrder.setAdapter(payAdapter);
         payAdapter.notifyDataSetChanged();
+        btnPay.setEnabled(checkPay(orderDetail.getDrinkOrderList()));
     }
 
     @Override
@@ -160,5 +161,14 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     public void deleteFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    private Boolean checkPay(List<DrinkOrder> drinkOrderList) {
+        for (DrinkOrder drinkOrder : drinkOrderList) {
+            if (drinkOrder.getIsStatus_detail() == false) {
+                return false;
+            }
+        }
+        return true;
     }
 }

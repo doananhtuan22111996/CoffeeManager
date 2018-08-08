@@ -1,8 +1,5 @@
 package com.tuan.coffeemanager.model;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
-@IgnoreExtraProperties
 public class Order {
 
     private String table_id;

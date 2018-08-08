@@ -34,14 +34,18 @@ public class RevenueManagerPresenter implements FirebaseListener.ListDataDoubleL
     @Override
     public void getDataSuccess(List<OrderDetail> orderDetailList, List<Drink> drinkList) {
         for (OrderDetail orderDetail : orderDetailList) {
-            for (DrinkOrder drinkOrder : orderDetail.getDrinkOrderList()) {
-                for (int i = 0; i < drinkList.size(); i++) {
-                    if (drinkOrder.getDrink_id().equals(drinkList.get(i).getId())) {
-                        drinkOrder.setPrice(drinkList.get(i).getPrice());
-                        drinkOrder.setUuid(drinkList.get(i).getUuid());
-                        drinkOrder.setUrl(drinkList.get(i).getUrl());
+            if (orderDetail.getIsStatus() == false) {
+                for (DrinkOrder drinkOrder : orderDetail.getDrinkOrderList()) {
+                    for (int i = 0; i < drinkList.size(); i++) {
+                        if (drinkOrder.getDrink_id().equals(drinkList.get(i).getId())) {
+                            drinkOrder.setPrice(drinkList.get(i).getPrice());
+                            drinkOrder.setUuid(drinkList.get(i).getUuid());
+                            drinkOrder.setUrl(drinkList.get(i).getUrl());
+                        }
                     }
                 }
+            } else {
+                orderDetailList.remove(orderDetail);
             }
         }
         viewListDataListener.onSuccess(orderDetailList);

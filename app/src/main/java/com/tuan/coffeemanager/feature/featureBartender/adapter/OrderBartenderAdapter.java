@@ -37,7 +37,7 @@ public class OrderBartenderAdapter extends RecyclerView.Adapter<OrderBartenderAd
     @NonNull
     @Override
     public OrderBartenderViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_bill, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_bill_bartender, viewGroup, false);
         return new OrderBartenderViewHolder(view);
     }
 
@@ -45,6 +45,7 @@ public class OrderBartenderAdapter extends RecyclerView.Adapter<OrderBartenderAd
     public void onBindViewHolder(@NonNull OrderBartenderViewHolder orderBartenderViewHolder, final int i) {
         OrderBartender orderBartender = orderBartenderList.get(i);
         orderBartenderViewHolder.tvDate.setText(context.getString(R.string.text_date, orderBartender.getDate()));
+        orderBartenderViewHolder.tvTable.setText(context.getString(R.string.text_number_table, String.valueOf(orderBartender.getNumber())));
         orderBartenderViewHolder.tvTotal.setText(context.getString(R.string.text_total_only_bill, String.valueOf(totalBill(orderBartender))));
         orderBartenderViewHolder.clBill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,8 @@ public class OrderBartenderAdapter extends RecyclerView.Adapter<OrderBartenderAd
         ImageView ivBill;
         @BindView(R.id.tvDate)
         TextView tvDate;
+        @BindView(R.id.tvTable)
+        TextView tvTable;
         @BindView(R.id.tvTotal)
         TextView tvTotal;
         @BindView(R.id.clBill)

@@ -1,10 +1,6 @@
 package com.tuan.coffeemanager.model;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.io.Serializable;
-
-@IgnoreExtraProperties
 public class Table implements Serializable {
 
     private String id;

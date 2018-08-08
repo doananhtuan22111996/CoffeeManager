@@ -11,6 +11,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.listener.ViewListener;
+import com.tuan.coffeemanager.model.DrinkOrder;
+import com.tuan.coffeemanager.model.OrderBartender;
+import com.tuan.coffeemanager.model.OrderDetail;
 
 public class OrderDetailBartenderPresenter {
 
@@ -21,8 +24,18 @@ public class OrderDetailBartenderPresenter {
         this.viewDeleteListener = viewDeleteListener;
     }
 
-    public void doneBill(final Activity activity, String order_detail_id) {
-        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(order_detail_id).child("isStatus").setValue(false).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+    public void doneBill(final Activity activity, OrderBartender orderBartender) {
+        orderBartender.setStatus(false);
+        for (DrinkOrder drinkOrder : orderBartender.getDrinkOrderList()) {
+            drinkOrder.setIsStatus_detail(true);
+        }
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrder_detail_id(orderBartender.getOrder_detail_id());
+        orderDetail.setDate(orderBartender.getDate());
+        orderDetail.setDrinkOrderList(orderBartender.getDrinkOrderList());
+        orderDetail.setIsStatus(orderBartender.getStatus());
+        orderDetail.setUser_id(orderBartender.getUser_id());
+        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(orderDetail.getOrder_detail_id()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

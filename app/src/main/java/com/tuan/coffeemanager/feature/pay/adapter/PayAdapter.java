@@ -30,7 +30,7 @@ public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_order_bill, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_order_bill_bartender, viewGroup, false);
         return new PayViewHolder(view);
     }
 

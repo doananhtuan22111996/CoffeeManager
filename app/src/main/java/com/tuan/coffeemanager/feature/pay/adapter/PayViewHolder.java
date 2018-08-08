@@ -16,7 +16,7 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
 
     ImageView ivCoffee;
     TextView tvNameCoffee;
-    ImageView ivDelete;
+    ImageView ivCheck;
     TextView tvPrice;
     Button btnDown;
     Button btnUp;
@@ -26,13 +26,13 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ivCoffee = itemView.findViewById(R.id.ivCoffee);
         tvNameCoffee = itemView.findViewById(R.id.tvNameCoffee);
-        ivDelete = itemView.findViewById(R.id.ivDelete);
+        ivCheck = itemView.findViewById(R.id.ivCheck);
         tvPrice = itemView.findViewById(R.id.tvPrice);
         btnDown = itemView.findViewById(R.id.btnDown);
         btnUp = itemView.findViewById(R.id.btnUp);
         tvAmount = itemView.findViewById(R.id.tvAmount);
 
-        ivDelete.setVisibility(View.GONE);
+        ivCheck.setVisibility(View.GONE);
         btnUp.setVisibility(View.GONE);
         btnDown.setVisibility(View.GONE);
     }
@@ -43,5 +43,10 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
         tvAmount.setText(drinkOrder.getAmount());
         int amount = Integer.parseInt(drinkOrder.getAmount());
         tvPrice.setText(String.valueOf(amount * Integer.parseInt(drinkOrder.getPrice()) + "$"));
+        if (drinkOrder.getIsStatus_detail() == true) {
+            ivCheck.setVisibility(View.VISIBLE);
+        } else {
+            ivCheck.setVisibility(View.GONE);
+        }
     }
 }

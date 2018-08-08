@@ -81,7 +81,7 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
             @Override
             public void onClick(View view) {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
-                orderDetailBartenderPresenter.doneBill(OrderDetailBartenderActivity.this, orderBartender.getOrder_detail_id());
+                orderDetailBartenderPresenter.doneBill(OrderDetailBartenderActivity.this, orderBartender);
             }
         });
     }

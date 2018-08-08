@@ -1,10 +1,7 @@
 package com.tuan.coffeemanager.model;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.util.List;
 
-@IgnoreExtraProperties
 public class OrderDetail {
     private String order_detail_id;
     private String user_id;

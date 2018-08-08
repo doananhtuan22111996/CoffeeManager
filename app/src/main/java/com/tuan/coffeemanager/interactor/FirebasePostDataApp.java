@@ -97,7 +97,7 @@ public class FirebasePostDataApp {
         });
     }
 
-    public void postDataOrder(final Activity activity, final OrderDetail orderDetail, final String table_id) {
+    public void postDataOrderDetail(final Activity activity, final OrderDetail orderDetail, final String table_id) {
         if (databaseReference == null) {
             newInstance();
         }

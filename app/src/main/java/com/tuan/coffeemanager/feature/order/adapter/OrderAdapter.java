@@ -59,6 +59,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         amount = Integer.parseInt(drink.getAmount());
         orderViewHolder.tvAmount.setText(String.valueOf(amount));
         orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
+        if (drink.getIsStatus_detail() == true){
+            orderViewHolder.btnDown.setVisibility(View.GONE);
+            orderViewHolder.btnUp.setVisibility(View.GONE);
+            orderViewHolder.ivDelete.setVisibility(View.GONE);
+        }else {
+            orderViewHolder.btnDown.setVisibility(View.VISIBLE);
+            orderViewHolder.btnUp.setVisibility(View.VISIBLE);
+            orderViewHolder.ivDelete.setVisibility(View.VISIBLE);
+        }
         orderViewHolder.btnDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

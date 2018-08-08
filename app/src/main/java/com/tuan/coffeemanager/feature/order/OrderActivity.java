@@ -105,7 +105,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tvSaveCoffee: {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
                 for (DrinkOrder drinkOrder : drinkOrderList) {
-                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount()));
+                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount(), false));
                 }
                 OrderDetail orderDetail = new OrderDetail(null, user_id, getCalendar(), true, drinkOrderListPost);
                 orderPresenter.postDataOrder(this, orderDetail, table.getId());
@@ -128,6 +128,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 orderAdapter.setDrinkOrderList(drinkOrderList);
                 rvOrder.setAdapter(orderAdapter);
                 orderAdapter.notifyDataSetChanged();
+                tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
             }
 
             @Override
@@ -142,7 +143,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             public void onItemClickListener(int position) {
                 final Drink drink = drinks.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1"));
+                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1", false));
                     if (drinkOrderList.size() > 0) {
                         orderAdapter.setDrinkOrderList(drinkOrderList);
                         rvOrder.setAdapter(orderAdapter);

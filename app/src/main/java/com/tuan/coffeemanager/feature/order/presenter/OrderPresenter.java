@@ -32,7 +32,7 @@ public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>,
     }
 
     public void postDataOrder(Activity activity, OrderDetail orderDetail, String table_id) {
-        firebasePostDataApp.postDataOrder(activity, orderDetail, table_id);
+        firebasePostDataApp.postDataOrderDetail(activity, orderDetail, table_id);
     }
 
     @Override
