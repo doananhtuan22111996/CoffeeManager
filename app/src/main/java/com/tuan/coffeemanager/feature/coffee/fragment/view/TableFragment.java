@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -31,16 +32,14 @@ import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Order;
 import com.tuan.coffeemanager.model.Table;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataDoubleListener<Table, Order>, NavigationView.OnNavigationItemSelectedListener {
+public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataDoubleListener<Table, Order>, NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rvTable)
     RecyclerView rvTable;
@@ -49,6 +48,8 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     @BindView(R.id.dlTable)
     DrawerLayout dlTable;
     Unbinder unbinder;
+    @BindView(R.id.srTable)
+    SwipeRefreshLayout srTable;
 
     private TableCoffeePresenter tableCoffeePresenter;
     private Table table;
@@ -80,6 +81,8 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
         tvNameUser.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         tableCoffeePresenter = new TableCoffeePresenter(this, this);
         tableCoffeePresenter.getTableOrderListData();
+
+        srTable.setOnRefreshListener(this);
     }
 
     @Override
@@ -118,6 +121,8 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
 
     @Override
     public void onSuccess(final List<Table> tableList, final List<Order> orderList) {
+        srTable.setRefreshing(false);
+        FirebaseDataApp.isActivity = false;
         final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
         final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
         final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
@@ -191,6 +196,12 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
     @Override
     public void onResume() {
         super.onResume();
+        FirebaseDataApp.isActivity = true;
+        tableCoffeePresenter.getTableOrderListData();
+    }
+
+    @Override
+    public void onRefresh() {
         FirebaseDataApp.isActivity = true;
         tableCoffeePresenter.getTableOrderListData();
     }

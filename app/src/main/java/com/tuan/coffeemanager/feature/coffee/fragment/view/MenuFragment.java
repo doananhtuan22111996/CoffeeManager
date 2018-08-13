@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -34,13 +35,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MenuFragment extends Fragment implements ViewListener.ViewListDataListener<Drink>, TextWatcher {
+public class MenuFragment extends Fragment implements ViewListener.ViewListDataListener<Drink>, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rvMenu)
     RecyclerView rvMenu;
     Unbinder unbinder;
     @BindView(R.id.edtSearch)
     EditText edtSearch;
+    @BindView(R.id.svMenu)
+    SwipeRefreshLayout svMenu;
 
     private MenuCoffeePresenter menuCoffeePresenter;
     private DrinkCoffeeAdapter drinkCoffeeAdapter;
@@ -70,6 +73,8 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
         menuCoffeePresenter = new MenuCoffeePresenter(this);
         menuCoffeePresenter.getMenuListData();
         edtSearch.addTextChangedListener(this);
+
+        svMenu.setOnRefreshListener(this);
     }
 
     @Override
@@ -87,6 +92,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public void onSuccess(List<Drink> drinks) {
         CustomDialogLoadingFragment.hideLoading();
+        svMenu.setRefreshing(false);
         drinkList = drinks;
         drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
         rvMenu.setAdapter(drinkCoffeeAdapter);
@@ -141,6 +147,12 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public void onResume() {
         super.onResume();
+        FirebaseDataApp.isActivity = true;
+        menuCoffeePresenter.getMenuListData();
+    }
+
+    @Override
+    public void onRefresh() {
         FirebaseDataApp.isActivity = true;
         menuCoffeePresenter.getMenuListData();
     }
