@@ -2,6 +2,7 @@ package com.tuan.coffeemanager.feature.featureManager.revenue;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,6 @@ import com.tuan.coffeemanager.feature.featureManager.revenue.adapter.RevenueMana
 import com.tuan.coffeemanager.feature.featureManager.revenue.presenter.RevenueManagerPresenter;
 import com.tuan.coffeemanager.feature.pay.PayActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
-import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RevenueManagerActivity extends AppCompatActivity implements ViewListener.ViewListDataListener<OrderDetail>, ViewListener.ViewDataListener<User>, TextWatcher {
+public class RevenueManagerActivity extends AppCompatActivity implements ViewListener.ViewListDataListener<OrderDetail>, ViewListener.ViewDataListener<User>, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -48,6 +48,8 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
     TextView tvTotalBill;
     @BindView(R.id.tvTotalMoney)
     TextView tvTotalMoney;
+    @BindView(R.id.srBill)
+    SwipeRefreshLayout srBill;
 
     private RevenueManagerPresenter revenueManagerPresenter;
     private RevenueManagerAdapter revenueManagerAdapter;
@@ -75,11 +77,15 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
             }
         });
         edtSearch.addTextChangedListener(this);
+
+        srBill.setOnRefreshListener(this);
     }
 
     @Override
     public void onSuccess(final List<OrderDetail> orderDetailList) {
         CustomDialogLoadingFragment.hideLoading();
+        FirebaseDataApp.isActivity = false;
+        srBill.setRefreshing(false);
         tvTotalBill.setText(getString(R.string.text_total_bill_manger, String.valueOf(orderDetailList.size())));
         tvTotalMoney.setText(getString(R.string.text_total_money_manager, String.valueOf(totalBill(orderDetailList))));
         this.orderDetailList = orderDetailList;
@@ -167,5 +173,11 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
             tvTotalBill.setText(getString(R.string.text_total_bill_manger, String.valueOf(orderDetailList.size())));
             tvTotalMoney.setText(getString(R.string.text_total_money_manager, String.valueOf(totalBill(orderDetailList))));
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        FirebaseDataApp.isActivity = true;
+        revenueManagerPresenter.getDataBill();
     }
 }

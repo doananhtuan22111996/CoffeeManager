@@ -9,6 +9,7 @@ import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RevenueManagerPresenter implements FirebaseListener.ListDataDoubleListener<OrderDetail, Drink>, FirebaseListener.DataListener<User> {
@@ -33,6 +34,7 @@ public class RevenueManagerPresenter implements FirebaseListener.ListDataDoubleL
 
     @Override
     public void getDataSuccess(List<OrderDetail> orderDetailList, List<Drink> drinkList) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
         for (OrderDetail orderDetail : orderDetailList) {
             if (orderDetail.getIsStatus() == false) {
                 for (DrinkOrder drinkOrder : orderDetail.getDrinkOrderList()) {
@@ -41,14 +43,14 @@ public class RevenueManagerPresenter implements FirebaseListener.ListDataDoubleL
                             drinkOrder.setPrice(drinkList.get(i).getPrice());
                             drinkOrder.setUuid(drinkList.get(i).getUuid());
                             drinkOrder.setUrl(drinkList.get(i).getUrl());
+                            break;
                         }
                     }
                 }
-            } else {
-                orderDetailList.remove(orderDetail);
+                orderDetails.add(orderDetail);
             }
         }
-        viewListDataListener.onSuccess(orderDetailList);
+        viewListDataListener.onSuccess(orderDetails);
     }
 
     @Override
