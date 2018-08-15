@@ -1,7 +1,6 @@
 package com.tuan.coffeemanager.notification;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -18,6 +17,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
 
 import java.util.Random;
@@ -27,9 +27,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-//        if (remoteMessage.getData().size() > 0) {
-//            scheduleJob();
-//        }
 
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
@@ -38,22 +35,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-//    private void scheduleJob() {
-//        // [START dispatch_job]
-//        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
-//        Job myJob = dispatcher.newJobBuilder()
-//                .setService(MyJobService.class)
-//                .setTag("my-job-tag")
-//                .build();
-//        dispatcher.schedule(myJob);
-//        // [END dispatch_job]
-//    }
-
     private void sendNotification(String messageBody) {
         Random random = new Random();
         int randomNum = random.nextInt(9999 - 1000) + 1000;
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainManagerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -63,7 +49,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            NotificationChannel channel = new NotificationChannel(channelId, "Channel human readable title", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(icon)
@@ -79,7 +64,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentIntent(pendingIntent);
 
             notificationManager.notify(randomNum, notificationBuilder.build());
-//            notificationManager.createNotificationChannel(channel);
         } else {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                     .setSmallIcon(R.drawable.ic_notification)

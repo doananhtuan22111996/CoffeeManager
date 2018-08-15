@@ -45,6 +45,11 @@ public class FirebaseDataApp {
         this.listDataDoubleListener = listDataDoubleListener;
     }
 
+    public FirebaseDataApp(FirebaseListener.ListDataListener listDataListener, FirebaseListener.ListDataDoubleListener listDataDoubleListener) {
+        this.listDataListener = listDataListener;
+        this.listDataDoubleListener = listDataDoubleListener;
+    }
+
     private static void newIntance() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
     }

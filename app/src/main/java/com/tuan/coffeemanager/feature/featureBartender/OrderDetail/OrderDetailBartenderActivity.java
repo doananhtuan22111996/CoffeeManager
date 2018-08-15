@@ -16,18 +16,31 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.featureBartender.OrderDetail.presenter.OrderDetailBartenderPresenter;
 import com.tuan.coffeemanager.feature.featureBartender.presenter.OrderBartenderPresenter;
+import com.tuan.coffeemanager.feature.pay.PayActivity;
 import com.tuan.coffeemanager.feature.pay.adapter.PayAdapter;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
+import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
+import com.tuan.coffeemanager.model.NotificationResponse;
 import com.tuan.coffeemanager.model.OrderBartender;
+import com.tuan.coffeemanager.model.User;
+import com.tuan.coffeemanager.retrofit.Api;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class OrderDetailBartenderActivity extends AppCompatActivity implements ViewListener.ViewDeleteListener {
+public class OrderDetailBartenderActivity extends AppCompatActivity implements ViewListener.ViewDeleteListener, ViewListener.ViewDataListener<User> {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -47,14 +60,17 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
     private OrderBartender orderBartender = null;
     private PayAdapter payAdapter;
     private OrderDetailBartenderPresenter orderDetailBartenderPresenter;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail_bartender);
         ButterKnife.bind(this);
+        FirebaseDataApp.isActivity = true;
+        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
 
-        orderDetailBartenderPresenter = new OrderDetailBartenderPresenter(this);
+        orderDetailBartenderPresenter = new OrderDetailBartenderPresenter(this, this);
         tvTitle.setText(R.string.text_order_bartender);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +78,7 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
                 onBackPressed();
             }
         });
+        orderDetailBartenderPresenter.getDataWaiter();
 
         if (getIntent().getExtras() != null) {
             orderBartender = (OrderBartender) getIntent().getExtras().getSerializable(ContactBaseApp.BARTENDER);
@@ -81,7 +98,31 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
             @Override
             public void onClick(View view) {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
-                orderDetailBartenderPresenter.doneBill(OrderDetailBartenderActivity.this, orderBartender);
+                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .connectTimeout(20, TimeUnit.SECONDS)
+                        .writeTimeout(20, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .build();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Api.BASE_URL)
+                        .client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                Api api = retrofit.create(Api.class);
+                Call<NotificationResponse> call = api.pushNotification(user.getToken(), "Complete Order!");
+                call.enqueue(new Callback<NotificationResponse>() {
+                    @Override
+                    public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                        if (response != null) {
+                            orderDetailBartenderPresenter.doneBill(OrderDetailBartenderActivity.this, orderBartender);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NotificationResponse> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }
@@ -105,6 +146,19 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
 
     @Override
     public void deleteFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccess(User user) {
+        CustomDialogLoadingFragment.hideLoading();
+        FirebaseDataApp.isActivity = false;
+        this.user = user;
+    }
+
+    @Override
+    public void onFailure(String error) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }

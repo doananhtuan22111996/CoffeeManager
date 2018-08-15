@@ -10,12 +10,13 @@ public class User {
     private String birth_day;
     private String phone_number;
     private String email;
+    private String token;
     private Boolean isStatus;
 
     public User() {
     }
 
-    public User(String id, String name, String position, String address, String birth_day, String phone_number, String email, Boolean isStatus) {
+    public User(String id, String name, String position, String address, String birth_day, String phone_number, String email, String token, Boolean isStatus) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -23,7 +24,16 @@ public class User {
         this.birth_day = birth_day;
         this.phone_number = phone_number;
         this.email = email;
+        this.token = token;
         this.isStatus = isStatus;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getEmail() {

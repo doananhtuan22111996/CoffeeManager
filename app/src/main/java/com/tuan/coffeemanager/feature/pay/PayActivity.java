@@ -16,21 +16,32 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.feature.pay.adapter.PayAdapter;
 import com.tuan.coffeemanager.feature.pay.presenter.PayPresenter;
+import com.tuan.coffeemanager.feature.pay.presenter.PayUserPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.DrinkOrder;
+import com.tuan.coffeemanager.model.NotificationResponse;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
+import com.tuan.coffeemanager.model.User;
+import com.tuan.coffeemanager.retrofit.Api;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PayActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewlistDataObjectDoubleListener<OrderDetail, Drink>, ViewListener.ViewDeleteListener {
+public class PayActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewlistDataObjectDoubleListener<OrderDetail, Drink>, ViewListener.ViewDeleteListener, ViewListener.ViewDataListener<User> {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -52,8 +63,10 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     private Table table = null;
     private String nameUser = null;
     private String order_drink_id = null;
+    private User user = null;
 
     private PayPresenter payPresenter;
+    private PayUserPresenter payUserPresenter;
     private PayAdapter payAdapter;
 
     @Override
@@ -94,6 +107,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
         rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         payPresenter = new PayPresenter(this, this);
+        payUserPresenter = new PayUserPresenter(this);
         payPresenter.getDataOrderDetail(order_drink_id);
 
         ivBack.setOnClickListener(this);
@@ -109,7 +123,31 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
             }
             case R.id.btnPay: {
                 CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
-                payPresenter.payOrder(this, table.getId());
+                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .connectTimeout(20, TimeUnit.SECONDS)
+                        .writeTimeout(20, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .build();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Api.BASE_URL)
+                        .client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                Api api = retrofit.create(Api.class);
+                Call<NotificationResponse> call = api.pushNotification(user.getToken(), "Coffee Store has a new bill!");
+                call.enqueue(new Callback<NotificationResponse>() {
+                    @Override
+                    public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                        if (response != null) {
+                            payPresenter.payOrder(PayActivity.this, table.getId());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NotificationResponse> call, Throwable t) {
+
+                    }
+                });
                 break;
             }
         }
@@ -117,13 +155,23 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onSuccess(OrderDetail orderDetail, List<Drink> drinkList) {
-        CustomDialogLoadingFragment.hideLoading();
         tvTime.setText(getString(R.string.text_time_bill, orderDetail.getDate()));
         tvTotal.setText(String.valueOf(total(orderDetail.getDrinkOrderList())));
         payAdapter = new PayAdapter(this, orderDetail.getDrinkOrderList());
         rvOrder.setAdapter(payAdapter);
         payAdapter.notifyDataSetChanged();
         btnPay.setEnabled(checkPay(orderDetail.getDrinkOrderList()));
+        if (!btnPay.isEnabled()){
+            Toast.makeText(this, "Waiting Bartender complete!", Toast.LENGTH_SHORT).show();
+        }
+        FirebaseDataApp.isActivity = true;
+        payUserPresenter.getDataManager();
+    }
+
+    @Override
+    public void onSuccess(User user) {
+        CustomDialogLoadingFragment.hideLoading();
+        this.user = user;
     }
 
     @Override
@@ -150,11 +198,12 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
     public void deleteSuccess(String message) {
         CustomDialogLoadingFragment.hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        Intent intent = NavUtils.getParentActivityIntent(this);
+        Intent intent = NavUtils.getParentActivityIntent(PayActivity.this);
         assert intent != null;
         intent.putExtra("FLAG", 1);
-        NavUtils.navigateUpTo(this, intent);
+        NavUtils.navigateUpTo(PayActivity.this, intent);
         finish();
+
     }
 
     @Override

@@ -52,16 +52,19 @@ public class FirebaseDeleteDataApp {
         if (databaseReference == null){
             newInstance();
         }
-        databaseReference.child(nodeParent).child(nodeChild).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(nodeParent).child(nodeChild).setValue(null).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().removeValue();
-                deleteListener.deleteSuccess(activity.getString(R.string.text_message_delete_success));
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    deleteListener.deleteSuccess(activity.getString(R.string.text_message_delete_success));
+                } else {
+                    deleteListener.deleteFailure(task.getException().getMessage());
+                }
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                deleteListener.deleteFailure(databaseError.getMessage());
+            public void onFailure(@NonNull Exception e) {
+                deleteListener.deleteFailure(e.getMessage());
             }
         });
     }

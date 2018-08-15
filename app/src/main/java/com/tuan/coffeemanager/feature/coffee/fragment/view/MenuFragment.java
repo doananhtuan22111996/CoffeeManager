@@ -129,18 +129,20 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     }
 
     private void searchDrink(String search) {
-        List<Drink> drinkList = new ArrayList<>();
-        if (search.isEmpty()) {
-            drinkCoffeeAdapter.setDrinkList(this.drinkList);
-            drinkCoffeeAdapter.notifyDataSetChanged();
-        } else {
-            for (Drink drink : this.drinkList) {
-                if (drink.getName().toLowerCase().contains(search)) {
-                    drinkList.add(drink);
+        if (this.drinkList != null) {
+            List<Drink> drinkList = new ArrayList<>();
+            if (search.isEmpty()) {
+                drinkCoffeeAdapter.setDrinkList(this.drinkList);
+                drinkCoffeeAdapter.notifyDataSetChanged();
+            } else {
+                for (Drink drink : this.drinkList) {
+                    if (drink.getName().toLowerCase().contains(search)) {
+                        drinkList.add(drink);
+                    }
                 }
+                drinkCoffeeAdapter.setDrinkList(drinkList);
+                drinkCoffeeAdapter.notifyDataSetChanged();
             }
-            drinkCoffeeAdapter.setDrinkList(drinkList);
-            drinkCoffeeAdapter.notifyDataSetChanged();
         }
     }
 

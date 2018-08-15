@@ -40,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignInFragment extends Fragment implements ViewListener.ViewSignInListener, ViewListener.ViewDataListener<User> {
+public class SignInFragment extends Fragment implements ViewListener.ViewSignInListener, ViewListener.ViewDataListener<User>, ViewListener.ViewPostListener {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
@@ -53,6 +53,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     Unbinder unbinder;
 
     private SignInPresenter signInPresenter;
+    private String id;
 
     public static SignInFragment newInstance() {
         Bundle args = new Bundle();
@@ -74,7 +75,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
         super.onViewCreated(view, savedInstanceState);
 
         FirebaseDataApp.isActivity = true;
-        signInPresenter = new SignInPresenter(this, this);
+        signInPresenter = new SignInPresenter(this, this, this);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,10 +112,20 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     }
 
     @Override
-    public void onSuccess(String id) {
+    public void onSuccess(final String id) {
+        this.id = id;
         DataUtil.setIdUser(getContext(), id);
         FirebaseDataApp.isActivity = true;
-        signInPresenter.gerDataUser(id);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d("Tokennnnnn", task.getResult().getToken());
+                    signInPresenter.postTokenUser(getActivity(), id, task.getResult().getToken());
+                }
+            }
+        });
+
     }
 
     @Override
@@ -124,13 +135,19 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
         DataUtil.setPosition(getContext(), user.getPosition());
         if (user.getPosition().equals("employee")) {
             startActivity(new Intent(getActivity(), CoffeeActivity.class));
-            Objects.requireNonNull(getActivity()).finish();
+            if (getActivity() != null){
+                getActivity().finish();
+            }
         } else if (user.getPosition().equals("bartender")) {
             startActivity(new Intent(getActivity(), OrderBartenderActivity.class));
-            Objects.requireNonNull(getActivity()).finish();
+            if (getActivity() != null){
+                getActivity().finish();
+            }
         } else {
             startActivity(new Intent(getActivity(), MainManagerActivity.class));
-            Objects.requireNonNull(getActivity()).finish();
+            if (getActivity() != null){
+                getActivity().finish();
+            }
         }
     }
 
@@ -152,5 +169,16 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
     public void onStop() {
         super.onStop();
         FirebaseDataApp.isActivity = false;
+    }
+
+    @Override
+    public void postSuccess(String message) {
+        signInPresenter.gerDataUser(id);
+    }
+
+    @Override
+    public void postFailure(String error) {
+        CustomDialogLoadingFragment.hideLoading();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

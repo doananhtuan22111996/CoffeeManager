@@ -10,18 +10,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.interactor.FirebaseDataApp;
+import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderBartender;
 import com.tuan.coffeemanager.model.OrderDetail;
+import com.tuan.coffeemanager.model.User;
 
-public class OrderDetailBartenderPresenter {
+import java.util.List;
+
+public class OrderDetailBartenderPresenter implements FirebaseListener.ListDataListener<User> {
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private ViewListener.ViewDeleteListener viewDeleteListener;
+    private ViewListener.ViewDataListener viewDataListener;
+    private FirebaseDataApp firebaseDataApp;
 
-    public OrderDetailBartenderPresenter(ViewListener.ViewDeleteListener viewDeleteListener) {
+    public OrderDetailBartenderPresenter(ViewListener.ViewDeleteListener viewDeleteListener, ViewListener.ViewDataListener viewDataListener) {
         this.viewDeleteListener = viewDeleteListener;
+        this.viewDataListener = viewDataListener;
+        firebaseDataApp = new FirebaseDataApp(this);
+    }
+
+    public void getDataWaiter() {
+        firebaseDataApp.getListData(ContactBaseApp.NODE_USER, User.class);
     }
 
     public void doneBill(final Activity activity, OrderBartender orderBartender) {
@@ -50,5 +63,20 @@ public class OrderDetailBartenderPresenter {
                 viewDeleteListener.deleteFailure(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void getDataSuccess(List<User> users) {
+        for (User user : users) {
+            if (user.getEmail().equals("lady@gmail.com")) {
+                viewDataListener.onSuccess(user);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void getDataFailure(String error) {
+        viewDataListener.onFailure(error);
     }
 }
