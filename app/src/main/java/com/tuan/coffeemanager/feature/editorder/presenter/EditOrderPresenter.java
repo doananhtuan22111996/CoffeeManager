@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.editorder.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
@@ -34,7 +34,7 @@ public class EditOrderPresenter implements FirebaseListener.ListDataDoubleListen
 
     public void getDataOrderDetailDrink(String drink_order_id) {
         this.drink_order_id = drink_order_id;
-        firebaseDataApp.getListDataDouble(ContactBaseApp.NODE_ORDER_DETAIL, ContactBaseApp.NODE_DRINK, OrderDetail.class, Drink.class);
+        firebaseDataApp.getListDataDouble(ConstApp.NODE_ORDER_DETAIL, ConstApp.NODE_DRINK, OrderDetail.class, Drink.class);
     }
 
     public void editOrderDetail(Activity activity, OrderDetail orderDetail) {

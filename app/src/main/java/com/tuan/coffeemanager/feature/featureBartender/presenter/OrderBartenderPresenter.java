@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.DrinkOrder;
@@ -38,7 +38,7 @@ public class OrderBartenderPresenter {
     }
 
     private void getListTable() {
-        databaseReference.child(ContactBaseApp.NODE_TABLE).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(ConstApp.NODE_TABLE).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tableList = new ArrayList<>();
@@ -57,7 +57,7 @@ public class OrderBartenderPresenter {
     }
 
     private void getListOrder() {
-        databaseReference.child(ContactBaseApp.NODE_ORDER).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(ConstApp.NODE_ORDER).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 orderList = new ArrayList<>();
@@ -76,7 +76,7 @@ public class OrderBartenderPresenter {
     }
 
     private void getListOrderDetail() {
-        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 orderBartenderList = new ArrayList<>();
@@ -119,7 +119,7 @@ public class OrderBartenderPresenter {
     }
 
     private void getListDrink() {
-        databaseReference.child(ContactBaseApp.NODE_DRINK).addValueEventListener(new ValueEventListener() {
+        databaseReference.child(ConstApp.NODE_DRINK).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 drinkList = new ArrayList<>();

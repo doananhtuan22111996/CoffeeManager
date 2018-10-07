@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.CustomGlide;
+import com.tuan.coffeemanager.widget.GlideUtil;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class DrinkCoffeeAdapter extends RecyclerView.Adapter<DrinkCoffeeAdapter.
         Drink drink = drinkList.get(i);
         drinkCoffeeViewHolder.tvNameCoffee.setText(drink.getName());
         if (drink.getUrl() != null){
-            CustomGlide.showImage(context, drinkCoffeeViewHolder.ivCoffee, drink.getUrl());
+            GlideUtil.showImage(context, drinkCoffeeViewHolder.ivCoffee, drink.getUrl());
         }
         drinkCoffeeViewHolder.ivCoffee.setOnClickListener(new View.OnClickListener() {
             @Override

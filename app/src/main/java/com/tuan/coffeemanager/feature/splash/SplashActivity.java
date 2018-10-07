@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.featureBartender.OrderBartenderActivity;
 import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
@@ -16,7 +17,7 @@ import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 
-public class SplashActivity extends AppCompatActivity implements ViewListener.ViewDataListener<User> {
+public class SplashActivity extends BaseActivity implements ViewListener.ViewDataListener<User> {
 
     private SplashPresenter splashPresenter;
 

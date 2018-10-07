@@ -2,17 +2,14 @@ package com.tuan.coffeemanager.feature.pay.presenter;
 
 import android.app.Activity;
 
-import com.google.firebase.database.FirebaseDatabase;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebaseDeleteDataApp;
-import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
-import com.tuan.coffeemanager.model.User;
 
 import java.util.List;
 
@@ -31,11 +28,11 @@ public class PayPresenter implements FirebaseListener.ListDataObjectDoubleListen
     }
 
     public void getDataOrderDetail(String order_detail_id) {
-        firebaseDataApp.getListDataObjectDouble(ContactBaseApp.NODE_ORDER_DETAIL, order_detail_id, ContactBaseApp.NODE_DRINK, OrderDetail.class, Drink.class);
+        firebaseDataApp.getListDataObjectDouble(ConstApp.NODE_ORDER_DETAIL, order_detail_id, ConstApp.NODE_DRINK, OrderDetail.class, Drink.class);
     }
 
     public void payOrder(Activity activity, String table_id) {
-        firebaseDeleteDataApp.deleteData(activity, ContactBaseApp.NODE_ORDER, table_id);
+        firebaseDeleteDataApp.deleteData(activity, ConstApp.NODE_ORDER, table_id);
     }
 
     @Override

@@ -12,8 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
-import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editorder.presenter.EditOrderPresenter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
@@ -25,7 +25,7 @@ import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditOrderActivity extends AppCompatActivity implements ViewListener.ViewlistDataDoubleListener<DrinkOrder, Drink>, ViewListener.ViewDataListener<OrderDetail>, View.OnClickListener, ViewListener.ViewPostListener {
+public class EditOrderActivity extends BaseActivity implements ViewListener.ViewlistDataDoubleListener<DrinkOrder, Drink>, ViewListener.ViewDataListener<OrderDetail>, View.OnClickListener, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -73,7 +73,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
         ButterKnife.bind(this);
 
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         tvTitle.setText(R.string.text_title_edit_order);
 
@@ -81,8 +81,8 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
         rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         if (getIntent().getExtras() != null) {
-            table = (Table) getIntent().getExtras().getSerializable(ContactBaseApp.TABLE_OBJ);
-            order_drink_id = getIntent().getExtras().getString(ContactBaseApp.ORDER_DETAIL_ID);
+            table = (Table) getIntent().getExtras().getSerializable(ConstApp.TABLE_OBJ);
+            order_drink_id = getIntent().getExtras().getString(ConstApp.ORDER_DETAIL_ID);
             if (table != null) {
                 tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
             }
@@ -104,7 +104,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void onSuccess(final List<DrinkOrder> drinkOrders, final List<Drink> drinkList) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         this.drinkOrderList = drinkOrders;
         orderMenuAdapter = new OrderMenuAdapter(this, drinkList);
         orderAdapter = new OrderAdapter(this, drinkOrderList);
@@ -155,7 +155,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -180,7 +180,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvSaveCoffee: {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 for (DrinkOrder drinkOrder : drinkOrderList) {
                     drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount(), drinkOrder.getIsStatus_detail()));
                 }
@@ -197,7 +197,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void postSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
@@ -208,7 +208,7 @@ public class EditOrderActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void postFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

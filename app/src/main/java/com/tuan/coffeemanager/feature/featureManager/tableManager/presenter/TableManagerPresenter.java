@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.featureManager.tableManager.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
@@ -31,7 +31,7 @@ public class TableManagerPresenter implements FirebaseListener.ListDataListener<
     }
 
     public void gerListTable() {
-        firebaseDataApp.getListData(ContactBaseApp.NODE_TABLE, Table.class);
+        firebaseDataApp.getListData(ConstApp.NODE_TABLE, Table.class);
     }
 
     public void postTable(Activity activity, Table table) {

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.model.DrinkOrder;
-import com.tuan.coffeemanager.widget.CustomGlide;
+import com.tuan.coffeemanager.widget.GlideUtil;
 
 public class PayViewHolder extends RecyclerView.ViewHolder {
 
@@ -38,7 +38,7 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Context context, DrinkOrder drinkOrder) {
-        CustomGlide.showImage(context, ivCoffee, drinkOrder.getUrl());
+        GlideUtil.showImage(context, ivCoffee, drinkOrder.getUrl());
         tvNameCoffee.setText(drinkOrder.getName());
         tvAmount.setText(drinkOrder.getAmount());
         int amount = Integer.parseInt(drinkOrder.getAmount());

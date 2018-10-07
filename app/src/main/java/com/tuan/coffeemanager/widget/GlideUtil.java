@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.tuan.coffeemanager.R;
 
-public class CustomGlide {
+public class GlideUtil {
      public static void showImage(Context context, ImageView iv, String url){
          if (url != null){
              Glide.with(context).load(url).into(iv);

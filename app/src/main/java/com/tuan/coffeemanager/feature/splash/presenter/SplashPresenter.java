@@ -1,6 +1,6 @@
 package com.tuan.coffeemanager.feature.splash.presenter;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -17,7 +17,7 @@ public class SplashPresenter implements FirebaseListener.DataListener<User> {
     }
 
     public void getDataUser(String id) {
-        firebaseDataApp.getData(ContactBaseApp.NODE_USER, id, User.class);
+        firebaseDataApp.getData(ConstApp.NODE_USER, id, User.class);
     }
 
     @Override

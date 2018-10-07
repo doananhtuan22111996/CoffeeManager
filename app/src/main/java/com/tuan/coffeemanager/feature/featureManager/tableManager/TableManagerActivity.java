@@ -3,7 +3,6 @@ package com.tuan.coffeemanager.feature.featureManager.tableManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,20 +10,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.feature.featureManager.tableManager.adapter.TableManagerAdapter;
 import com.tuan.coffeemanager.feature.featureManager.tableManager.presenter.TableManagerPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Table;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TableManagerActivity extends AppCompatActivity implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewPostListener {
+public class TableManagerActivity extends BaseActivity implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -42,7 +41,7 @@ public class TableManagerActivity extends AppCompatActivity implements ViewListe
         setContentView(R.layout.activity_table_manager);
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
         tvTitle.setText(getString(R.string.table_manager));
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,14 +57,14 @@ public class TableManagerActivity extends AppCompatActivity implements ViewListe
 
     @Override
     public void onSuccess(final List<Table> tableList) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         TableManagerAdapter tableManagerAdapter = new TableManagerAdapter(this, tableList);
         rvTable.setAdapter(tableManagerAdapter);
         tableManagerAdapter.notifyDataSetChanged();
         ivAddCoffee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 Table table = new Table(null, tableList.size() + 1);
                 tableManagerPresenter.postTable(TableManagerActivity.this, table);
             }
@@ -75,7 +74,7 @@ public class TableManagerActivity extends AppCompatActivity implements ViewListe
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -100,7 +99,7 @@ public class TableManagerActivity extends AppCompatActivity implements ViewListe
 
     @Override
     public void postFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

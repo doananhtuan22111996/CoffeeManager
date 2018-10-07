@@ -3,10 +3,10 @@ package com.tuan.coffeemanager.feature.addcoffee.presenter;
 import android.app.Activity;
 import android.net.Uri;
 
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.interactor.FirebaseStorageApp;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
@@ -30,7 +30,7 @@ public class EditCoffeePresenter implements FirebaseListener.DataListener<Drink>
     }
 
     public void getDataDrink(String id) {
-        firebaseDataApp.getData(ContactBaseApp.NODE_DRINK, id, Drink.class);
+        firebaseDataApp.getData(ConstApp.NODE_DRINK, id, Drink.class);
     }
 
     public void editDataDrink(Activity activity, Drink drink) {

@@ -9,7 +9,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.Order;
@@ -34,9 +34,9 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        String key = databaseReference.child(ContactBaseApp.NODE_TABLE).push().getKey();
+        String key = databaseReference.child(ConstApp.NODE_TABLE).push().getKey();
         table.setId(key);
-        databaseReference.child(ContactBaseApp.NODE_TABLE).child(table.getId()).setValue(table).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_TABLE).child(table.getId()).setValue(table).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -57,7 +57,7 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        databaseReference.child(ContactBaseApp.NODE_USER).child(user.getId()).setValue(user).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_USER).child(user.getId()).setValue(user).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -78,9 +78,9 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        String key = databaseReference.child(ContactBaseApp.NODE_DRINK).push().getKey();
+        String key = databaseReference.child(ConstApp.NODE_DRINK).push().getKey();
         drink.setId(key);
-        databaseReference.child(ContactBaseApp.NODE_DRINK).child(key).setValue(drink).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_DRINK).child(key).setValue(drink).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -104,9 +104,9 @@ public class FirebasePostDataApp {
         if (orderDetail == null || table_id.isEmpty()) {
             postListener.postFailure(activity.getString(R.string.text_message_post_failure));
         } else {
-            final String key = databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).push().getKey();
+            final String key = databaseReference.child(ConstApp.NODE_ORDER_DETAIL).push().getKey();
             orderDetail.setOrder_detail_id(key);
-            databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(key).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+            databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(key).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -128,7 +128,7 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        databaseReference.child(ContactBaseApp.NODE_DRINK).child(drink.getId()).setValue(drink).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_DRINK).child(drink.getId()).setValue(drink).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -150,7 +150,7 @@ public class FirebasePostDataApp {
             newInstance();
         }
         Order order = new Order(table_id, order_detail_id);
-        databaseReference.child(ContactBaseApp.NODE_ORDER).child(table_id).setValue(order).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_ORDER).child(table_id).setValue(order).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 postListener.postSuccess(activity.getString(R.string.text_message_post_success));
@@ -167,7 +167,7 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(orderDetail.getOrder_detail_id()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(orderDetail.getOrder_detail_id()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -188,7 +188,7 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        databaseReference.child(ContactBaseApp.NODE_USER).child(id).child("token").setValue(token).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_USER).child(id).child("token").setValue(token).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

@@ -1,6 +1,6 @@
 package com.tuan.coffeemanager.feature.featureManager.revenue.presenter;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -25,11 +25,11 @@ public class RevenueManagerPresenter implements FirebaseListener.ListDataDoubleL
     }
 
     public void getDataBill() {
-        firebaseDataApp.getListDataDouble(ContactBaseApp.NODE_ORDER_DETAIL, ContactBaseApp.NODE_DRINK, OrderDetail.class, Drink.class);
+        firebaseDataApp.getListDataDouble(ConstApp.NODE_ORDER_DETAIL, ConstApp.NODE_DRINK, OrderDetail.class, Drink.class);
     }
 
     public void getDataUser(String user_id) {
-        firebaseDataApp.getData(ContactBaseApp.NODE_USER, user_id, User.class);
+        firebaseDataApp.getData(ConstApp.NODE_USER, user_id, User.class);
     }
 
     @Override

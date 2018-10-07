@@ -13,7 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.pay.adapter.PayAdapter;
 import com.tuan.coffeemanager.feature.pay.presenter.PayPresenter;
 import com.tuan.coffeemanager.feature.pay.presenter.PayUserPresenter;
@@ -27,7 +28,7 @@ import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.retrofit.Api;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -41,7 +42,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PayActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewlistDataObjectDoubleListener<OrderDetail, Drink>, ViewListener.ViewDeleteListener, ViewListener.ViewDataListener<User> {
+public class PayActivity extends BaseActivity implements View.OnClickListener, ViewListener.ViewlistDataObjectDoubleListener<OrderDetail, Drink>, ViewListener.ViewDeleteListener, ViewListener.ViewDataListener<User> {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -76,11 +77,11 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         ButterKnife.bind(this);
 
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         if (getIntent().getExtras() != null) {
-            table = (Table) getIntent().getExtras().getSerializable(ContactBaseApp.TABLE_OBJ);
-            order_drink_id = getIntent().getExtras().getString(ContactBaseApp.ORDER_DETAIL_ID);
+            table = (Table) getIntent().getExtras().getSerializable(ConstApp.TABLE_OBJ);
+            order_drink_id = getIntent().getExtras().getString(ConstApp.ORDER_DETAIL_ID);
             if (table != null) {
                 tvTitle.setText(R.string.text_title_pay);
                 tvNumberTable.setVisibility(View.VISIBLE);
@@ -93,7 +94,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                     tvUser.setText(getString(R.string.text_employee_bill, nameUser));
                 }
             } else {
-                this.nameUser = getIntent().getExtras().getString(ContactBaseApp.NAME_USER, null);
+                this.nameUser = getIntent().getExtras().getString(ConstApp.NAME_USER, null);
                 tvTitle.setText(R.string.text_bill_detail);
                 tvNumberTable.setVisibility(View.GONE);
                 btnPay.setVisibility(View.GONE);
@@ -122,7 +123,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             }
             case R.id.btnPay: {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
                         .connectTimeout(20, TimeUnit.SECONDS)
                         .writeTimeout(20, TimeUnit.SECONDS)
@@ -170,13 +171,13 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onSuccess(User user) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         this.user = user;
     }
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -196,7 +197,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void deleteSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(PayActivity.this);
         assert intent != null;
@@ -208,7 +209,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void deleteFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

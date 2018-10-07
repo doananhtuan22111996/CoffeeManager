@@ -10,17 +10,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
-import com.tuan.coffeemanager.feature.main.MainActivity;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeActivity extends AppCompatActivity {
+public class CoffeeActivity extends BaseActivity {
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -46,7 +45,7 @@ public class CoffeeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CoffeeActivity.this, AddCoffeeActivity.class);
-                intent.putExtra(ContactBaseApp.DRINK_ID, "");
+                intent.putExtra(ConstApp.DRINK_ID, "");
                 startActivity(intent);
             }
         });

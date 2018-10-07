@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.coffeedetail.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebaseDeleteDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
@@ -24,11 +24,11 @@ public class CoffeeDetailPresenter implements FirebaseListener.DataListener<Drin
     }
 
     public void getData(String id) {
-        firebaseDataApp.getData(ContactBaseApp.NODE_DRINK, id, Drink.class);
+        firebaseDataApp.getData(ConstApp.NODE_DRINK, id, Drink.class);
     }
 
     public void deleteData(Activity activity, String id) {
-        firebaseDeleteDataApp.deleteDataStatus(activity, ContactBaseApp.NODE_DRINK, id);
+        firebaseDeleteDataApp.deleteDataStatus(activity, ConstApp.NODE_DRINK, id);
     }
 
     @Override

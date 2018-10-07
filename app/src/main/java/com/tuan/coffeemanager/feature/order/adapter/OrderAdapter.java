@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
-import com.tuan.coffeemanager.widget.CustomGlide;
+import com.tuan.coffeemanager.widget.GlideUtil;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull final OrderViewHolder orderViewHolder, final int i) {
         final DrinkOrder drink = drinkOrderList.get(i);
-        CustomGlide.showImage(context, orderViewHolder.ivCoffee, drink.getUrl());
+        GlideUtil.showImage(context, orderViewHolder.ivCoffee, drink.getUrl());
         orderViewHolder.tvNameCoffee.setText(drink.getName());
         amount = Integer.parseInt(drink.getAmount());
         orderViewHolder.tvAmount.setText(String.valueOf(amount));

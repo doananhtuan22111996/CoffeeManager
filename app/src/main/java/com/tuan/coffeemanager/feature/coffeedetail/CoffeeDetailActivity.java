@@ -10,20 +10,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
 import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomGlide;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.GlideUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeDetailActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener {
+public class CoffeeDetailActivity extends BaseActivity implements ViewListener.ViewDataListener<Drink>, View.OnClickListener, ViewListener.ViewDeleteListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -56,12 +57,12 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
 
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         setInitView();
 
         if (getIntent().getExtras() != null) {
-            id = getIntent().getExtras().getString(ContactBaseApp.DRINK_ID);
+            id = getIntent().getExtras().getString(ConstApp.DRINK_ID);
         }
 
         tvTitle.setText(this.getResources().getString(R.string.text_title_detail));
@@ -85,12 +86,12 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
             }
             case R.id.tvEditCoffee: {
                 Intent intent = new Intent(CoffeeDetailActivity.this, AddCoffeeActivity.class);
-                intent.putExtra(ContactBaseApp.DRINK_ID, id);
+                intent.putExtra(ConstApp.DRINK_ID, id);
                 startActivity(intent);
                 break;
             }
             case R.id.tvRemoveCoffee: {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 coffeeDetailPresenter.deleteData(this, id);
                 break;
             }
@@ -104,26 +105,26 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
             tvDescriptionCoffee.setText(drink.getDescription());
             tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
             if (drink.getUrl() != null && drink.getUuid() != null) {
-                CustomGlide.showImage(this, ivCoffee, drink.getUrl());
+                GlideUtil.showImage(this, ivCoffee, drink.getUrl());
             }
         }
     }
 
     @Override
     public void onSuccess(Drink drink) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         setView(drink);
     }
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void deleteSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         NavUtils.navigateUpTo(this, intent);
@@ -131,7 +132,7 @@ public class CoffeeDetailActivity extends AppCompatActivity implements ViewListe
 
     @Override
     public void deleteFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

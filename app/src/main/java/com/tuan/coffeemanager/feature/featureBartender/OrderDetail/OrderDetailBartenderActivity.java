@@ -13,20 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.featureBartender.OrderDetail.presenter.OrderDetailBartenderPresenter;
-import com.tuan.coffeemanager.feature.featureBartender.presenter.OrderBartenderPresenter;
-import com.tuan.coffeemanager.feature.pay.PayActivity;
 import com.tuan.coffeemanager.feature.pay.adapter.PayAdapter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
-import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.NotificationResponse;
 import com.tuan.coffeemanager.model.OrderBartender;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.retrofit.Api;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +38,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class OrderDetailBartenderActivity extends AppCompatActivity implements ViewListener.ViewDeleteListener, ViewListener.ViewDataListener<User> {
+public class OrderDetailBartenderActivity extends BaseActivity implements ViewListener.ViewDeleteListener, ViewListener.ViewDataListener<User> {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -68,7 +66,7 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
         setContentView(R.layout.activity_order_detail_bartender);
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         orderDetailBartenderPresenter = new OrderDetailBartenderPresenter(this, this);
         tvTitle.setText(R.string.text_order_bartender);
@@ -81,7 +79,7 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
         orderDetailBartenderPresenter.getDataWaiter();
 
         if (getIntent().getExtras() != null) {
-            orderBartender = (OrderBartender) getIntent().getExtras().getSerializable(ContactBaseApp.BARTENDER);
+            orderBartender = (OrderBartender) getIntent().getExtras().getSerializable(ConstApp.BARTENDER);
         }
         if (orderBartender != null) {
             tvTime.setText(getString(R.string.text_time_bill, orderBartender.getDate()));
@@ -97,7 +95,7 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
                         .connectTimeout(20, TimeUnit.SECONDS)
                         .writeTimeout(20, TimeUnit.SECONDS)
@@ -137,7 +135,7 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
 
     @Override
     public void deleteSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
@@ -146,20 +144,20 @@ public class OrderDetailBartenderActivity extends AppCompatActivity implements V
 
     @Override
     public void deleteFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccess(User user) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         FirebaseDataApp.isActivity = false;
         this.user = user;
     }
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

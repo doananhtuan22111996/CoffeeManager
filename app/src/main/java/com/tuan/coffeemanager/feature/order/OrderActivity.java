@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
-import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
 import com.tuan.coffeemanager.feature.order.presenter.OrderPresenter;
@@ -26,7 +26,7 @@ import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewPostListener {
+public class OrderActivity extends BaseActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -69,7 +69,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
 
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         orderPresenter = new OrderPresenter(this, this);
         rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -80,7 +80,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         tvSaveCoffee.setOnClickListener(this);
 
         if (getIntent().getExtras() != null) {
-            table = (Table) getIntent().getExtras().getSerializable(ContactBaseApp.TABLE_OBJ);
+            table = (Table) getIntent().getExtras().getSerializable(ConstApp.TABLE_OBJ);
             if (table != null) {
                 tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
             }
@@ -103,7 +103,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 break;
             }
             case R.id.tvSaveCoffee: {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 for (DrinkOrder drinkOrder : drinkOrderList) {
                     drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount(), false));
                 }
@@ -116,7 +116,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onSuccess(final List<Drink> drinks) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         OrderMenuAdapter orderMenuAdapter = new OrderMenuAdapter(this, drinks);
         final OrderAdapter orderAdapter = new OrderAdapter(OrderActivity.this, drinkOrderList);
         rvMenu.setAdapter(orderMenuAdapter);
@@ -157,7 +157,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -194,7 +194,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void postSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
@@ -205,7 +205,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void postFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

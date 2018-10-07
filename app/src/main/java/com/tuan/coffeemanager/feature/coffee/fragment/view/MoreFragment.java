@@ -8,18 +8,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseFragment;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.Objects;
 
@@ -27,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MoreFragment extends Fragment {
+public class MoreFragment extends BaseFragment {
 
     @BindView(R.id.tvEditProfile)
     TextView tvEditProfile;
@@ -58,14 +57,14 @@ public class MoreFragment extends Fragment {
         tvLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialogLoadingFragment.showLoading(getFragmentManager());
+                showLoading();
                 DataUtil.setIdUser(getContext(), null);
                 DataUtil.setNameUser(getContext(), null);
                 DataUtil.setPosition(getContext(), null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(Objects.requireNonNull(getContext()));
-                    CustomDialogLoadingFragment.hideLoading();
+                    hideLoading();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                     Objects.requireNonNull(getActivity()).finish();
                 }
@@ -76,7 +75,7 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), EditProfileActivity.class)
-                        .putExtra(ContactBaseApp.STATUS, true));
+                        .putExtra(ConstApp.STATUS, true));
             }
         });
     }

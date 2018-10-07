@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
 import com.tuan.coffeemanager.feature.featureManager.coffeeManage.CoffeeManagerActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.EmployeeManagerActivity;
@@ -20,12 +21,12 @@ import com.tuan.coffeemanager.feature.featureManager.tableManager.TableManagerAc
 import com.tuan.coffeemanager.feature.main.MainActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainManagerActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainManagerActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.ivAddCoffee)
     ImageView ivAddCoffee;
@@ -73,14 +74,14 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
                 break;
             }
             case R.id.btnLogout: {
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 DataUtil.setIdUser(this, null);
                 DataUtil.setNameUser(this, null);
                 DataUtil.setPosition(this, null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(this);
-                    CustomDialogLoadingFragment.hideLoading();
+                    hideLoading();
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }
@@ -88,8 +89,8 @@ public class MainManagerActivity extends AppCompatActivity implements View.OnCli
             }
             case R.id.btnEditProfile: {
                 startActivity(new Intent(this, EditProfileActivity.class)
-                        .putExtra(ContactBaseApp.ID_USER, DataUtil.getIdUser(this))
-                        .putExtra(ContactBaseApp.STATUS, true));
+                        .putExtra(ConstApp.ID_USER, DataUtil.getIdUser(this))
+                        .putExtra(ConstApp.STATUS, true));
                 break;
             }
             case R.id.btnSignUpEmployee: {

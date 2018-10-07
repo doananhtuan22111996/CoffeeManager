@@ -1,6 +1,6 @@
 package com.tuan.coffeemanager.feature.featureManager.employeeManager.presenter;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -20,7 +20,7 @@ public class EmployeeManagerPresenter implements FirebaseListener.ListDataListen
     }
 
     public void getDataUser() {
-        firebaseDataApp.getListData(ContactBaseApp.NODE_USER, User.class);
+        firebaseDataApp.getListData(ConstApp.NODE_USER, User.class);
     }
 
     @Override

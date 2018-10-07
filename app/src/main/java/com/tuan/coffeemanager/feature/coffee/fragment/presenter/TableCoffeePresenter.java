@@ -1,6 +1,6 @@
 package com.tuan.coffeemanager.feature.coffee.fragment.presenter;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
@@ -23,7 +23,7 @@ public class TableCoffeePresenter implements FirebaseListener.ListDataDoubleList
     }
 
     public void getTableOrderListData() {
-        firebaseDataApp.getListDataDouble(ContactBaseApp.NODE_TABLE, ContactBaseApp.NODE_ORDER, Table.class, Order.class);
+        firebaseDataApp.getListDataDouble(ConstApp.NODE_TABLE, ConstApp.NODE_ORDER, Table.class, Order.class);
     }
 
     @Override

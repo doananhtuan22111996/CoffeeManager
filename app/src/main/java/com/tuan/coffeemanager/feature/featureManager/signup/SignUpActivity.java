@@ -16,17 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.feature.featureManager.signup.presenter.SignUpPresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.KeyBoardUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, ViewListener.ViewDataListener<User>, ViewListener.ViewPostListener {
+public class SignUpActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, ViewListener.ViewDataListener<User>, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -78,11 +79,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             }
             case R.id.clContent: {
-                CustomKeyBoard.hideKeyBoard(this);
+                KeyBoardUtil.hideKeyBoard(this);
                 break;
             }
             case R.id.btnSignUp: {
-                CustomKeyBoard.hideKeyBoard(this);
+                KeyBoardUtil.hideKeyBoard(this);
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String cofpassword = edtConfirmPassword.getText().toString().trim();
@@ -100,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 } else if (name.isEmpty()) {
                     Toast.makeText(this, R.string.text_message_name_empty, Toast.LENGTH_SHORT).show();
                 } else {
-                    CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                    showLoading();
                     signUpPresenter.signUp(email, password, name, this);
                 }
                 break;
@@ -133,13 +134,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void postSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
@@ -148,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void postFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

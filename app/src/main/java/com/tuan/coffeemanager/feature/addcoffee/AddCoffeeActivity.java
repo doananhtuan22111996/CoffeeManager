@@ -4,19 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,27 +20,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomGlide;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.GlideUtil;
+import com.tuan.coffeemanager.widget.KeyBoardUtil;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddCoffeeActivity extends AppCompatActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener, ViewListener.ViewPostImageListener {
+public class AddCoffeeActivity extends BaseActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener, ViewListener.ViewPostImageListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -80,11 +73,11 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
         FirebaseDataApp.isActivity = true;
 
         if (getIntent().getExtras() != null) {
-            id = getIntent().getExtras().getString(ContactBaseApp.DRINK_ID, null).trim();
+            id = getIntent().getExtras().getString(ConstApp.DRINK_ID, null).trim();
         }
         postImagePresenter = new PostImagePresenter(this);
         if (id != null) {
-            CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+            showLoading();
             editCoffeePresenter = new EditCoffeePresenter(this, this, this);
             editCoffeePresenter.getDataDrink(id);
             tvTitle.setText(R.string.text_edit_drink_title);
@@ -101,7 +94,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void onSuccess(Drink drink) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         this.drink = drink;
         setView(drink);
     }
@@ -112,14 +105,14 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
             edtDescriptionCoffee.setText(drink.getDescription());
             edtPriceCoffee.setText(String.valueOf(drink.getPrice()));
             if (drink.getUrl() != null) {
-                CustomGlide.showImage(this, ivCoffee, drink.getUrl());
+                GlideUtil.showImage(this, ivCoffee, drink.getUrl());
             }
         }
     }
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -131,7 +124,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 break;
             }
             case R.id.btnSaveCoffee: {
-                CustomKeyBoard.hideKeyBoard(this);
+                KeyBoardUtil.hideKeyBoard(this);
                 String name = edtNameCoffee.getText().toString().trim();
                 String description = edtDescriptionCoffee.getText().toString().trim();
                 String price = edtPriceCoffee.getText().toString().trim();
@@ -142,7 +135,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 } else if (price.isEmpty()) {
                     Toast.makeText(this, R.string.text_message_price_empty, Toast.LENGTH_SHORT).show();
                 } else {
-                    CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                    showLoading();
                     if (id == null) {
                         drink = new Drink(null, name, description, price, null, null, true);
                         if (uri != null) {
@@ -164,7 +157,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
                 break;
             }
             case R.id.clContent: {
-                CustomKeyBoard.hideKeyBoard(this);
+                KeyBoardUtil.hideKeyBoard(this);
                 break;
             }
             case R.id.ivCoffee: {
@@ -229,7 +222,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void postSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
@@ -238,7 +231,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void postFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
@@ -255,7 +248,7 @@ public class AddCoffeeActivity extends AppCompatActivity implements ViewListener
 
     @Override
     public void postImageFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

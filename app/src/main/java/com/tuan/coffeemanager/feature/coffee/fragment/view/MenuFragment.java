@@ -17,7 +17,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseFragment;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
@@ -25,8 +26,8 @@ import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.KeyBoardUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MenuFragment extends Fragment implements ViewListener.ViewListDataListener<Drink>, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
+public class MenuFragment extends BaseFragment implements ViewListener.ViewListDataListener<Drink>, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rvMenu)
     RecyclerView rvMenu;
@@ -67,7 +68,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        CustomDialogLoadingFragment.showLoading(getFragmentManager());
+        showLoading();
         FirebaseDataApp.isActivity = true;
         rvMenu.setLayoutManager(new GridLayoutManager(getContext(), 3));
         menuCoffeePresenter = new MenuCoffeePresenter(this);
@@ -91,7 +92,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
 
     @Override
     public void onSuccess(List<Drink> drinks) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         svMenu.setRefreshing(false);
         drinkList = drinks;
         drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
@@ -100,9 +101,9 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
         drinkCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                CustomKeyBoard.hideKeyBoard(getActivity());
+                KeyBoardUtil.hideKeyBoard(getActivity());
                 Intent intent = new Intent(getActivity(), CoffeeDetailActivity.class);
-                intent.putExtra(ContactBaseApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
+                intent.putExtra(ConstApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
                 startActivity(intent);
             }
         });
@@ -110,7 +111,7 @@ public class MenuFragment extends Fragment implements ViewListener.ViewListDataL
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 

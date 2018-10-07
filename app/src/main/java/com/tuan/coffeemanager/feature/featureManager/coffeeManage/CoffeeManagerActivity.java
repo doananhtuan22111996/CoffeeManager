@@ -14,7 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
@@ -23,7 +24,7 @@ import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoffeeManagerActivity extends AppCompatActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, TextWatcher {
+public class CoffeeManagerActivity extends BaseActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, TextWatcher {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -54,7 +55,7 @@ public class CoffeeManagerActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_coffee_manager);
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
         tvTitle.setText(getString(R.string.text_drink_coffee));
         ivBack.setOnClickListener(this);
         ivAddCoffee.setOnClickListener(this);
@@ -80,7 +81,7 @@ public class CoffeeManagerActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onSuccess(List<Drink> drinkList) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         drinks = drinkList;
         drinkCoffeeAdapter = new DrinkCoffeeAdapter(this, drinkList);
         rvMenu.setAdapter(drinkCoffeeAdapter);
@@ -89,7 +90,7 @@ public class CoffeeManagerActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onItemClickListener(int position) {
                 Intent intent = new Intent(CoffeeManagerActivity.this, CoffeeDetailActivity.class);
-                intent.putExtra(ContactBaseApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
+                intent.putExtra(ConstApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
                 startActivity(intent);
             }
         });
@@ -98,7 +99,7 @@ public class CoffeeManagerActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

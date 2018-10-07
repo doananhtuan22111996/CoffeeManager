@@ -15,7 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.featureManager.revenue.adapter.RevenueManagerAdapter;
 import com.tuan.coffeemanager.feature.featureManager.revenue.presenter.RevenueManagerPresenter;
 import com.tuan.coffeemanager.feature.pay.PayActivity;
@@ -25,8 +26,8 @@ import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.KeyBoardUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RevenueManagerActivity extends AppCompatActivity implements ViewListener.ViewListDataListener<OrderDetail>, ViewListener.ViewDataListener<User>, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
+public class RevenueManagerActivity extends BaseActivity implements ViewListener.ViewListDataListener<OrderDetail>, ViewListener.ViewDataListener<User>, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -62,7 +63,7 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
         setContentView(R.layout.activity_revenue_manager);
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         tvTitle.setText(R.string.text_title_revenue_manager);
 
@@ -83,7 +84,7 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
 
     @Override
     public void onSuccess(final List<OrderDetail> orderDetailList) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         FirebaseDataApp.isActivity = false;
         srBill.setRefreshing(false);
         tvTotalBill.setText(getString(R.string.text_total_bill_manger, String.valueOf(orderDetailList.size())));
@@ -96,7 +97,7 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
             @Override
             public void onItemClickListener(int position) {
                 FirebaseDataApp.isActivity = true;
-                CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                showLoading();
                 orderDetail_id = revenueManagerAdapter.getOrderDetailList().get(position).getOrder_detail_id();
                 revenueManagerPresenter.getDataUser(revenueManagerAdapter.getOrderDetailList().get(position).getUser_id());
             }
@@ -105,16 +106,16 @@ public class RevenueManagerActivity extends AppCompatActivity implements ViewLis
 
     @Override
     public void onSuccess(User user) {
-        CustomDialogLoadingFragment.hideLoading();
-        CustomKeyBoard.hideKeyBoard(this);
+        hideLoading();
+        KeyBoardUtil.hideKeyBoard(this);
         startActivity(new Intent(RevenueManagerActivity.this, PayActivity.class)
-                .putExtra(ContactBaseApp.ORDER_DETAIL_ID, orderDetail_id)
-                .putExtra(ContactBaseApp.NAME_USER, user.getName()));
+                .putExtra(ConstApp.ORDER_DETAIL_ID, orderDetail_id)
+                .putExtra(ConstApp.NAME_USER, user.getName()));
     }
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

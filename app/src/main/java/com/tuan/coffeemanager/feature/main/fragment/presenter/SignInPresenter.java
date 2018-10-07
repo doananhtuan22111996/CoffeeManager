@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.main.fragment.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseAuthApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
@@ -33,7 +33,7 @@ public class SignInPresenter implements FirebaseListener.SignInListener, Firebas
     }
 
     public void gerDataUser(String id) {
-        firebaseDataApp.getData(ContactBaseApp.NODE_USER, id, User.class);
+        firebaseDataApp.getData(ConstApp.NODE_USER, id, User.class);
     }
 
     public void postTokenUser(Activity activity, String id, String token) {

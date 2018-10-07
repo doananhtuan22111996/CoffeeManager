@@ -7,10 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
-import com.tuan.coffeemanager.model.Order;
-import com.tuan.coffeemanager.model.Table;
 
 import java.util.ArrayList;
 import java.util.List;

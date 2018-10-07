@@ -10,15 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.feature.main.reset.presenter.ResetPasswordPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.KeyBoardUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ResetPasswordActivity extends AppCompatActivity implements ViewListener.ViewResetPasswordListener {
+public class ResetPasswordActivity extends BaseActivity implements ViewListener.ViewResetPasswordListener {
 
     private ResetPasswordPresenter resetPasswordPresenter;
 
@@ -49,11 +50,11 @@ public class ResetPasswordActivity extends AppCompatActivity implements ViewList
         btnSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomKeyBoard.hideKeyBoard(ResetPasswordActivity.this);
+                KeyBoardUtil.hideKeyBoard(ResetPasswordActivity.this);
                 if (edtEmail.getText().toString().trim().isEmpty()) {
                     Toast.makeText(ResetPasswordActivity.this, getString(R.string.text_mesage_email_empty), Toast.LENGTH_SHORT).show();
                 } else {
-                    CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+                    showLoading();
                     resetPasswordPresenter.resetPassword(ResetPasswordActivity.this, edtEmail.getText().toString().trim());
                 }
             }
@@ -62,14 +63,14 @@ public class ResetPasswordActivity extends AppCompatActivity implements ViewList
 
     @Override
     public void onSuccess(String message) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

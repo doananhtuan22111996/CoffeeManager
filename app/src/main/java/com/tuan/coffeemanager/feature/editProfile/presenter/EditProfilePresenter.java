@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.editProfile.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
@@ -24,7 +24,7 @@ public class EditProfilePresenter implements FirebaseListener.DataListener<User>
     }
 
     public void getDataUser(String id) {
-        firebaseDataApp.getData(ContactBaseApp.NODE_USER, id, User.class);
+        firebaseDataApp.getData(ConstApp.NODE_USER, id, User.class);
     }
 
     public void postDataUser(Activity activity, User user) {

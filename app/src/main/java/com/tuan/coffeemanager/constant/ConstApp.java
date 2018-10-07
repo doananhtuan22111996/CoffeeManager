@@ -1,6 +1,6 @@
-package com.tuan.coffeemanager.contact;
+package com.tuan.coffeemanager.constant;
 
-public class ContactBaseApp {
+public class ConstApp {
 
     public static final String NODE_USER = "USER";
     public static final String NODE_TABLE = "TABLE";
@@ -62,22 +62,22 @@ public class ContactBaseApp {
 //    }
 
 // Create Data OrderDetail
-//     databaseReference.child(ContactBaseApp.NODE_DRINK).addValueEventListener(new ValueEventListener() {
+//     databaseReference.child(ConstApp.NODE_DRINK).addValueEventListener(new ValueEventListener() {
 //        @Override
 //        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 //                Drink drink = dataSnapshot1.getValue(Drink.class);
 //                DrinkOrder drinkOrder = dataSnapshot1.getValue(DrinkOrder.class);
-//                ContactBaseApp.drinkList.add(drink);
-//                ContactBaseApp.drinkOrderList.add(drinkOrder);
+//                ConstApp.drinkList.add(drink);
+//                ConstApp.drinkOrderList.add(drinkOrder);
 //            }
 //
-//            for (int i = 0; i < ContactBaseApp.orderDetailList.size(); i++) {
-//                String key = databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).push().getKey();
-//                ContactBaseApp.orderDetailList.get(i).setId(key);
-//                ContactBaseApp.orderDetailList.get(i).getDrinkOrderList().add(ContactBaseApp.drinkOrderList.get(0));
-//                ContactBaseApp.orderDetailList.get(i).getDrinkOrderList().get(0).setAmount("2");
-//                databaseReference.child(ContactBaseApp.NODE_ORDER_DETAIL).child(key).setValue(ContactBaseApp.orderDetailList.get(i));
+//            for (int i = 0; i < ConstApp.orderDetailList.size(); i++) {
+//                String key = databaseReference.child(ConstApp.NODE_ORDER_DETAIL).push().getKey();
+//                ConstApp.orderDetailList.get(i).setId(key);
+//                ConstApp.orderDetailList.get(i).getDrinkOrderList().add(ConstApp.drinkOrderList.get(0));
+//                ConstApp.orderDetailList.get(i).getDrinkOrderList().get(0).setAmount("2");
+//                databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(key).setValue(ConstApp.orderDetailList.get(i));
 //            }
 //
 //        }
@@ -91,25 +91,25 @@ public class ContactBaseApp {
 //     databaseReference.addValueEventListener(new ValueEventListener() {
 //        @Override
 //        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//            for (DataSnapshot dataSnapshot1 : dataSnapshot.child(ContactBaseApp.NODE_TABLE).getChildren()) {
+//            for (DataSnapshot dataSnapshot1 : dataSnapshot.child(ConstApp.NODE_TABLE).getChildren()) {
 //                Table table = dataSnapshot1.getValue(Table.class);
-//                ContactBaseApp.tableList.add(table);
+//                ConstApp.tableList.add(table);
 //            }
 //
-//            for (DataSnapshot dataSnapshot1 : dataSnapshot.child(ContactBaseApp.NODE_USER).getChildren()) {
+//            for (DataSnapshot dataSnapshot1 : dataSnapshot.child(ConstApp.NODE_USER).getChildren()) {
 //                User user = dataSnapshot1.getValue(User.class);
-//                ContactBaseApp.userList.add(user);
+//                ConstApp.userList.add(user);
 //            }
 //
-//            for (DataSnapshot dataSnapshot1 : dataSnapshot.child(ContactBaseApp.NODE_ORDER_DETAIL).getChildren()) {
+//            for (DataSnapshot dataSnapshot1 : dataSnapshot.child(ConstApp.NODE_ORDER_DETAIL).getChildren()) {
 //                OrderDetail orderDetail = dataSnapshot1.getValue(OrderDetail.class);
-//                ContactBaseApp.orderDetailList.add(orderDetail);
+//                ConstApp.orderDetailList.add(orderDetail);
 //            }
 //
-//            for (int i = 0; i < ContactBaseApp.tableList.size(); i++) {
-//                String table_key = ContactBaseApp.tableList.get(i).getId();
-//                Order order = new Order(ContactBaseApp.userList.get(i).getId(), ContactBaseApp.orderDetailList.get(i).getId());
-//                databaseReference.child(ContactBaseApp.NODE_ORDER).child(table_key).setValue(order);
+//            for (int i = 0; i < ConstApp.tableList.size(); i++) {
+//                String table_key = ConstApp.tableList.get(i).getId();
+//                Order order = new Order(ConstApp.userList.get(i).getId(), ConstApp.orderDetailList.get(i).getId());
+//                databaseReference.child(ConstApp.NODE_ORDER).child(table_key).setValue(order);
 //            }
 //        }
 //

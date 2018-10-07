@@ -11,7 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.adapter.EmployeeManagerAdapter;
 import com.tuan.coffeemanager.feature.featureManager.employeeManager.presenter.EmployeeManagerPresenter;
@@ -19,14 +20,14 @@ import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EmployeeManagerActivity extends AppCompatActivity implements ViewListener.ViewListDataListener<User> {
+public class EmployeeManagerActivity extends BaseActivity implements ViewListener.ViewListDataListener<User> {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -42,7 +43,7 @@ public class EmployeeManagerActivity extends AppCompatActivity implements ViewLi
         setContentView(R.layout.activity_employee_manager);
         ButterKnife.bind(this);
         FirebaseDataApp.isActivity = true;
-        CustomDialogLoadingFragment.showLoading(getSupportFragmentManager());
+        showLoading();
 
         employeeManagerPresenter = new EmployeeManagerPresenter(this);
         employeeManagerPresenter.getDataUser();
@@ -60,7 +61,7 @@ public class EmployeeManagerActivity extends AppCompatActivity implements ViewLi
 
     @Override
     public void onSuccess(final List<User> users) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         EmployeeManagerAdapter employeeManagerAdapter = new EmployeeManagerAdapter(this, users);
         rvEmployee.setAdapter(employeeManagerAdapter);
         employeeManagerAdapter.notifyDataSetChanged();
@@ -68,8 +69,8 @@ public class EmployeeManagerActivity extends AppCompatActivity implements ViewLi
             @Override
             public void onItemClickListener(int position) {
                 Intent intent = new Intent(EmployeeManagerActivity.this, EditProfileActivity.class);
-                intent.putExtra(ContactBaseApp.ID_USER, users.get(position).getId());
-                intent.putExtra(ContactBaseApp.STATUS, false);
+                intent.putExtra(ConstApp.ID_USER, users.get(position).getId());
+                intent.putExtra(ConstApp.STATUS, false);
                 startActivity(intent);
             }
         });
@@ -77,7 +78,7 @@ public class EmployeeManagerActivity extends AppCompatActivity implements ViewLi
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

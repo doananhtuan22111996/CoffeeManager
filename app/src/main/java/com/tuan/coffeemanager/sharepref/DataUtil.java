@@ -3,7 +3,7 @@ package com.tuan.coffeemanager.sharepref;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 
 public class DataUtil {
 
@@ -11,7 +11,7 @@ public class DataUtil {
     private static SharedPreferences.Editor editor;
 
     private static SharedPreferences initPref(Context context) {
-        sharedPreferences = context.getSharedPreferences(ContactBaseApp.SHARED_PREF, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(ConstApp.SHARED_PREF, Context.MODE_PRIVATE);
         return sharedPreferences;
     }
 
@@ -33,7 +33,7 @@ public class DataUtil {
         if (editor == null) {
             newInstance(context);
         }
-        editor.putString(ContactBaseApp.ID_USER, id);
+        editor.putString(ConstApp.ID_USER, id);
         editor.apply();
     }
 
@@ -41,7 +41,7 @@ public class DataUtil {
         if (editor == null) {
             newInstance(context);
         }
-        editor.putString(ContactBaseApp.NAME_USER, name);
+        editor.putString(ConstApp.NAME_USER, name);
         editor.apply();
     }
 
@@ -49,21 +49,21 @@ public class DataUtil {
         if (sharedPreferences == null) {
             initPref(context);
         }
-        return sharedPreferences.getString(ContactBaseApp.ID_USER, "");
+        return sharedPreferences.getString(ConstApp.ID_USER, "");
     }
 
     public static String getNameUser(Context context) {
         if (sharedPreferences == null) {
             initPref(context);
         }
-        return sharedPreferences.getString(ContactBaseApp.NAME_USER, "");
+        return sharedPreferences.getString(ConstApp.NAME_USER, "");
     }
 
     public static void setPosition(Context context, String position){
         if (editor == null) {
             newInstance(context);
         }
-        editor.putString(ContactBaseApp.POSITION_USER, position);
+        editor.putString(ConstApp.POSITION_USER, position);
         editor.apply();
     }
 
@@ -71,6 +71,6 @@ public class DataUtil {
         if (sharedPreferences == null) {
             initPref(context);
         }
-        return sharedPreferences.getString(ContactBaseApp.POSITION_USER, "");
+        return sharedPreferences.getString(ConstApp.POSITION_USER, "");
     }
 }

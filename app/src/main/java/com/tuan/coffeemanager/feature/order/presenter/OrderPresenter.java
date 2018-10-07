@@ -2,7 +2,7 @@ package com.tuan.coffeemanager.feature.order.presenter;
 
 import android.app.Activity;
 
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.interactor.FirebasePostDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
@@ -28,7 +28,7 @@ public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>,
     }
 
     public void getListDataDrink() {
-        firebaseDataApp.getListData(ContactBaseApp.NODE_DRINK, Drink.class);
+        firebaseDataApp.getListData(ConstApp.NODE_DRINK, Drink.class);
     }
 
     public void postDataOrder(Activity activity, OrderDetail orderDetail, String table_id) {

@@ -1,9 +1,6 @@
 package com.tuan.coffeemanager.feature.main.fragment;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.base.BaseFragment;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.featureBartender.OrderBartenderActivity;
 import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
@@ -31,16 +29,14 @@ import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.CustomDialogLoadingFragment;
-import com.tuan.coffeemanager.widget.CustomKeyBoard;
-
-import java.util.Objects;
+import com.tuan.coffeemanager.widget.DialogLoadingFragment;
+import com.tuan.coffeemanager.widget.KeyBoardUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SignInFragment extends Fragment implements ViewListener.ViewSignInListener, ViewListener.ViewDataListener<User>, ViewListener.ViewPostListener {
+public class SignInFragment extends BaseFragment implements ViewListener.ViewSignInListener, ViewListener.ViewDataListener<User>, ViewListener.ViewPostListener {
 
     @BindView(R.id.edtEmail)
     EditText edtEmail;
@@ -80,7 +76,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomKeyBoard.hideKeyBoard(getActivity());
+                KeyBoardUtil.hideKeyBoard(getActivity());
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
@@ -90,8 +86,8 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
                 } else if (password.isEmpty()) {
                     Toast.makeText(getActivity(), getString(R.string.text_message_password_empty), Toast.LENGTH_SHORT).show();
                 } else {
-                    CustomDialogLoadingFragment.showLoading(getFragmentManager());
-                    CustomKeyBoard.hideKeyBoard(getActivity());
+                    showLoading();
+                    KeyBoardUtil.hideKeyBoard(getActivity());
                     signInPresenter.signIn(email, password, getActivity());
                 }
             }
@@ -130,7 +126,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
 
     @Override
     public void onSuccess(User user) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         DataUtil.setNameUser(getContext(), user.getName());
         DataUtil.setPosition(getContext(), user.getPosition());
         if (user.getPosition().equals("employee")) {
@@ -153,7 +149,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
 
     @Override
     public void onFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
@@ -178,7 +174,7 @@ public class SignInFragment extends Fragment implements ViewListener.ViewSignInL
 
     @Override
     public void postFailure(String error) {
-        CustomDialogLoadingFragment.hideLoading();
+        hideLoading();
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

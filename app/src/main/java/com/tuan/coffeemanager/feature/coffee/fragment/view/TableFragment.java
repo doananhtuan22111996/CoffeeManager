@@ -20,7 +20,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.contact.ContactBaseApp;
+import com.tuan.coffeemanager.base.BaseFragment;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.TableOrderCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.TableCoffeePresenter;
@@ -39,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TableFragment extends Fragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataDoubleListener<Table, Order>, NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class TableFragment extends BaseFragment implements ViewListener.ViewListDataListener<Table>, ViewListener.ViewlistDataDoubleListener<Table, Order>, NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rvTable)
     RecyclerView rvTable;
@@ -168,23 +169,23 @@ public class TableFragment extends Fragment implements ViewListener.ViewListData
         switch (menuItem.getItemId()) {
             case R.id.nav_Order: {
                 Intent intent = new Intent(getActivity(), OrderActivity.class);
-                intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
+                intent.putExtra(ConstApp.TABLE_OBJ, table);
                 startActivity(intent);
                 dlTable.closeDrawer(Gravity.START);
                 break;
             }
             case R.id.nav_EditOrder: {
                 Intent intent = new Intent(getActivity(), EditOrderActivity.class);
-                intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
-                intent.putExtra(ContactBaseApp.ORDER_DETAIL_ID, order_drink_id);
+                intent.putExtra(ConstApp.TABLE_OBJ, table);
+                intent.putExtra(ConstApp.ORDER_DETAIL_ID, order_drink_id);
                 startActivity(intent);
                 dlTable.closeDrawer(Gravity.START);
                 break;
             }
             case R.id.nav_Pay: {
                 Intent intent = new Intent(getActivity(), PayActivity.class);
-                intent.putExtra(ContactBaseApp.TABLE_OBJ, table);
-                intent.putExtra(ContactBaseApp.ORDER_DETAIL_ID, order_drink_id);
+                intent.putExtra(ConstApp.TABLE_OBJ, table);
+                intent.putExtra(ConstApp.ORDER_DETAIL_ID, order_drink_id);
                 startActivity(intent);
                 dlTable.closeDrawer(Gravity.START);
                 break;
