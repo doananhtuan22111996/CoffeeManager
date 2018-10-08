@@ -15,7 +15,6 @@ import java.util.List;
 public class FirebaseDataApp {
 
     private static DatabaseReference databaseReference;
-    public static Boolean isActivity = false;
     private FirebaseListener.ListDataListener listDataListener;
     private FirebaseListener.DataListener dataListener;
     private FirebaseListener.ListDataDoubleListener listDataDoubleListener;
@@ -63,16 +62,12 @@ public class FirebaseDataApp {
                     T t = value.getValue(tClass);
                     tList.add(t);
                 }
-                if (isActivity) {
-                    listDataListener.getDataSuccess(tList);
-                }
+                listDataListener.getDataSuccess(tList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                if (isActivity) {
-                    listDataListener.getDataFailure(databaseError.getMessage());
-                }
+                listDataListener.getDataFailure(databaseError.getMessage());
             }
         });
     }
@@ -84,16 +79,12 @@ public class FirebaseDataApp {
         databaseReference.child(nodeParent).child(nodeChild).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (isActivity) {
-                    dataListener.getDataSuccess(dataSnapshot.getValue(tClass));
-                }
+                dataListener.getDataSuccess(dataSnapshot.getValue(tClass));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                if (isActivity) {
-                    dataListener.getDataFailure(databaseError.getMessage());
-                }
+                dataListener.getDataFailure(databaseError.getMessage());
             }
         });
     }
@@ -118,25 +109,19 @@ public class FirebaseDataApp {
                             K k = value.getValue(kClass);
                             kList.add(k);
                         }
-                        if (isActivity) {
-                            listDataDoubleListener.getDataSuccess(tList, kList);
-                        }
+                        listDataDoubleListener.getDataSuccess(tList, kList);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        if (isActivity) {
-                            listDataDoubleListener.getDataFailure(databaseError.getMessage());
-                        }
+                        listDataDoubleListener.getDataFailure(databaseError.getMessage());
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                if (isActivity) {
-                    listDataDoubleListener.getDataFailure(databaseError.getMessage());
-                }
+                listDataDoubleListener.getDataFailure(databaseError.getMessage());
             }
         });
     }
@@ -157,25 +142,19 @@ public class FirebaseDataApp {
                             K k = value.getValue(kClass);
                             kList.add(k);
                         }
-                        if (isActivity) {
-                            listDataObjectDoubleListener.getDataSuccess(t, kList);
-                        }
+                        listDataObjectDoubleListener.getDataSuccess(t, kList);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        if (isActivity) {
-                            listDataObjectDoubleListener.getDataFailure(databaseError.getMessage());
-                        }
+                        listDataObjectDoubleListener.getDataFailure(databaseError.getMessage());
                     }
                 });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                if (isActivity) {
-                    listDataObjectDoubleListener.getDataFailure(databaseError.getMessage());
-                }
+                listDataObjectDoubleListener.getDataFailure(databaseError.getMessage());
             }
         });
     }

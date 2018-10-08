@@ -67,7 +67,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
 
         showLoading();
 
@@ -159,12 +158,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     public void onFailure(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     private String getCalendar() {

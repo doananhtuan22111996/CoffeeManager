@@ -3,22 +3,18 @@ package com.tuan.coffeemanager.feature.coffeedetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
 import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 import com.tuan.coffeemanager.widget.GlideUtil;
 
 import butterknife.BindView;
@@ -55,7 +51,6 @@ public class CoffeeDetailActivity extends BaseActivity implements ViewListener.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_detail);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
 
         showLoading();
 
@@ -134,12 +129,6 @@ public class CoffeeDetailActivity extends BaseActivity implements ViewListener.V
     public void deleteFailure(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     private void setInitView() {

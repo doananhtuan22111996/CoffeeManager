@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseFragment;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.featureBartender.OrderBartenderActivity;
 import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
@@ -70,7 +70,6 @@ public class SignInFragment extends BaseFragment implements ViewListener.ViewSig
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FirebaseDataApp.isActivity = true;
         signInPresenter = new SignInPresenter(this, this, this);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -80,11 +79,11 @@ public class SignInFragment extends BaseFragment implements ViewListener.ViewSig
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
-                    Toast.makeText(getActivity(), getString(R.string.text_mesage_email_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ConstApp.SIGNIN_E001, Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
-                    Toast.makeText(getActivity(), getString(R.string.text_message_email_valid), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ConstApp.SIGNIN_E002, Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
-                    Toast.makeText(getActivity(), getString(R.string.text_message_password_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ConstApp.SIGNIN_E003, Toast.LENGTH_SHORT).show();
                 } else {
                     showLoading();
                     KeyBoardUtil.hideKeyBoard(getActivity());
@@ -111,12 +110,11 @@ public class SignInFragment extends BaseFragment implements ViewListener.ViewSig
     public void onSuccess(final String id) {
         this.id = id;
         DataUtil.setIdUser(getContext(), id);
-        FirebaseDataApp.isActivity = true;
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d("Tokennnnnn", task.getResult().getToken());
+                    Log.d(ConstApp.TOKEN, task.getResult().getToken());
                     signInPresenter.postTokenUser(getActivity(), id, task.getResult().getToken());
                 }
             }
@@ -129,19 +127,19 @@ public class SignInFragment extends BaseFragment implements ViewListener.ViewSig
         hideLoading();
         DataUtil.setNameUser(getContext(), user.getName());
         DataUtil.setPosition(getContext(), user.getPosition());
-        if (user.getPosition().equals("employee")) {
+        if (user.getPosition().equals(ConstApp.EMPLOYEE)) {
             startActivity(new Intent(getActivity(), CoffeeActivity.class));
-            if (getActivity() != null){
+            if (getActivity() != null) {
                 getActivity().finish();
             }
-        } else if (user.getPosition().equals("bartender")) {
+        } else if (user.getPosition().equals(ConstApp.BARTENDER_POSITION)) {
             startActivity(new Intent(getActivity(), OrderBartenderActivity.class));
-            if (getActivity() != null){
+            if (getActivity() != null) {
                 getActivity().finish();
             }
         } else {
             startActivity(new Intent(getActivity(), MainManagerActivity.class));
-            if (getActivity() != null){
+            if (getActivity() != null) {
                 getActivity().finish();
             }
         }
@@ -159,12 +157,6 @@ public class SignInFragment extends BaseFragment implements ViewListener.ViewSig
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override

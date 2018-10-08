@@ -62,7 +62,6 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_revenue_manager);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
         showLoading();
 
         tvTitle.setText(R.string.text_title_revenue_manager);
@@ -85,7 +84,6 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
     @Override
     public void onSuccess(final List<OrderDetail> orderDetailList) {
         hideLoading();
-        FirebaseDataApp.isActivity = false;
         srBill.setRefreshing(false);
         tvTotalBill.setText(getString(R.string.text_total_bill_manger, String.valueOf(orderDetailList.size())));
         tvTotalMoney.setText(getString(R.string.text_total_money_manager, String.valueOf(totalBill(orderDetailList))));
@@ -96,7 +94,6 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
         revenueManagerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                FirebaseDataApp.isActivity = true;
                 showLoading();
                 orderDetail_id = revenueManagerAdapter.getOrderDetailList().get(position).getOrder_detail_id();
                 revenueManagerPresenter.getDataUser(revenueManagerAdapter.getOrderDetailList().get(position).getUser_id());
@@ -136,12 +133,6 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
-    }
-
-    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
@@ -178,7 +169,6 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
 
     @Override
     public void onRefresh() {
-        FirebaseDataApp.isActivity = true;
         revenueManagerPresenter.getDataBill();
     }
 }

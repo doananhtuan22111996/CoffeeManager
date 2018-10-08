@@ -62,7 +62,6 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
         showLoading();
-        FirebaseDataApp.isActivity = true;
 
         editProfilePresenter = new EditProfilePresenter(this, this);
 
@@ -99,12 +98,6 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
     public void onFailure(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     private void setView(User user, Boolean isEdit) {

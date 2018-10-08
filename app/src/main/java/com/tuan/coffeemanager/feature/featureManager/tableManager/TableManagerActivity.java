@@ -40,7 +40,6 @@ public class TableManagerActivity extends BaseActivity implements ViewListener.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_manager);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
         showLoading();
         tvTitle.setText(getString(R.string.table_manager));
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -79,21 +78,8 @@ public class TableManagerActivity extends BaseActivity implements ViewListener.V
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseDataApp.isActivity = true;
-    }
-
-    @Override
     public void postSuccess(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        FirebaseDataApp.isActivity = true;
         tableManagerPresenter.gerListTable();
     }
 

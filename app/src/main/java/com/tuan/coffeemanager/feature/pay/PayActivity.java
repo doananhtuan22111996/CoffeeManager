@@ -76,7 +76,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
         setContentView(R.layout.activity_pay);
         ButterKnife.bind(this);
 
-        FirebaseDataApp.isActivity = true;
         showLoading();
 
         if (getIntent().getExtras() != null) {
@@ -165,7 +164,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
         if (!btnPay.isEnabled()){
             Toast.makeText(this, "Waiting Bartender complete!", Toast.LENGTH_SHORT).show();
         }
-        FirebaseDataApp.isActivity = true;
         payUserPresenter.getDataManager();
     }
 
@@ -187,12 +185,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
             sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override

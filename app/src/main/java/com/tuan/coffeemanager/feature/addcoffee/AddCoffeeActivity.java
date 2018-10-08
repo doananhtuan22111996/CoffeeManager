@@ -11,29 +11,23 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 import com.tuan.coffeemanager.widget.GlideUtil;
 import com.tuan.coffeemanager.widget.KeyBoardUtil;
-
 import java.io.ByteArrayOutputStream;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -70,7 +64,6 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coffee);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
 
         if (getIntent().getExtras() != null) {
             id = getIntent().getExtras().getString(ConstApp.DRINK_ID, null).trim();
@@ -252,9 +245,4 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
-    }
 }

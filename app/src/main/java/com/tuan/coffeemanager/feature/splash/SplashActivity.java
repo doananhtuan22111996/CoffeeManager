@@ -26,7 +26,6 @@ public class SplashActivity extends BaseActivity implements ViewListener.ViewDat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        FirebaseDataApp.isActivity = true;
         splashPresenter = new SplashPresenter(this);
 
         String id = DataUtil.getIdUser(this);
@@ -36,12 +35,6 @@ public class SplashActivity extends BaseActivity implements ViewListener.ViewDat
         } else {
             splashPresenter.getDataUser(id);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override

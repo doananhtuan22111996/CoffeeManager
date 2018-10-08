@@ -3,21 +3,18 @@ package com.tuan.coffeemanager.feature.editorder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editorder.presenter.EditOrderPresenter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
@@ -25,7 +22,6 @@ import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +68,6 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
         setContentView(R.layout.activity_edit_order);
         ButterKnife.bind(this);
 
-        FirebaseDataApp.isActivity = true;
         showLoading();
 
         tvTitle.setText(R.string.text_title_edit_order);
@@ -212,9 +207,4 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
-    }
 }

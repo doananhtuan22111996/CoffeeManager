@@ -42,7 +42,6 @@ public class EmployeeManagerActivity extends BaseActivity implements ViewListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_manager);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
         showLoading();
 
         employeeManagerPresenter = new EmployeeManagerPresenter(this);
@@ -82,9 +81,4 @@ public class EmployeeManagerActivity extends BaseActivity implements ViewListene
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
-    }
 }

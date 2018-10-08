@@ -74,7 +74,6 @@ public class TableFragment extends BaseFragment implements ViewListener.ViewList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FirebaseDataApp.isActivity = true;
         dlTable.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         navTable.setNavigationItemSelectedListener(this);
         rvTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -90,12 +89,6 @@ public class TableFragment extends BaseFragment implements ViewListener.ViewList
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override
@@ -122,41 +115,45 @@ public class TableFragment extends BaseFragment implements ViewListener.ViewList
 
     @Override
     public void onSuccess(final List<Table> tableList, final List<Order> orderList) {
-        srTable.setRefreshing(false);
-        FirebaseDataApp.isActivity = false;
-        final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
-        final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
-        final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
-        final MenuItem navPay = navTable.getMenu().findItem(R.id.nav_Pay);
-        TableOrderCoffeeAdapter tableOrderCoffeeAdapter = new TableOrderCoffeeAdapter(getContext(), tableList, orderList);
-        rvTable.setAdapter(tableOrderCoffeeAdapter);
-        tableOrderCoffeeAdapter.notifyDataSetChanged();
-        tableOrderCoffeeAdapter.setOnTableClickListener(new OnItemClickListener.OnTableClickListener() {
-            @Override
-            public void onItemOpenClickListener(int position) {
-                table = tableList.get(position);
-                tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
-                navPay.setEnabled(false);
-                navOrder.setEnabled(true);
-                navEditOrder.setEnabled(false);
-                dlTable.openDrawer(Gravity.START);
-            }
-
-            @Override
-            public void onItemCloseClickListener(int position) {
-                table = tableList.get(position);
-                tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
-                navPay.setEnabled(true);
-                navOrder.setEnabled(false);
-                navEditOrder.setEnabled(true);
-                for (Order order : orderList) {
-                    if (order.getTable_id().equals(table.getId())) {
-                        order_drink_id = order.getOrder_detail_id();
-                    }
+        if (srTable != null) {
+            srTable.setRefreshing(false);
+        }
+        if (navTable != null){
+            final TextView tvNumberTable = navTable.getHeaderView(0).findViewById(R.id.tvNumberTable);
+            final MenuItem navEditOrder = navTable.getMenu().findItem(R.id.nav_EditOrder);
+            final MenuItem navOrder = navTable.getMenu().findItem(R.id.nav_Order);
+            final MenuItem navPay = navTable.getMenu().findItem(R.id.nav_Pay);
+            TableOrderCoffeeAdapter tableOrderCoffeeAdapter = new TableOrderCoffeeAdapter(getContext(), tableList, orderList);
+            rvTable.setAdapter(tableOrderCoffeeAdapter);
+            tableOrderCoffeeAdapter.notifyDataSetChanged();
+            tableOrderCoffeeAdapter.setOnTableClickListener(new OnItemClickListener.OnTableClickListener() {
+                @Override
+                public void onItemOpenClickListener(int position) {
+                    table = tableList.get(position);
+                    tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
+                    navPay.setEnabled(false);
+                    navOrder.setEnabled(true);
+                    navEditOrder.setEnabled(false);
+                    dlTable.openDrawer(Gravity.START);
                 }
-                dlTable.openDrawer(Gravity.START);
-            }
-        });
+
+                @Override
+                public void onItemCloseClickListener(int position) {
+                    table = tableList.get(position);
+                    tvNumberTable.setText(getResources().getString(R.string.text_number_table, String.valueOf(position + 1)));
+                    navPay.setEnabled(true);
+                    navOrder.setEnabled(false);
+                    navEditOrder.setEnabled(true);
+                    for (Order order : orderList) {
+                        if (order.getTable_id().equals(table.getId())) {
+                            order_drink_id = order.getOrder_detail_id();
+                        }
+                    }
+                    dlTable.openDrawer(Gravity.START);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -197,13 +194,11 @@ public class TableFragment extends BaseFragment implements ViewListener.ViewList
     @Override
     public void onResume() {
         super.onResume();
-        FirebaseDataApp.isActivity = true;
         tableCoffeePresenter.getTableOrderListData();
     }
 
     @Override
     public void onRefresh() {
-        FirebaseDataApp.isActivity = true;
         tableCoffeePresenter.getTableOrderListData();
     }
 }

@@ -54,7 +54,6 @@ public class CoffeeManagerActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_manager);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
         showLoading();
         tvTitle.setText(getString(R.string.text_drink_coffee));
         ivBack.setOnClickListener(this);
@@ -106,7 +105,6 @@ public class CoffeeManagerActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onStop() {
         super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override

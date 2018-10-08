@@ -65,7 +65,6 @@ public class OrderDetailBartenderActivity extends BaseActivity implements ViewLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail_bartender);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
         showLoading();
 
         orderDetailBartenderPresenter = new OrderDetailBartenderPresenter(this, this);
@@ -151,7 +150,6 @@ public class OrderDetailBartenderActivity extends BaseActivity implements ViewLi
     @Override
     public void onSuccess(User user) {
         hideLoading();
-        FirebaseDataApp.isActivity = false;
         this.user = user;
     }
 

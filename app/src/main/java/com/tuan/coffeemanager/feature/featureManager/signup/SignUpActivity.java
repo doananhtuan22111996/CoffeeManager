@@ -56,7 +56,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_employee);
         ButterKnife.bind(this);
-        FirebaseDataApp.isActivity = true;
 
         signUpPresenter = new SignUpPresenter(this, this);
 
@@ -107,12 +106,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 break;
             }
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override

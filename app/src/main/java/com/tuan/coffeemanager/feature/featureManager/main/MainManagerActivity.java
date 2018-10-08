@@ -53,8 +53,6 @@ public class MainManagerActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_main_manager);
         ButterKnife.bind(this);
 
-        FirebaseDataApp.isActivity = true;
-
         ivAddCoffee.setVisibility(View.GONE);
 
         btnManagerEmployee.setOnClickListener(this);
@@ -112,9 +110,4 @@ public class MainManagerActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
-    }
 }

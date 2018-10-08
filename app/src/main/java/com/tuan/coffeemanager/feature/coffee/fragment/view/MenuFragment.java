@@ -69,7 +69,6 @@ public class MenuFragment extends BaseFragment implements ViewListener.ViewListD
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         showLoading();
-        FirebaseDataApp.isActivity = true;
         rvMenu.setLayoutManager(new GridLayoutManager(getContext(), 3));
         menuCoffeePresenter = new MenuCoffeePresenter(this);
         menuCoffeePresenter.getMenuListData();
@@ -82,12 +81,6 @@ public class MenuFragment extends BaseFragment implements ViewListener.ViewListD
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        FirebaseDataApp.isActivity = false;
     }
 
     @Override
@@ -150,13 +143,11 @@ public class MenuFragment extends BaseFragment implements ViewListener.ViewListD
     @Override
     public void onResume() {
         super.onResume();
-        FirebaseDataApp.isActivity = true;
         menuCoffeePresenter.getMenuListData();
     }
 
     @Override
     public void onRefresh() {
-        FirebaseDataApp.isActivity = true;
         menuCoffeePresenter.getMenuListData();
     }
 }
