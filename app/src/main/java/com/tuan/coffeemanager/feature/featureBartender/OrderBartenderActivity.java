@@ -52,9 +52,7 @@ public class OrderBartenderActivity extends BaseActivity implements ViewListener
             @Override
             public void onClick(View view) {
                 showLoading();
-                DataUtil.setIdUser(OrderBartenderActivity.this, null);
-                DataUtil.setNameUser(OrderBartenderActivity.this, null);
-                DataUtil.setPosition(OrderBartenderActivity.this, null);
+                DataUtil.newInstance(view.getContext()).setDataUser(null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(Objects.requireNonNull(OrderBartenderActivity.this));

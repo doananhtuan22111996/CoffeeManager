@@ -76,7 +76,7 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
                 btnSave.setText(R.string.text_save);
             }
             if (id == null){
-                id = DataUtil.getIdUser(this);
+                id = DataUtil.newInstance(this).getDataUser().getId();
             }
         }
 

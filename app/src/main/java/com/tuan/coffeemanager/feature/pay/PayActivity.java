@@ -86,7 +86,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
                 tvNumberTable.setVisibility(View.VISIBLE);
                 btnPay.setVisibility(View.VISIBLE);
                 tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
-                String nameUser = DataUtil.getNameUser(this);
+                String nameUser = DataUtil.newInstance(this).getDataUser().getName();
                 if (nameUser.trim().isEmpty()) {
                     tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
                 } else {

@@ -24,4 +24,6 @@ public class ConstApp {
     public static final String SIGN_IN_E001 = "Email is empty!";
     public static final String SIGN_IN_E002 = "Email is not valid!";
     public static final String SIGN_IN_E003 = "Password is empty!";
+    public static final String SIGN_IN_E004 = "Sign in failure!";
+    public static final String SIGN_IN_E005 = "Sign in success!";
 }

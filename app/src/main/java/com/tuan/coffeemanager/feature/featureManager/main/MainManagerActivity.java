@@ -20,6 +20,7 @@ import com.tuan.coffeemanager.feature.featureManager.signup.SignUpActivity;
 import com.tuan.coffeemanager.feature.featureManager.tableManager.TableManagerActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
+import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
@@ -62,6 +63,7 @@ public class MainManagerActivity extends BaseActivity implements View.OnClickLis
         btnRevenueManager.setOnClickListener(this);
         btnCoffeeManager.setOnClickListener(this);
         btnTableManager.setOnClickListener(this);
+
     }
 
     @Override
@@ -73,9 +75,7 @@ public class MainManagerActivity extends BaseActivity implements View.OnClickLis
             }
             case R.id.btnLogout: {
                 showLoading();
-                DataUtil.setIdUser(this, null);
-                DataUtil.setNameUser(this, null);
-                DataUtil.setPosition(this, null);
+                DataUtil.newInstance(this).setDataUser(null);
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     AuthUI authUI = AuthUI.getInstance();
                     authUI.signOut(this);
@@ -87,7 +87,7 @@ public class MainManagerActivity extends BaseActivity implements View.OnClickLis
             }
             case R.id.btnEditProfile: {
                 startActivity(new Intent(this, EditProfileActivity.class)
-                        .putExtra(ConstApp.ID_USER, DataUtil.getIdUser(this))
+                        .putExtra(ConstApp.ID_USER, DataUtil.newInstance(this).getDataUser().getId())
                         .putExtra(ConstApp.STATUS, true));
                 break;
             }

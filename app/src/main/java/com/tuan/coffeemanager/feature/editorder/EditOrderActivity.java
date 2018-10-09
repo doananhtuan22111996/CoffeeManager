@@ -82,8 +82,8 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
                 tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
             }
         }
-        String nameUser = DataUtil.getNameUser(this);
-        user_id = DataUtil.getIdUser(this);
+        String nameUser = DataUtil.newInstance(this).getDataUser().getName();
+        user_id = DataUtil.newInstance(this).getDataUser().getId();
         if (nameUser.trim().isEmpty()) {
             tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
         } else {

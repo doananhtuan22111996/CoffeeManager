@@ -132,10 +132,10 @@ public class CoffeeDetailActivity extends BaseActivity implements ViewListener.V
     }
 
     private void setInitView() {
-        if (DataUtil.getPisitionUser(this).equals("manager")) {
+        if (DataUtil.newInstance(this).getDataUser().getPosition().equals("manager")) {
             tvEditCoffee.setEnabled(true);
             tvRemoveCoffee.setEnabled(true);
-        } else if (DataUtil.getPisitionUser(this).equals("employee")) {
+        } else if (DataUtil.newInstance(this).getDataUser().getPosition().equals(ConstApp.EMPLOYEE)) {
             tvEditCoffee.setTextColor(getResources().getColor(R.color.hint));
             tvRemoveCoffee.setTextColor(getResources().getColor(R.color.hint));
             tvEditCoffee.setEnabled(false);

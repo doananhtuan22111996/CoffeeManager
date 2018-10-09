@@ -21,6 +21,7 @@ import com.tuan.coffeemanager.sharepref.DataUtil;
 public class SplashActivity extends BaseActivity implements ViewListener.ViewDataListener<User> {
 
     private SplashPresenter splashPresenter;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +30,12 @@ public class SplashActivity extends BaseActivity implements ViewListener.ViewDat
 
         splashPresenter = new SplashPresenter(this);
 
-        String id = DataUtil.getIdUser(this);
-        if (id.equals("")) {
+        user = DataUtil.newInstance(this).getDataUser();
+        if (user.getId().equals("")) {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         } else {
-            splashPresenter.getDataUser(id);
+            splashPresenter.getDataUser(user.getId());
         }
     }
 
