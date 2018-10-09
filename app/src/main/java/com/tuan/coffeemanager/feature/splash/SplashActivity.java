@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.coffee.CoffeeActivity;
 import com.tuan.coffeemanager.feature.featureBartender.OrderBartenderActivity;
 import com.tuan.coffeemanager.feature.featureManager.main.MainManagerActivity;
@@ -39,10 +40,10 @@ public class SplashActivity extends BaseActivity implements ViewListener.ViewDat
 
     @Override
     public void onSuccess(User user) {
-        if (user.getPosition().equals("employee")) {
+        if (user.getPosition().equals(ConstApp.EMPLOYEE)) {
             startActivity(new Intent(this, CoffeeActivity.class));
             finish();
-        } else if (user.getPosition().equals("bartender")) {
+        } else if (user.getPosition().equals(ConstApp.BARTENDER_POSITION)) {
             startActivity(new Intent(this, OrderBartenderActivity.class));
             finish();
         } else if (user.getPosition().equals("manager")) {
