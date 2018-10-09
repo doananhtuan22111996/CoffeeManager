@@ -121,7 +121,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onSuccess(User user) {
         user.setPosition(position);
-        user.setIsStatus(true);
+        user.setStatus(true);
         signUpPresenter.postDataUser(this, user);
     }
 

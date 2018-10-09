@@ -21,7 +21,7 @@ public class ConstApp {
     public static final String BARTENDER_POSITION = "bartender";
 
     //Error Sign in
-    public static final String SIGNIN_E001 = "Email is empty!";
-    public static final String SIGNIN_E002 = "Email is not valid!";
-    public static final String SIGNIN_E003 = "Password is empty!";
+    public static final String SIGN_IN_E001 = "Email is empty!";
+    public static final String SIGN_IN_E002 = "Email is not valid!";
+    public static final String SIGN_IN_E003 = "Password is empty!";
 }

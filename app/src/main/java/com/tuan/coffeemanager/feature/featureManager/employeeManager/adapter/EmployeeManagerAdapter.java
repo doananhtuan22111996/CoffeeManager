@@ -44,7 +44,7 @@ public class EmployeeManagerAdapter extends RecyclerView.Adapter<EmployeeManager
     public void onBindViewHolder(@NonNull EmployeeManagerViewHolder employeeManagerViewHolder, final int i) {
         User user = userList.get(i);
         employeeManagerViewHolder.tvNameUser.setText(context.getString(R.string.text_employee_name_example, user.getName()));
-        employeeManagerViewHolder.tvPhone.setText(context.getString(R.string.text_phone_number, user.getPhone_number()));
+        employeeManagerViewHolder.tvPhone.setText(context.getString(R.string.text_phone_number, user.getPhoneNumber()));
         employeeManagerViewHolder.clEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

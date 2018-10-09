@@ -79,11 +79,11 @@ public class SignInFragment extends BaseFragment implements ViewListener.ViewSig
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
-                    Toast.makeText(getActivity(), ConstApp.SIGNIN_E001, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ConstApp.SIGN_IN_E001, Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
-                    Toast.makeText(getActivity(), ConstApp.SIGNIN_E002, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ConstApp.SIGN_IN_E002, Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
-                    Toast.makeText(getActivity(), ConstApp.SIGNIN_E003, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), ConstApp.SIGN_IN_E003, Toast.LENGTH_SHORT).show();
                 } else {
                     showLoading();
                     KeyBoardUtil.hideKeyBoard(getActivity());

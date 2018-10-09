@@ -1,14 +1,16 @@
 package com.tuan.coffeemanager.model;
 
 
+import com.google.firebase.database.PropertyName;
+
 public class User {
 
     private String id;
     private String name;
     private String position;
     private String address;
-    private String birth_day;
-    private String phone_number;
+    private String birthDay;
+    private String phoneNumber;
     private String email;
     private String token;
     private Boolean isStatus;
@@ -16,87 +18,105 @@ public class User {
     public User() {
     }
 
-    public User(String id, String name, String position, String address, String birth_day, String phone_number, String email, String token, Boolean isStatus) {
+    public User(String id, String name, String position, String address, String birthDay, String phoneNumber, String email, String token, Boolean isStatus) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.address = address;
-        this.birth_day = birth_day;
-        this.phone_number = phone_number;
+        this.birthDay = birthDay;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.token = token;
         this.isStatus = isStatus;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    @PropertyName("id")
     public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getBirth_day() {
-        return birth_day;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
+    @PropertyName("id")
     public void setId(String id) {
         this.id = id;
     }
 
+    @PropertyName("name")
+    public String getName() {
+        return name;
+    }
+
+    @PropertyName("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    @PropertyName("position")
+    public String getPosition() {
+        return position;
+    }
+
+    @PropertyName("position")
     public void setPosition(String position) {
         this.position = position;
     }
 
+    @PropertyName("address")
+    public String getAddress() {
+        return address;
+    }
+
+    @PropertyName("address")
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public void setBirth_day(String birth_day) {
-        this.birth_day = birth_day;
+    @PropertyName("birth_day")
+    public String getBirthDay() {
+        return birthDay;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    @PropertyName("birth_day")
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
     }
 
-    public Boolean getIsStatus() {
+    @PropertyName("phone_number")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @PropertyName("phone_number")
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @PropertyName("email")
+    public String getEmail() {
+        return email;
+    }
+
+    @PropertyName("email")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @PropertyName("token")
+    public String getToken() {
+        return token;
+    }
+
+    @PropertyName("token")
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @PropertyName("isStatus")
+    public Boolean getStatus() {
         return isStatus;
     }
 
-    public void setIsStatus(Boolean status) {
+    @PropertyName("isStatus")
+    public void setStatus(Boolean status) {
         isStatus = status;
     }
 }

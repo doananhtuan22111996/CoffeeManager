@@ -116,11 +116,11 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
         if (user.getEmail() != null) {
             tvEmail.setText(user.getEmail());
         }
-        if (user.getBirth_day() != null) {
-            editBirthDay.setText(user.getBirth_day());
+        if (user.getBirthDay() != null) {
+            editBirthDay.setText(user.getBirthDay());
         }
-        if (user.getPhone_number() != null) {
-            edtPhone.setText(user.getPhone_number());
+        if (user.getPhoneNumber() != null) {
+            edtPhone.setText(user.getPhoneNumber());
         }
         if (user.getAddress() != null) {
             edtAddress.setText(user.getAddress());
@@ -149,10 +149,10 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
                         user.setName(name);
                     }
                     if (!birthDay.isEmpty()) {
-                        user.setBirth_day(birthDay);
+                        user.setBirthDay(birthDay);
                     }
                     if (!phone.isEmpty()) {
-                        user.setPhone_number(phone);
+                        user.setPhoneNumber(phone);
                     }
                     if (!address.isEmpty()) {
                         user.setAddress(address);
