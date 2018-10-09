@@ -20,18 +20,15 @@ import com.tuan.coffeemanager.sharepref.DataUtil;
 
 public class SplashActivity extends BaseActivity implements ViewListener.ViewDataListener<User> {
 
-    private SplashPresenter splashPresenter;
-    private User user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        splashPresenter = new SplashPresenter(this);
+        SplashPresenter splashPresenter = new SplashPresenter(this);
 
-        user = DataUtil.newInstance(this).getDataUser();
-        if (user.getId().equals("")) {
+        User user = DataUtil.newInstance(this).getDataUser();
+        if (user == null) {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         } else {

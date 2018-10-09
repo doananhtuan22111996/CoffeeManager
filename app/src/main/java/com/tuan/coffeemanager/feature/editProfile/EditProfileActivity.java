@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +16,10 @@ import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editProfile.presenter.EditProfileDeletePresenter;
 import com.tuan.coffeemanager.feature.editProfile.presenter.EditProfilePresenter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -135,11 +132,11 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
                 break;
             }
             case R.id.clContent: {
-                KeyBoardUtil.hideKeyBoard(this);
+                KeyBoardExt.hideKeyBoard(this);
                 break;
             }
             case R.id.btnSave: {
-                KeyBoardUtil.hideKeyBoard(this);
+                KeyBoardExt.hideKeyBoard(this);
                 if (isEdit) {
                     String name = edtName.getText().toString().trim();
                     String birthDay = editBirthDay.getText().toString().trim();

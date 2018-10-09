@@ -3,7 +3,6 @@ package com.tuan.coffeemanager.feature.featureManager.revenue;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -20,14 +19,12 @@ import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.featureManager.revenue.adapter.RevenueManagerAdapter;
 import com.tuan.coffeemanager.feature.featureManager.revenue.presenter.RevenueManagerPresenter;
 import com.tuan.coffeemanager.feature.pay.PayActivity;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +101,7 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
     @Override
     public void onSuccess(User user) {
         hideLoading();
-        KeyBoardUtil.hideKeyBoard(this);
+        KeyBoardExt.hideKeyBoard(this);
         startActivity(new Intent(RevenueManagerActivity.this, PayActivity.class)
                 .putExtra(ConstApp.ORDER_DETAIL_ID, orderDetail_id)
                 .putExtra(ConstApp.NAME_USER, user.getName()));

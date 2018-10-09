@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,11 +17,9 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.feature.featureManager.signup.presenter.SignUpPresenter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.User;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,11 +75,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 break;
             }
             case R.id.clContent: {
-                KeyBoardUtil.hideKeyBoard(this);
+                KeyBoardExt.hideKeyBoard(this);
                 break;
             }
             case R.id.btnSignUp: {
-                KeyBoardUtil.hideKeyBoard(this);
+                KeyBoardExt.hideKeyBoard(this);
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String cofpassword = edtConfirmPassword.getText().toString().trim();

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,12 +21,10 @@ import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
 import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +91,7 @@ public class MenuFragment extends BaseFragment implements ViewListener.ViewListD
         drinkCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                KeyBoardUtil.hideKeyBoard(getActivity());
+                KeyBoardExt.hideKeyBoard(getActivity());
                 Intent intent = new Intent(getActivity(), CoffeeDetailActivity.class);
                 intent.putExtra(ConstApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
                 startActivity(intent);

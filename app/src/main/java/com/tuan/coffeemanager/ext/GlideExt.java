@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.widget;
+package com.tuan.coffeemanager.ext;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.tuan.coffeemanager.R;
 
-public class GlideUtil {
+public class GlideExt {
      public static void showImage(Context context, ImageView iv, String url){
          if (url != null){
              Glide.with(context).load(url).into(iv);

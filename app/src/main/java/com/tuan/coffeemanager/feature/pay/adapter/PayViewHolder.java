@@ -10,17 +10,15 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.model.DrinkOrder;
-import com.tuan.coffeemanager.widget.GlideUtil;
+import com.tuan.coffeemanager.ext.GlideExt;
 
 public class PayViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView ivCoffee;
-    TextView tvNameCoffee;
-    ImageView ivCheck;
-    TextView tvPrice;
-    Button btnDown;
-    Button btnUp;
-    TextView tvAmount;
+    private ImageView ivCoffee;
+    private TextView tvNameCoffee;
+    private ImageView ivCheck;
+    private TextView tvPrice;
+    private TextView tvAmount;
 
     PayViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -28,22 +26,21 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
         tvNameCoffee = itemView.findViewById(R.id.tvNameCoffee);
         ivCheck = itemView.findViewById(R.id.ivCheck);
         tvPrice = itemView.findViewById(R.id.tvPrice);
-        btnDown = itemView.findViewById(R.id.btnDown);
-        btnUp = itemView.findViewById(R.id.btnUp);
         tvAmount = itemView.findViewById(R.id.tvAmount);
-
         ivCheck.setVisibility(View.GONE);
+        Button btnDown = itemView.findViewById(R.id.btnDown);
+        Button btnUp = itemView.findViewById(R.id.btnUp);
         btnUp.setVisibility(View.GONE);
         btnDown.setVisibility(View.GONE);
     }
 
     public void bind(Context context, DrinkOrder drinkOrder) {
-        GlideUtil.showImage(context, ivCoffee, drinkOrder.getUrl());
+        GlideExt.showImage(context, ivCoffee, drinkOrder.getUrl());
         tvNameCoffee.setText(drinkOrder.getName());
         tvAmount.setText(drinkOrder.getAmount());
         int amount = Integer.parseInt(drinkOrder.getAmount());
         tvPrice.setText(String.valueOf(amount * Integer.parseInt(drinkOrder.getPrice()) + "$"));
-        if (drinkOrder.getIsStatus_detail() == true) {
+        if (drinkOrder.getIsStatus_detail()) {
             ivCheck.setVisibility(View.VISIBLE);
         } else {
             ivCheck.setVisibility(View.GONE);

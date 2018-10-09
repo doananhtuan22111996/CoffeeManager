@@ -25,8 +25,8 @@ import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
 import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.GlideUtil;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.GlideExt;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 import java.io.ByteArrayOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,7 +98,7 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
             edtDescriptionCoffee.setText(drink.getDescription());
             edtPriceCoffee.setText(String.valueOf(drink.getPrice()));
             if (drink.getUrl() != null) {
-                GlideUtil.showImage(this, ivCoffee, drink.getUrl());
+                GlideExt.showImage(this, ivCoffee, drink.getUrl());
             }
         }
     }
@@ -117,7 +117,7 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
                 break;
             }
             case R.id.btnSaveCoffee: {
-                KeyBoardUtil.hideKeyBoard(this);
+                KeyBoardExt.hideKeyBoard(this);
                 String name = edtNameCoffee.getText().toString().trim();
                 String description = edtDescriptionCoffee.getText().toString().trim();
                 String price = edtPriceCoffee.getText().toString().trim();
@@ -150,7 +150,7 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
                 break;
             }
             case R.id.clContent: {
-                KeyBoardUtil.hideKeyBoard(this);
+                KeyBoardExt.hideKeyBoard(this);
                 break;
             }
             case R.id.ivCoffee: {

@@ -15,7 +15,7 @@ import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresent
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.GlideUtil;
+import com.tuan.coffeemanager.ext.GlideExt;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,7 +100,7 @@ public class CoffeeDetailActivity extends BaseActivity implements ViewListener.V
             tvDescriptionCoffee.setText(drink.getDescription());
             tvPriceCoffee.setText(String.valueOf(drink.getPrice()));
             if (drink.getUrl() != null && drink.getUuid() != null) {
-                GlideUtil.showImage(this, ivCoffee, drink.getUrl());
+                GlideExt.showImage(this, ivCoffee, drink.getUrl());
             }
         }
     }

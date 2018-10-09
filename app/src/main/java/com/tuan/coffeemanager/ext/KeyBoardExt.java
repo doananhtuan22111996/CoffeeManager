@@ -1,10 +1,10 @@
-package com.tuan.coffeemanager.widget;
+package com.tuan.coffeemanager.ext;
 
 import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-public class KeyBoardUtil {
+public class KeyBoardExt {
 
     private static InputMethodManager inputMethodManager;
 

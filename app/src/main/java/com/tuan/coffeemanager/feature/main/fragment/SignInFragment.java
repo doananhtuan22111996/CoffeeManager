@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseFragment;
 import com.tuan.coffeemanager.constant.ConstApp;
@@ -22,7 +23,7 @@ import com.tuan.coffeemanager.feature.main.reset.ResetPasswordActivity;
 import com.tuan.coffeemanager.feature.main.fragment.presenter.SignInPresenter;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,7 +71,7 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                KeyBoardUtil.hideKeyBoard(getActivity());
+                KeyBoardExt.hideKeyBoard(getActivity());
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
@@ -81,7 +82,7 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
                     Toast.makeText(getActivity(), ConstApp.SIGN_IN_E003, Toast.LENGTH_SHORT).show();
                 } else {
                     showLoading();
-                    KeyBoardUtil.hideKeyBoard(getActivity());
+                    KeyBoardExt.hideKeyBoard(getActivity());
                     signInPresenter.signIn(email, password);
                 }
             }

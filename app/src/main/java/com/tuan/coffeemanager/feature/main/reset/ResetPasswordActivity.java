@@ -1,7 +1,6 @@
 package com.tuan.coffeemanager.feature.main.reset;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +12,7 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.feature.main.reset.presenter.ResetPasswordPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
-import com.tuan.coffeemanager.widget.KeyBoardUtil;
+import com.tuan.coffeemanager.ext.KeyBoardExt;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +48,7 @@ public class ResetPasswordActivity extends BaseActivity implements ViewListener.
         btnSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                KeyBoardUtil.hideKeyBoard(ResetPasswordActivity.this);
+                KeyBoardExt.hideKeyBoard(ResetPasswordActivity.this);
                 if (edtEmail.getText().toString().trim().isEmpty()) {
                     Toast.makeText(ResetPasswordActivity.this, getString(R.string.text_mesage_email_empty), Toast.LENGTH_SHORT).show();
                 } else {
