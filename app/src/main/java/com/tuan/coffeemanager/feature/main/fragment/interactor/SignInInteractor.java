@@ -30,72 +30,95 @@ public class SignInInteractor {
         this.signInPresenterListener = signInPresenterListener;
     }
 
+    //4. Xử lý check đăng nhập
     public void signIn(String email, String password) {
         requestSignIn(email, password);
     }
 
+    //4.a Request Sign in
     private void requestSignIn(String email, String password) {
+        //Hàm đăng nhập email và  password của FirebaseAuth
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                user.setId(authResult.getUser().getUid());
+                //4.a.1 Sign in success
+                user.setId(authResult.getUser().getUid()); //Get User Id
                 getCurrentToken();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                //4.a.2 Sign in failure
                 signInPresenterListener.getFailure(ConstApp.SIGN_IN_E004);
             }
         });
     }
 
+    //4.b Get current device token
     private void getCurrentToken() {
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
                 if (task.isSuccessful()) {
+                    //4.b.1 Get device token success
                     updateCurrentToken(user.getId(), task.getResult().getToken());
                     Log.e(ConstApp.TOKEN, task.getResult().getToken());
-                }else {
-                    signInPresenterListener.getFailure(ConstApp.SIGN_IN_E004);
-                }
-            }
-        });
-    }
-
-    private void updateCurrentToken(String id, String token) {
-        databaseReference.child(ConstApp.NODE_USER).child(id).child(ConstApp.TOKEN).setValue(token).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    getDataUser(user.getId());
-                }else {
-                    signInPresenterListener.getFailure(ConstApp.SIGN_IN_E004);
+                } else {
+                    //4.b.2 Get device token failure
+                    signInPresenterListener.getFailure(ConstApp.SIGN_IN_E006);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                signInPresenterListener.getFailure(ConstApp.SIGN_IN_E004);
+                //4.b.2 Get device token failure
+                signInPresenterListener.getFailure(ConstApp.SIGN_IN_E006);
             }
         });
     }
 
+    //4.c Update current device token on database
+    private void updateCurrentToken(String id, String token) {
+        databaseReference.child(ConstApp.NODE_USER).child(id).child(ConstApp.TOKEN).setValue(token)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            //4.c.1 Update token success
+                            getDataUser(user.getId());
+                        } else {
+                            //4.c.2 Update token failure
+                            signInPresenterListener.getFailure(ConstApp.SIGN_IN_E007);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //4.c.2 Update token failure
+                signInPresenterListener.getFailure(ConstApp.SIGN_IN_E007);
+            }
+        });
+    }
+
+    //4.d Get data user
     private void getDataUser(String id) {
         databaseReference.child(ConstApp.NODE_USER).child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null){
+                if (dataSnapshot.getValue() != null) {
+                    //4.d.1 Get data user success
                     user = dataSnapshot.getValue(User.class);
                     signInPresenterListener.getSuccess(user);
-                }else {
-                    signInPresenterListener.getFailure(ConstApp.SIGN_IN_E004);
+                } else {
+                    //4.d.2 Get data user failure
+                    signInPresenterListener.getFailure(ConstApp.SIGN_IN_E008);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                signInPresenterListener.getFailure(ConstApp.SIGN_IN_E004);
+                //4.d.2 Get data user failure
+                signInPresenterListener.getFailure(ConstApp.SIGN_IN_E008);
             }
         });
     }

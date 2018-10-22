@@ -15,6 +15,7 @@ public class SignInPresenter implements ISignInListener.ISignInPresenterListener
         signInInteractor = new SignInInteractor(this);
     }
 
+    //Xử lý đăng nhập
     public void signIn(String email, String password) {
         signInInteractor.signIn(email, password);
     }

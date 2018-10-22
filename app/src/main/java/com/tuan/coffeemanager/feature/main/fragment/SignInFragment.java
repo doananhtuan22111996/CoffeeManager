@@ -43,6 +43,7 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
 
     private SignInPresenter signInPresenter;
 
+    //Hàm khởi tạo Fragment
     public static SignInFragment newInstance() {
         Bundle args = new Bundle();
         SignInFragment fragment = new SignInFragment();
@@ -50,6 +51,7 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
         return fragment;
     }
 
+    //Hàm khởi tạo View Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,36 +60,31 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
         return view;
     }
 
+    //Hàm sau khi View đã được khởi tạo
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         signInPresenter = new SignInPresenter(this);
-
-        init();
+        event();
     }
 
-    private void init() {
+    //Hàm xự kiện Click
+    private void event() {
+        //2. Nhấn button Sign in
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Hide keyboard
                 KeyBoardExt.hideKeyBoard(getActivity());
+                //2.1 Get email Sign in
                 String email = edtEmail.getText().toString().trim();
+                //2.2 Get password Sign in
                 String password = edtPassword.getText().toString().trim();
-                if (email.isEmpty()) {
-                    Toast.makeText(getActivity(), ConstApp.SIGN_IN_E001, Toast.LENGTH_SHORT).show();
-                } else if (!isValidEmail(email)) {
-                    Toast.makeText(getActivity(), ConstApp.SIGN_IN_E002, Toast.LENGTH_SHORT).show();
-                } else if (password.isEmpty()) {
-                    Toast.makeText(getActivity(), ConstApp.SIGN_IN_E003, Toast.LENGTH_SHORT).show();
-                } else {
-                    showLoading();
-                    KeyBoardExt.hideKeyBoard(getActivity());
-                    signInPresenter.signIn(email, password);
-                }
+                checkInputSignIn(email, password);
             }
         });
 
+        //Xự kiện click Reset password
         tvResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,40 +99,68 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
         unbinder.unbind();
     }
 
+    //Email không hợp lệ
     private Boolean isValidEmail(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    //3. Xử lý check Email và Password
+    private void checkInputSignIn(String email, String password) {
         if (email.isEmpty()) {
-            return false;
+            //Email rỗng
+            Toast.makeText(getActivity(), ConstApp.SIGN_IN_E001, Toast.LENGTH_SHORT).show();
+        } else if (!isValidEmail(email)) {
+            //Email không hợp lệ
+            Toast.makeText(getActivity(), ConstApp.SIGN_IN_E002, Toast.LENGTH_SHORT).show();
+        } else if (password.isEmpty()) {
+            //Password rỗng
+            Toast.makeText(getActivity(), ConstApp.SIGN_IN_E003, Toast.LENGTH_SHORT).show();
         } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+            //Show loading
+            showLoading();
+            //Xử lý Đăng nhập
+            signInPresenter.signIn(email, password);
         }
     }
 
+    //5. Nhận dữ liệu và kết thúc đăng nhập
     @Override
     public void signInSuccess(User user) {
         hideLoading();
         if (getActivity() != null) {
+            //Lưu thông tin user vào file
             DataUtil.newInstance(getActivity()).setDataUser(user);
+            //Kiểm tra đối tượng -> chuyển màn hình
+            //user.getPosition() lấy vị trí user
+            // startActivity() chuyển màn hình
             switch (user.getPosition()) {
                 case ConstApp.EMPLOYEE:
+                    //Employee
                     startActivity(new Intent(getActivity(), CoffeeActivity.class));
                     getActivity().finish();
                     break;
                 case ConstApp.BARTENDER_POSITION:
+                    //Bartender
                     startActivity(new Intent(getActivity(), OrderBartenderActivity.class));
                     getActivity().finish();
                     break;
                 default:
+                    //Manager
                     startActivity(new Intent(getActivity(), MainManagerActivity.class));
                     getActivity().finish();
                     break;
             }
+            //Hiển thị thông báo đăng nhập thành công
             Toast.makeText(getActivity(), ConstApp.SIGN_IN_E005, Toast.LENGTH_SHORT).show();
         }
     }
 
+    //Hàm xử lý đăng nhập thất bại
     @Override
     public void signInFailure(String error) {
+        //Hide loading
         hideLoading();
+        //Hiển thị thông báo đăng nhập thất bại
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 }

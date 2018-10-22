@@ -7,11 +7,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
+
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,10 +35,10 @@ public class CoffeeActivity extends BaseActivity {
 
         initViewPager();
 
-        if (getIntent().getExtras() != null){
-            int page = getIntent().getExtras().getInt("FLAG", 0);
-            changePage(page);
-        }
+//        if (getIntent().getExtras() != null) {
+//            int page = getIntent().getExtras().getInt(ConstApp.PAGE, 0);
+//            changePage(page);
+//        }
 
         ivAddCoffee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +50,9 @@ public class CoffeeActivity extends BaseActivity {
         });
     }
 
-    private void changePage(int page){
-        viewPager.setCurrentItem(page);
-    }
+//    private void changePage(int page) {
+//        viewPager.setCurrentItem(page);
+//    }
 
     private void initViewPager() {
         ivAddCoffee.setVisibility(View.GONE);
@@ -59,11 +62,7 @@ public class CoffeeActivity extends BaseActivity {
         Objects.requireNonNull(tabLayout.getTabAt(0)).setCustomView(R.layout.tab_coffee);
         Objects.requireNonNull(tabLayout.getTabAt(1)).setCustomView(R.layout.tab_table);
         Objects.requireNonNull(tabLayout.getTabAt(2)).setCustomView(R.layout.tab_more);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tabLayout.setSelectedTabIndicatorColor(getColor(R.color.brown));
-        } else {
-            tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.brown));
-        }
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.brown));
     }
 
 }
