@@ -17,6 +17,7 @@ import com.tuan.coffeemanager.feature.editProfileEmployee.listener.IEditProfileE
 import com.tuan.coffeemanager.feature.editProfileEmployee.presenter.EditProfileEmployeePresenter;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
+import com.tuan.coffeemanager.widget.DialogDatePickerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,6 +98,10 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
             }
             case R.id.clContent: {
                 KeyBoardExt.hideKeyBoard(this);
+                break;
+            }
+            case R.id.tvBirthDayDP: {
+                DialogDatePickerFragment.newInstance().show(getSupportFragmentManager(), "fragment");
                 break;
             }
             case R.id.btnSave: {
