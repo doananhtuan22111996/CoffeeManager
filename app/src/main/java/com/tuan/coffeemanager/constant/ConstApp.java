@@ -22,7 +22,7 @@ public class ConstApp {
     public static final String EMPLOYEE = "employee";
     public static final String BARTENDER_POSITION = "bartender";
 
-    //Error Sign in
+    //Error Sign In
     public static final String SIGN_IN_E001 = "Email is empty!";
     public static final String SIGN_IN_E002 = "Email is invalid!";
     public static final String SIGN_IN_E003 = "Password is empty!";
@@ -31,4 +31,8 @@ public class ConstApp {
     public static final String SIGN_IN_E006 = "Get device token failure!";
     public static final String SIGN_IN_E007 = "Update device token failure!";
     public static final String SIGN_IN_E008 = "Get user data failure!";
+
+    //Error Edit Profile
+    public static final String EDIT_PROFILE_E001 = "Update profile failure";
+    public static final String EDIT_PROFILE_E002 = "Update profile success";
 }

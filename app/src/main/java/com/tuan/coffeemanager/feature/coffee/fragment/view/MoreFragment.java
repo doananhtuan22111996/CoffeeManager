@@ -16,6 +16,7 @@ import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseFragment;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editProfile.EditProfileActivity;
+import com.tuan.coffeemanager.feature.editProfileEmployee.EditProfileEmployeeActivity;
 import com.tuan.coffeemanager.feature.main.MainActivity;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 import com.tuan.coffeemanager.widget.DialogLoadingFragment;
@@ -72,8 +73,7 @@ public class MoreFragment extends BaseFragment {
         tvEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), EditProfileActivity.class)
-                        .putExtra(ConstApp.STATUS, true));
+                startActivity(new Intent(getActivity(), EditProfileEmployeeActivity.class));
             }
         });
     }

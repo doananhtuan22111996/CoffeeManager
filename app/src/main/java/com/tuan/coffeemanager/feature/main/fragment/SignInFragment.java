@@ -107,13 +107,13 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
     //3. Xử lý check Email và Password
     private void checkInputSignIn(String email, String password) {
         if (email.isEmpty()) {
-            //Email rỗng
+            //3.1 Email rỗng
             Toast.makeText(getActivity(), ConstApp.SIGN_IN_E001, Toast.LENGTH_SHORT).show();
         } else if (!isValidEmail(email)) {
-            //Email không hợp lệ
+            //3.2 Email không hợp lệ
             Toast.makeText(getActivity(), ConstApp.SIGN_IN_E002, Toast.LENGTH_SHORT).show();
         } else if (password.isEmpty()) {
-            //Password rỗng
+            //3.3 Password rỗng
             Toast.makeText(getActivity(), ConstApp.SIGN_IN_E003, Toast.LENGTH_SHORT).show();
         } else {
             //Show loading

@@ -34,8 +34,8 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
     EditText edtName;
     @BindView(R.id.tvEmail)
     TextView tvEmail;
-    @BindView(R.id.editBirthDay)
-    EditText editBirthDay;
+    @BindView(R.id.tvBirthDayDP)
+    TextView tvBirthDayDP;
     @BindView(R.id.edtPhone)
     EditText edtPhone;
     @BindView(R.id.edtAddress)
@@ -102,7 +102,7 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
             edtName.setEnabled(false);
             edtAddress.setEnabled(false);
             edtPhone.setEnabled(false);
-            editBirthDay.setEnabled(false);
+            tvBirthDayDP.setEnabled(false);
         }
         if (user.getName() != null) {
             edtName.setText(user.getName());
@@ -114,7 +114,7 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
             tvEmail.setText(user.getEmail());
         }
         if (user.getBirthDay() != null) {
-            editBirthDay.setText(user.getBirthDay());
+            tvBirthDayDP.setText(user.getBirthDay());
         }
         if (user.getPhoneNumber() != null) {
             edtPhone.setText(user.getPhoneNumber());
@@ -139,7 +139,7 @@ public class EditProfileActivity extends BaseActivity implements ViewListener.Vi
                 KeyBoardExt.hideKeyBoard(this);
                 if (isEdit) {
                     String name = edtName.getText().toString().trim();
-                    String birthDay = editBirthDay.getText().toString().trim();
+                    String birthDay = tvBirthDayDP.getText().toString().trim();
                     String phone = edtPhone.getText().toString().trim();
                     String address = edtAddress.getText().toString().trim();
                     if (!name.isEmpty()) {
