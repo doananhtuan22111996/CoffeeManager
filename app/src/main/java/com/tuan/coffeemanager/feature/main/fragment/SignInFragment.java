@@ -124,15 +124,15 @@ public class SignInFragment extends BaseFragment implements ISignInListener.ISig
     }
 
     //5. Nhận dữ liệu và kết thúc đăng nhập
+    //Kiểm tra đối tượng -> chuyển màn hình
+    //user.getPosition() lấy vị trí user
+    //startActivity() chuyển màn hình
     @Override
     public void signInSuccess(User user) {
         hideLoading();
         if (getActivity() != null) {
             //Lưu thông tin user vào file
             DataUtil.newInstance(getActivity()).setDataUser(user);
-            //Kiểm tra đối tượng -> chuyển màn hình
-            //user.getPosition() lấy vị trí user
-            // startActivity() chuyển màn hình
             switch (user.getPosition()) {
                 case ConstApp.EMPLOYEE:
                     //Employee
