@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.addcoffee;
+package com.tuan.coffeemanager.feature.editCoffee;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,21 +17,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
-import com.tuan.coffeemanager.feature.addcoffee.presenter.EditCoffeePresenter;
-import com.tuan.coffeemanager.feature.addcoffee.presenter.PostCoffeePresenter;
-import com.tuan.coffeemanager.feature.addcoffee.presenter.PostImagePresenter;
+import com.tuan.coffeemanager.feature.editCoffee.presenter.EditCoffeePresenter;
+import com.tuan.coffeemanager.feature.editCoffee.presenter.PostCoffeePresenter;
+import com.tuan.coffeemanager.feature.editCoffee.presenter.PostImagePresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.ext.GlideExt;
 import com.tuan.coffeemanager.ext.KeyBoardExt;
+
 import java.io.ByteArrayOutputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddCoffeeActivity extends BaseActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener, ViewListener.ViewPostImageListener {
+public class EditCoffeeActivity extends BaseActivity implements ViewListener.ViewDataListener<Drink>, ViewListener.ViewPostListener, View.OnClickListener, ViewListener.ViewPostImageListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -154,20 +157,6 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
                 break;
             }
             case R.id.ivCoffee: {
-//                try {
-//                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
-//                    } else {
-//                        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
-//                        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//                        String strImage = imageFile.getPath();
-//                        Uri data = Uri.parse(strImage);
-//                        galleryIntent.setDataAndType(data, "image/*");
-//                        startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_ID_IMAGE_CAPTURE);
                 } else {
@@ -180,11 +169,6 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
             }
         }
     }
-
-//    private void captureImage() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -200,14 +184,6 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
                         String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Image", null);
                         uri = Uri.parse(path);
                     }
-//                    try {
-//                        InputStream inputStream = this.getContentResolver().openInputStream(uri);
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                        Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 500, 500, true);
-//                        ivCoffee.setImageBitmap(scaled);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
                 }
             }
         }
@@ -219,7 +195,7 @@ public class AddCoffeeActivity extends BaseActivity implements ViewListener.View
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
-        NavUtils.navigateUpTo(AddCoffeeActivity.this, intent);
+        NavUtils.navigateUpTo(EditCoffeeActivity.this, intent);
     }
 
     @Override

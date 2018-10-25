@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.coffeedetail;
+package com.tuan.coffeemanager.feature.coffeeDetail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
-import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
-import com.tuan.coffeemanager.feature.coffeedetail.presenter.CoffeeDetailPresenter;
+import com.tuan.coffeemanager.feature.editCoffee.EditCoffeeActivity;
+import com.tuan.coffeemanager.feature.coffeeDetail.presenter.CoffeeDetailPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.sharepref.DataUtil;
@@ -80,7 +80,7 @@ public class CoffeeDetailActivity extends BaseActivity implements ViewListener.V
                 break;
             }
             case R.id.tvEditCoffee: {
-                Intent intent = new Intent(CoffeeDetailActivity.this, AddCoffeeActivity.class);
+                Intent intent = new Intent(CoffeeDetailActivity.this, EditCoffeeActivity.class);
                 intent.putExtra(ConstApp.DRINK_ID, id);
                 startActivity(intent);
                 break;

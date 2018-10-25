@@ -26,16 +26,16 @@
         <activity android:name=".feature.main.reset.ResetPasswordActivity" />
         <activity android:name=".feature.coffee.CoffeeActivity" />
         <activity
-            android:name=".feature.coffeedetail.CoffeeDetailActivity"
+            android:name=".feature.coffeeDetail.CoffeeDetailActivity"
             android:parentActivityName=".feature.featureManager.coffeeManage.CoffeeManagerActivity" />
         <activity
-            android:name=".feature.addcoffee.AddCoffeeActivity"
+            android:name=".feature.editCoffee.EditCoffeeActivity"
             android:parentActivityName=".feature.featureManager.coffeeManage.CoffeeManagerActivity" />
         <activity
             android:name=".feature.order.OrderActivity"
             android:parentActivityName=".feature.coffee.CoffeeActivity" />
         <activity
-            android:name=".feature.editorder.EditOrderActivity"
+            android:name=".feature.editOrder.EditOrderActivity"
             android:parentActivityName=".feature.coffee.CoffeeActivity" />
         <activity
             android:name=".feature.pay.PayActivity"
@@ -56,6 +56,10 @@
             android:parentActivityName=".feature.featureBartender.OrderBartenderActivity" />
         <activity android:name=".feature.featureManager.tableManager.TableManagerActivity" />
         <activity android:name=".feature.editProfileEmployee.EditProfileEmployeeActivity" />
+
+        <activity
+            android:name=".feature.addCoffee.AddCoffeeActivity"
+            android:parentActivityName=".feature.featureManager.coffeeManage.CoffeeManagerActivity" />
 
         <service
             android:name=".notification.MyFirebaseMessagingService"

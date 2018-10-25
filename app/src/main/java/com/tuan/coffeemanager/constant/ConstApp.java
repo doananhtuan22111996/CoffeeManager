@@ -35,4 +35,11 @@ public class ConstApp {
     //Error Edit Profile
     public static final String EDIT_PROFILE_E001 = "Update profile failure";
     public static final String EDIT_PROFILE_E002 = "Update profile success";
+
+    //Error Add Coffee
+    public static final String ADD_COFFEE_E001 = "Add image failure!";
+    public static final String ADD_COFFEE_E002 = "Get Url image failure!";
+    public static final String ADD_COFFEE_E003 = "Post coffee failure!";
+    public static final String ADD_COFFEE_E004 = "Post coffee Success!";
+
 }

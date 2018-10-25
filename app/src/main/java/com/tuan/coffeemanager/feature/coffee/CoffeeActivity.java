@@ -1,7 +1,6 @@
 package com.tuan.coffeemanager.feature.coffee;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
-import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
+import com.tuan.coffeemanager.feature.editCoffee.EditCoffeeActivity;
 
 import java.util.Objects;
 
@@ -43,7 +42,7 @@ public class CoffeeActivity extends BaseActivity {
         ivAddCoffee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CoffeeActivity.this, AddCoffeeActivity.class);
+                Intent intent = new Intent(CoffeeActivity.this, EditCoffeeActivity.class);
                 intent.putExtra(ConstApp.DRINK_ID, "");
                 startActivity(intent);
             }

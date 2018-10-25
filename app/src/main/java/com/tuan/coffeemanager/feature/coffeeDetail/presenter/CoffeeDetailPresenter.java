@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.coffeedetail.presenter;
+package com.tuan.coffeemanager.feature.coffeeDetail.presenter;
 
 import android.app.Activity;
 

@@ -2,7 +2,6 @@ package com.tuan.coffeemanager.feature.featureManager.coffeeManage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,15 +15,13 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
-import com.tuan.coffeemanager.feature.addcoffee.AddCoffeeActivity;
+import com.tuan.coffeemanager.feature.editCoffee.EditCoffeeActivity;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
-import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
+import com.tuan.coffeemanager.feature.coffeeDetail.CoffeeDetailActivity;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +69,7 @@ public class CoffeeManagerActivity extends BaseActivity implements View.OnClickL
                 break;
             }
             case R.id.ivAddCoffee: {
-                startActivity(new Intent(this, AddCoffeeActivity.class));
+                startActivity(new Intent(this, EditCoffeeActivity.class));
                 break;
             }
         }

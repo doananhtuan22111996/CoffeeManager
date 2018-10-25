@@ -20,7 +20,7 @@ import com.tuan.coffeemanager.base.BaseFragment;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
-import com.tuan.coffeemanager.feature.coffeedetail.CoffeeDetailActivity;
+import com.tuan.coffeemanager.feature.coffeeDetail.CoffeeDetailActivity;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;

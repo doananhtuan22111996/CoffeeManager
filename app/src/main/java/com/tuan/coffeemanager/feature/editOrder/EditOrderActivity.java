@@ -1,4 +1,4 @@
-package com.tuan.coffeemanager.feature.editorder;
+package com.tuan.coffeemanager.feature.editOrder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
-import com.tuan.coffeemanager.feature.editorder.presenter.EditOrderPresenter;
+import com.tuan.coffeemanager.feature.editOrder.presenter.EditOrderPresenter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
