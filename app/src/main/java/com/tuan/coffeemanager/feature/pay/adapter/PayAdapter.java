@@ -9,21 +9,20 @@ import android.view.ViewGroup;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.model.DrinkOrder;
 
 import java.util.List;
 
 public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<DrinkOrder> drinkOrderList;
+    private List<Drink> drinkOrderList;
 
-    public PayAdapter(Context context, List<DrinkOrder> drinkOrderList) {
+    public PayAdapter(Context context, List<Drink> drinkOrderList) {
         this.context = context;
         this.drinkOrderList = drinkOrderList;
     }
 
-    public List<DrinkOrder> getDrinkOrderList() {
+    public List<Drink> getDrinkOrderList() {
         return drinkOrderList;
     }
 
@@ -36,7 +35,7 @@ public class PayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        DrinkOrder drinkOrder = drinkOrderList.get(i);
+        Drink drinkOrder = drinkOrderList.get(i);
         PayViewHolder payViewHolder = new PayViewHolder(viewHolder.itemView);
         payViewHolder.bind(context, drinkOrder);
     }

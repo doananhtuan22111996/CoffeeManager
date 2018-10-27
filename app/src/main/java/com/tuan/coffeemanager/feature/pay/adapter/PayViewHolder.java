@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.ext.GlideExt;
+import com.tuan.coffeemanager.model.Drink;
 
 public class PayViewHolder extends RecyclerView.ViewHolder {
 
@@ -34,13 +34,13 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
         btnDown.setVisibility(View.GONE);
     }
 
-    public void bind(Context context, DrinkOrder drinkOrder) {
+    public void bind(Context context, Drink drinkOrder) {
         GlideExt.showImage(context, ivCoffee, drinkOrder.getUrl());
         tvNameCoffee.setText(drinkOrder.getName());
         tvAmount.setText(drinkOrder.getAmount());
         int amount = Integer.parseInt(drinkOrder.getAmount());
         tvPrice.setText(String.valueOf(amount * Integer.parseInt(drinkOrder.getPrice()) + "$"));
-        if (drinkOrder.getIsStatus_detail()) {
+        if (drinkOrder.getStatus()) {
             ivCheck.setVisibility(View.VISIBLE);
         } else {
             ivCheck.setVisibility(View.GONE);

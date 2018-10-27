@@ -19,7 +19,6 @@ import com.tuan.coffeemanager.feature.pay.presenter.PayPresenter;
 import com.tuan.coffeemanager.feature.pay.presenter.PayUserPresenter;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.NotificationResponse;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
@@ -176,9 +175,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    private int total(List<DrinkOrder> drinkOrderList) {
+    private int total(List<Drink> drinkOrderList) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : drinkOrderList) {
+        for (Drink drinkOrder : drinkOrderList) {
             sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
@@ -202,9 +201,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    private Boolean checkPay(List<DrinkOrder> drinkOrderList) {
-        for (DrinkOrder drinkOrder : drinkOrderList) {
-            if (drinkOrder.getIsStatus_detail() == false) {
+    private Boolean checkPay(List<Drink> drinkOrderList) {
+        for (Drink drinkOrder : drinkOrderList) {
+            if (drinkOrder.getStatus() == false) {
                 return false;
             }
         }

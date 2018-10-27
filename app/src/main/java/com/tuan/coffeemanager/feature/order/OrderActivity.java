@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,15 +17,12 @@ import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
 import com.tuan.coffeemanager.feature.order.presenter.OrderPresenter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.sharepref.DataUtil;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,8 +55,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private OrderPresenter orderPresenter;
     private Table table = null;
     private String user_id = null;
-    private List<DrinkOrder> drinkOrderList = new ArrayList<>();
-    private List<DrinkOrder> drinkOrderListPost = new ArrayList<>();
+    private List<Drink> drinkOrderList = new ArrayList<>();
+    private List<Drink> drinkOrderListPost = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,8 +99,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             }
             case R.id.tvSaveCoffee: {
                 showLoading();
-                for (DrinkOrder drinkOrder : drinkOrderList) {
-                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount(), false));
+                for (Drink drinkOrder : drinkOrderList) {
+                    drinkOrderListPost.add(new Drink(drinkOrder.getId(), false, drinkOrder.getAmount()));
                 }
                 OrderDetail orderDetail = new OrderDetail(null, user_id, getCalendar(), true, drinkOrderListPost);
                 orderPresenter.postDataOrder(this, orderDetail, table.getId());
@@ -132,7 +128,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onItemClickBtnListener(int position, int amount) {
-                DrinkOrder drinkOrder = drinkOrderList.get(position);
+                Drink drinkOrder = drinkOrderList.get(position);
                 drinkOrder.setAmount(String.valueOf(amount));
                 tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
             }
@@ -142,7 +138,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             public void onItemClickListener(int position) {
                 final Drink drink = drinks.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1", false));
+                    drinkOrderList.add(new Drink(drink.getId(), drink.getName(), drink.getPrice(), "1", drink.getUuid(), drink.getUrl(), false));
                     if (drinkOrderList.size() > 0) {
                         orderAdapter.setDrinkOrderList(drinkOrderList);
                         rvOrder.setAdapter(orderAdapter);
@@ -169,17 +165,17 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private Boolean isExist(Drink drink) {
-        for (DrinkOrder drinkOrder : drinkOrderList) {
-            if (drinkOrder.getDrink_id().equals(drink.getId())) {
+        for (Drink drinkOrder : drinkOrderList) {
+            if (drinkOrder.getId().equals(drink.getId())) {
                 return true;
             }
         }
         return false;
     }
 
-    private int total(List<DrinkOrder> drinkOrderList) {
+    private int total(List<Drink> drinkOrderList) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : drinkOrderList) {
+        for (Drink drinkOrder : drinkOrderList) {
             sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;

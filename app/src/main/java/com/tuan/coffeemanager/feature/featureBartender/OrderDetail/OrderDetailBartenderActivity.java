@@ -3,7 +3,6 @@ package com.tuan.coffeemanager.feature.featureBartender.OrderDetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,14 +16,12 @@ import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.featureBartender.OrderDetail.presenter.OrderDetailBartenderPresenter;
 import com.tuan.coffeemanager.feature.pay.adapter.PayAdapter;
-import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.ViewListener;
-import com.tuan.coffeemanager.model.DrinkOrder;
+import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.NotificationResponse;
 import com.tuan.coffeemanager.model.OrderBartender;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.retrofit.Api;
-import com.tuan.coffeemanager.widget.DialogLoadingFragment;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -124,9 +121,9 @@ public class OrderDetailBartenderActivity extends BaseActivity implements ViewLi
         });
     }
 
-    private int total(List<DrinkOrder> drinkOrderList) {
+    private int total(List<Drink> drinkOrderList) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : drinkOrderList) {
+        for (Drink drinkOrder : drinkOrderList) {
             sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;

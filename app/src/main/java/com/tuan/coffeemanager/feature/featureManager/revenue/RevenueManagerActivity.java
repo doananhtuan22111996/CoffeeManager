@@ -21,7 +21,6 @@ import com.tuan.coffeemanager.feature.featureManager.revenue.presenter.RevenueMa
 import com.tuan.coffeemanager.feature.pay.PayActivity;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.ext.KeyBoardExt;

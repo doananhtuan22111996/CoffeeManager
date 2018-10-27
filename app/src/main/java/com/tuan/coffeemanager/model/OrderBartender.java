@@ -10,12 +10,12 @@ public class OrderBartender implements Serializable {
     private String user_id;
     private String date;
     private Boolean isStatus;
-    private List<DrinkOrder> drinkOrderList;
+    private List<Drink> drinkOrderList;
 
     public OrderBartender() {
     }
 
-    public OrderBartender(String table_id, int number, String order_detail_id, String user_id, String date, Boolean isStatus, List<DrinkOrder> drinkOrderList) {
+    public OrderBartender(String table_id, int number, String order_detail_id, String user_id, String date, Boolean isStatus, List<Drink> drinkOrderList) {
         this.table_id = table_id;
         this.number = number;
         this.order_detail_id = order_detail_id;
@@ -73,11 +73,11 @@ public class OrderBartender implements Serializable {
         isStatus = status;
     }
 
-    public List<DrinkOrder> getDrinkOrderList() {
+    public List<Drink> getDrinkOrderList() {
         return drinkOrderList;
     }
 
-    public void setDrinkOrderList(List<DrinkOrder> drinkOrderList) {
+    public void setDrinkOrderList(List<Drink> drinkOrderList) {
         this.drinkOrderList = drinkOrderList;
     }
 }

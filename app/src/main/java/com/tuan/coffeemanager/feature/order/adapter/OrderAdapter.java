@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.ext.GlideExt;
+import com.tuan.coffeemanager.model.Drink;
 
 import java.util.List;
 
@@ -23,11 +23,11 @@ import butterknife.ButterKnife;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private Context context;
-    private List<DrinkOrder> drinkOrderList;
+    private List<Drink> drinkOrderList;
     private int amount;
     private OnItemClickListener.OnOrderItemClickListener onOrderItemClickListener;
 
-    public OrderAdapter(Context context, List<DrinkOrder> drinkOrderList) {
+    public OrderAdapter(Context context, List<Drink> drinkOrderList) {
         this.context = context;
         this.drinkOrderList = drinkOrderList;
     }
@@ -36,11 +36,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         this.onOrderItemClickListener = onOrderItemClickListener;
     }
 
-    public void setDrinkOrderList(List<DrinkOrder> drinkOrderList) {
+    public void setDrinkOrderList(List<Drink> drinkOrderList) {
         this.drinkOrderList = drinkOrderList;
     }
 
-    public List<DrinkOrder> getDrinkOrderList() {
+    public List<Drink> getDrinkOrderList() {
         return drinkOrderList;
     }
 
@@ -53,13 +53,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     @Override
     public void onBindViewHolder(@NonNull final OrderViewHolder orderViewHolder, final int i) {
-        final DrinkOrder drink = drinkOrderList.get(i);
+        final Drink drink = drinkOrderList.get(i);
         GlideExt.showImage(context, orderViewHolder.ivCoffee, drink.getUrl());
         orderViewHolder.tvNameCoffee.setText(drink.getName());
         amount = Integer.parseInt(drink.getAmount());
         orderViewHolder.tvAmount.setText(String.valueOf(amount));
         orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
-        if (drink.getIsStatus_detail() == true){
+        if (drink.getStatus() == true){
             orderViewHolder.btnDown.setVisibility(View.GONE);
             orderViewHolder.btnUp.setVisibility(View.GONE);
             orderViewHolder.ivDelete.setVisibility(View.GONE);

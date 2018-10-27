@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderBartender;
 
 import java.util.List;

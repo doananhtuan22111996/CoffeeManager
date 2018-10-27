@@ -115,7 +115,7 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void requestAddCoffee(String name, String description, String price) {
-        Drink drink = new Drink(null, name, description, price, null, null, true);
+        Drink drink = new Drink(name, description, price, true);
         addCoffeePresenter.requestAddCoffee(drink, uri);
     }
 

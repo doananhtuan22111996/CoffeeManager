@@ -7,12 +7,12 @@ public class OrderDetail {
     private String user_id;
     private String date;
     private Boolean isStatus;
-    private List<DrinkOrder> drinkOrderList;
+    private List<Drink> drinkOrderList;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String order_detail_id, String user_id, String date, Boolean isStatus, List<DrinkOrder> drinkOrderList) {
+    public OrderDetail(String order_detail_id, String user_id, String date, Boolean isStatus, List<Drink> drinkOrderList) {
         this.order_detail_id = order_detail_id;
         this.user_id = user_id;
         this.date = date;
@@ -36,11 +36,11 @@ public class OrderDetail {
         this.date = date;
     }
 
-    public List<DrinkOrder> getDrinkOrderList() {
+    public List<Drink> getDrinkOrderList() {
         return drinkOrderList;
     }
 
-    public void setDrinkOrderList(List<DrinkOrder> drinkOrderList) {
+    public void setDrinkOrderList(List<Drink> drinkOrderList) {
         this.drinkOrderList = drinkOrderList;
     }
 

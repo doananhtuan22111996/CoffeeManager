@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
@@ -18,7 +19,6 @@ import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
 import com.tuan.coffeemanager.sharepref.DataUtil;
@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditOrderActivity extends BaseActivity implements ViewListener.ViewlistDataDoubleListener<DrinkOrder, Drink>, ViewListener.ViewDataListener<OrderDetail>, View.OnClickListener, ViewListener.ViewPostListener {
+public class EditOrderActivity extends BaseActivity implements ViewListener.ViewlistDataDoubleListener<Drink, Drink>, ViewListener.ViewDataListener<OrderDetail>, View.OnClickListener, ViewListener.ViewPostListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -59,8 +59,8 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
     private String user_id = null;
     private String order_drink_id = null;
     private String date = null;
-    private List<DrinkOrder> drinkOrderList = new ArrayList<>();
-    private List<DrinkOrder> drinkOrderListPost = new ArrayList<>();
+    private List<Drink> drinkOrderList = new ArrayList<>();
+    private List<Drink> drinkOrderListPost = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
     }
 
     @Override
-    public void onSuccess(final List<DrinkOrder> drinkOrders, final List<Drink> drinkList) {
+    public void onSuccess(final List<Drink> drinkOrders, final List<Drink> drinkList) {
         hideLoading();
         this.drinkOrderList = drinkOrders;
         orderMenuAdapter = new OrderMenuAdapter(this, drinkList);
@@ -120,7 +120,7 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
 
             @Override
             public void onItemClickBtnListener(int position, int amount) {
-                DrinkOrder drinkOrder = drinkOrderList.get(position);
+                Drink drinkOrder = drinkOrderList.get(position);
                 drinkOrder.setAmount(String.valueOf(amount));
                 tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
             }
@@ -130,7 +130,7 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
             public void onItemClickListener(int position) {
                 final Drink drink = drinkList.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new DrinkOrder(drink.getId(), drink.getName(), drink.getPrice() ,drink.getUuid(), drink.getUrl(), "1", false));
+                    drinkOrderList.add(new Drink(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1", false));
                     if (drinkOrderList.size() > 0) {
                         orderAdapter.setDrinkOrderList(drinkOrderList);
                         rvOrder.setAdapter(orderAdapter);
@@ -154,17 +154,17 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
-    private int total(List<DrinkOrder> drinkOrderList) {
+    private int total(List<Drink> drinkOrderList) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : drinkOrderList) {
+        for (Drink drinkOrder : drinkOrderList) {
             sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }
 
     private Boolean isExist(Drink drink) {
-        for (DrinkOrder drinkOrder : drinkOrderList) {
-            if (drinkOrder.getDrink_id().equals(drink.getId()) && drinkOrder.getIsStatus_detail() == false) {
+        for (Drink drinkOrder : drinkOrderList) {
+            if (drinkOrder.getId().equals(drink.getId()) && drinkOrder.getStatus() == false) {
                 return true;
             }
         }
@@ -176,8 +176,8 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
         switch (view.getId()) {
             case R.id.tvSaveCoffee: {
                 showLoading();
-                for (DrinkOrder drinkOrder : drinkOrderList) {
-                    drinkOrderListPost.add(new DrinkOrder(drinkOrder.getDrink_id(), drinkOrder.getAmount(), drinkOrder.getIsStatus_detail()));
+                for (Drink drinkOrder : drinkOrderList) {
+                    drinkOrderListPost.add(new Drink(drinkOrder.getId(), drinkOrder.getStatus(), drinkOrder.getAmount()));
                 }
                 OrderDetail orderDetail = new OrderDetail(order_drink_id, user_id, date, true, drinkOrderListPost);
                 editOrderPresenter.editOrderDetail(this, orderDetail);

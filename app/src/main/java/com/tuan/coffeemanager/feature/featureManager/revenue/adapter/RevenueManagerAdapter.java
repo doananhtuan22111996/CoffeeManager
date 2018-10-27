@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
-import com.tuan.coffeemanager.model.DrinkOrder;
 import com.tuan.coffeemanager.model.OrderDetail;
 
 import java.util.List;
