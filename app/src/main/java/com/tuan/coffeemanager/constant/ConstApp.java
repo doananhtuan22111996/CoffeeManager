@@ -40,6 +40,9 @@ public class ConstApp {
     public static final String ADD_COFFEE_E001 = "Add image failure!";
     public static final String ADD_COFFEE_E002 = "Get Url image failure!";
     public static final String ADD_COFFEE_E003 = "Post coffee failure!";
-    public static final String ADD_COFFEE_E004 = "Post coffee Success!";
+    public static final String ADD_COFFEE_E004 = "Post coffee success!";
+    public static final String ADD_COFFEE_E005 = "Name coffee is empty!";
+    public static final String ADD_COFFEE_E006 = "Description coffee is empty!";
+    public static final String ADD_COFFEE_E007 = "Price coffee is empty!";
 
 }

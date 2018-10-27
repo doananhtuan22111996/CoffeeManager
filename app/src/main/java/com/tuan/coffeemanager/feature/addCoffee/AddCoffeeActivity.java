@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,10 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.ext.KeyBoardExt;
+import com.tuan.coffeemanager.feature.addCoffee.listener.IAddCoffeeListener;
+import com.tuan.coffeemanager.feature.addCoffee.presenter.AddCoffeePresenter;
 import com.tuan.coffeemanager.model.Drink;
 
 import java.io.ByteArrayOutputStream;
@@ -28,7 +30,7 @@ import java.io.ByteArrayOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddCoffeeActivity extends BaseActivity implements View.OnClickListener {
+public class AddCoffeeActivity extends BaseActivity implements View.OnClickListener, IAddCoffeeListener.IAddCoffeeViewListener {
 
     private static final int REQUEST_ID_IMAGE_CAPTURE = 1;
 
@@ -50,12 +52,15 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
     ConstraintLayout clContent;
 
     private Uri uri = null;
+    private AddCoffeePresenter addCoffeePresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coffee);
         ButterKnife.bind(this);
+
+        init();
     }
 
     private void init() {
@@ -63,6 +68,7 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
         ivBack.setOnClickListener(this);
         ivCoffee.setOnClickListener(this);
         btnSaveCoffee.setOnClickListener(this);
+        addCoffeePresenter = new AddCoffeePresenter(this);
     }
 
     @Override
@@ -77,32 +83,10 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
                 String name = edtNameCoffee.getText().toString().trim();
                 String description = edtDescriptionCoffee.getText().toString().trim();
                 String price = edtPriceCoffee.getText().toString().trim();
-//                if (name.isEmpty()) {
-//                    Toast.makeText(this, R.string.text_message_name_empty, Toast.LENGTH_SHORT).show();
-//                } else if (description.isEmpty()) {
-//                    Toast.makeText(this, R.string.text_message_description_empty, Toast.LENGTH_SHORT).show();
-//                } else if (price.isEmpty()) {
-//                    Toast.makeText(this, R.string.text_message_price_empty, Toast.LENGTH_SHORT).show();
-//                } else {
-//                    showLoading();
-//                    if (id == null) {
-//                        drink = new Drink(null, name, description, price, null, null, true);
-//                        if (uri != null) {
-//                            postImagePresenter.postDataImage(this, uri);
-//                        } else {
-//                            postCoffeePresenter.postDataDrink(this, drink);
-//                        }
-//                    } else {
-//                        drink = new Drink(id, name, description, price, this.drink.getUuid(), this.drink.getUrl(), true);
-//                        if (uri != null && this.drink.getUrl() == null) {
-//                            postImagePresenter.postDataImage(this, uri);
-//                        } else if (uri != null && this.drink.getUrl() != null) {
-//                            editCoffeePresenter.editDataImage(this, uri, this.drink.getUuid());
-//                        } else {
-//                            editCoffeePresenter.editDataDrink(this, drink);
-//                        }
-//                    }
-//                }
+                if (checkAddCoffee(name, description, price)) {
+                    showLoading();
+                    requestAddCoffee(name, description, price);
+                }
                 break;
             }
             case R.id.clContent: {
@@ -110,17 +94,29 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
                 break;
             }
             case R.id.ivCoffee: {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_ID_IMAGE_CAPTURE);
-                } else {
-                    if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
-                    }
-                }
+                checkPermission();
                 break;
             }
         }
+    }
+
+    private Boolean checkAddCoffee(String name, String description, String price) {
+        if (name.isEmpty()) {
+            Toast.makeText(this, ConstApp.ADD_COFFEE_E005, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (description.isEmpty()) {
+            Toast.makeText(this, ConstApp.ADD_COFFEE_E006, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (price.isEmpty()) {
+            Toast.makeText(this, ConstApp.ADD_COFFEE_E007, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void requestAddCoffee(String name, String description, String price) {
+        Drink drink = new Drink(null, name, description, price, null, null, true);
+        addCoffeePresenter.requestAddCoffee(drink, uri);
     }
 
     @Override
@@ -131,14 +127,41 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
                 if (data != null && data.getExtras() != null) {
                     Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                     ivCoffee.setImageBitmap(bitmap);
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     if (bitmap != null) {
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Image", null);
-                        uri = Uri.parse(path);
+                        uri = convertUri(bitmap);
                     }
                 }
             }
         }
+    }
+
+    private Uri convertUri(Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Image", null);
+        return Uri.parse(path);
+    }
+
+    private void checkPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_ID_IMAGE_CAPTURE);
+        } else {
+            if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    @Override
+    public void addCoffeeSuccess(String error) {
+        hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void addCoffeeFailure(String error) {
+        hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,5 +1,7 @@
 package com.tuan.coffeemanager.model;
 
+import com.google.firebase.database.PropertyName;
+
 public class Drink {
 
     private String id;
@@ -23,59 +25,73 @@ public class Drink {
         this.isStatus = isStatus;
     }
 
+    @PropertyName("id")
     public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
+    @PropertyName("id")
     public void setId(String id) {
         this.id = id;
     }
 
+    @PropertyName("name")
+    public String getName() {
+        return name;
+    }
+
+    @PropertyName("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    @PropertyName("description")
+    public String getDescription() {
+        return description;
+    }
+
+    @PropertyName("description")
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @PropertyName("price")
     public String getPrice() {
         return price;
     }
 
+    @PropertyName("price")
     public void setPrice(String price) {
         this.price = price;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
+    @PropertyName("uuid")
     public String getUuid() {
         return uuid;
     }
 
+    @PropertyName("uuid")
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
-    public Boolean getIsStatus() {
+    @PropertyName("url")
+    public String getUrl() {
+        return url;
+    }
+
+    @PropertyName("url")
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @PropertyName("isStatus")
+    public Boolean getStatus() {
         return isStatus;
     }
 
-    public void setIsStatus(Boolean status) {
+    @PropertyName("isStatus")
+    public void setStatus(Boolean status) {
         isStatus = status;
     }
 }

@@ -39,7 +39,7 @@ public class OrderPresenter implements FirebaseListener.ListDataListener<Drink>,
     public void getDataSuccess(List<Drink> drinks) {
         List<Drink> drinkList = new ArrayList<>();
         for (Drink drink : drinks){
-            if (drink.getIsStatus()){
+            if (drink.getStatus()){
                 drinkList.add(drink);
             }
         }

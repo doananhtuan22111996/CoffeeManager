@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
+import com.tuan.coffeemanager.feature.addCoffee.AddCoffeeActivity;
 import com.tuan.coffeemanager.feature.editCoffee.EditCoffeeActivity;
 import com.tuan.coffeemanager.feature.coffee.fragment.adapter.DrinkCoffeeAdapter;
 import com.tuan.coffeemanager.feature.coffee.fragment.presenter.MenuCoffeePresenter;
@@ -69,7 +70,7 @@ public class CoffeeManagerActivity extends BaseActivity implements View.OnClickL
                 break;
             }
             case R.id.ivAddCoffee: {
-                startActivity(new Intent(this, EditCoffeeActivity.class));
+                startActivity(new Intent(this, AddCoffeeActivity.class));
                 break;
             }
         }
