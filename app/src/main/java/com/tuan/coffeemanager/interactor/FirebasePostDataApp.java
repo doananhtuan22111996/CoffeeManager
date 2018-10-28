@@ -105,7 +105,7 @@ public class FirebasePostDataApp {
             postListener.postFailure(activity.getString(R.string.text_message_post_failure));
         } else {
             final String key = databaseReference.child(ConstApp.NODE_ORDER_DETAIL).push().getKey();
-            orderDetail.setOrder_detail_id(key);
+            orderDetail.setOrderId(key);
             databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(key).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -167,7 +167,7 @@ public class FirebasePostDataApp {
         if (databaseReference == null) {
             newInstance();
         }
-        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(orderDetail.getOrder_detail_id()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(orderDetail.getOrderId()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

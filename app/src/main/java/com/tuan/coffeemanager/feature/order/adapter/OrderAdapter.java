@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.feature.order.listener.IOnItemClickListener;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.ext.GlideExt;
 import com.tuan.coffeemanager.model.Drink;
@@ -24,16 +25,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     private Context context;
     private List<Drink> drinkOrderList;
-    private int amount;
-    private OnItemClickListener.OnOrderItemClickListener onOrderItemClickListener;
+    private IOnItemClickListener onItemClickListener;
 
     public OrderAdapter(Context context, List<Drink> drinkOrderList) {
         this.context = context;
         this.drinkOrderList = drinkOrderList;
     }
 
-    public void setOnOrderItemClickListener(OnItemClickListener.OnOrderItemClickListener onOrderItemClickListener) {
-        this.onOrderItemClickListener = onOrderItemClickListener;
+    public void setOnItemClickListener(IOnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public void setDrinkOrderList(List<Drink> drinkOrderList) {
@@ -52,18 +52,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final OrderViewHolder orderViewHolder, final int i) {
-        final Drink drink = drinkOrderList.get(i);
+    public void onBindViewHolder(@NonNull final OrderViewHolder orderViewHolder, final int position) {
+        final Drink drink = drinkOrderList.get(position);
         GlideExt.showImage(context, orderViewHolder.ivCoffee, drink.getUrl());
         orderViewHolder.tvNameCoffee.setText(drink.getName());
-        amount = Integer.parseInt(drink.getAmount());
-        orderViewHolder.tvAmount.setText(String.valueOf(amount));
-        orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
-        if (drink.getStatus() == true){
+        orderViewHolder.tvAmount.setText(String.valueOf(drink.getAmount()));
+        orderViewHolder.tvPrice.setText(String.valueOf(drink.getAmount() * Integer.parseInt(drink.getPrice()) + "$"));
+        if (drink.getStatus()) {
             orderViewHolder.btnDown.setVisibility(View.GONE);
             orderViewHolder.btnUp.setVisibility(View.GONE);
             orderViewHolder.ivDelete.setVisibility(View.GONE);
-        }else {
+        } else {
             orderViewHolder.btnDown.setVisibility(View.VISIBLE);
             orderViewHolder.btnUp.setVisibility(View.VISIBLE);
             orderViewHolder.ivDelete.setVisibility(View.VISIBLE);
@@ -71,29 +70,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         orderViewHolder.btnDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Integer.parseInt(drink.getAmount()) > 1) {
-                    amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
+                if (drink.getAmount() > 1) {
+                    int amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                     amount--;
                     orderViewHolder.tvAmount.setText(String.valueOf(amount));
                     orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
-                    onOrderItemClickListener.onItemClickBtnListener(i, amount);
+                    onItemClickListener.onChangeAmountItemClickListener(position, amount);
                 }
             }
         });
         orderViewHolder.btnUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
+                int amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                 amount++;
                 orderViewHolder.tvAmount.setText(String.valueOf(amount));
                 orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
-                onOrderItemClickListener.onItemClickBtnListener(i, amount);
+                onItemClickListener.onChangeAmountItemClickListener(position, amount);
             }
         });
         orderViewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onOrderItemClickListener.onItemClickListener(i);
+                onItemClickListener.onRemoveItemClickListener(position);
             }
         });
     }

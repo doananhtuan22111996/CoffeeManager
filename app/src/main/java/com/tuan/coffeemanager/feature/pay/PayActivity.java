@@ -152,12 +152,12 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
     @Override
     public void onSuccess(OrderDetail orderDetail, List<Drink> drinkList) {
         tvTime.setText(getString(R.string.text_time_bill, orderDetail.getDate()));
-        tvTotal.setText(String.valueOf(total(orderDetail.getDrinkOrderList())));
-        payAdapter = new PayAdapter(this, orderDetail.getDrinkOrderList());
+        tvTotal.setText(String.valueOf(total(orderDetail.getDrinkList())));
+        payAdapter = new PayAdapter(this, orderDetail.getDrinkList());
         rvOrder.setAdapter(payAdapter);
         payAdapter.notifyDataSetChanged();
-        btnPay.setEnabled(checkPay(orderDetail.getDrinkOrderList()));
-        if (!btnPay.isEnabled()){
+        btnPay.setEnabled(checkPay(orderDetail.getDrinkList()));
+        if (!btnPay.isEnabled()) {
             Toast.makeText(this, "Waiting Bartender complete!", Toast.LENGTH_SHORT).show();
         }
         payUserPresenter.getDataManager();
@@ -178,7 +178,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
     private int total(List<Drink> drinkOrderList) {
         int sum = 0;
         for (Drink drinkOrder : drinkOrderList) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }

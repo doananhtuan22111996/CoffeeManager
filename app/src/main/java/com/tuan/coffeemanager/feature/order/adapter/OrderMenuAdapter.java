@@ -50,14 +50,14 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.Orde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderMenuViewHolder orderMenuViewHolder, final int i) {
-        Drink drink = drinkList.get(i);
+    public void onBindViewHolder(@NonNull OrderMenuViewHolder orderMenuViewHolder, final int position) {
+        Drink drink = drinkList.get(position);
         orderMenuViewHolder.tvNameCoffee.setText(drink.getName());
-        orderMenuViewHolder.tvPriceCoffee.setText(String.valueOf(drink.getPrice()) + "$");
+        orderMenuViewHolder.tvPriceCoffee.setText(context.getString(R.string.total_order, String.valueOf(drink.getPrice())));
         orderMenuViewHolder.cvOrderMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(i);
+                onItemClickListener.onItemClickListener(position);
             }
         });
     }

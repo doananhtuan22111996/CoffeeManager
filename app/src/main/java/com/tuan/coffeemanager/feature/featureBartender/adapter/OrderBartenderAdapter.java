@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.OrderBartender;
 
 import java.util.List;
@@ -80,8 +81,8 @@ public class OrderBartenderAdapter extends RecyclerView.Adapter<OrderBartenderAd
 
     private int totalBill(OrderBartender orderBartender) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : orderBartender.getDrinkOrderList()) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+        for (Drink drinkOrder : orderBartender.getDrinkOrderList()) {
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }

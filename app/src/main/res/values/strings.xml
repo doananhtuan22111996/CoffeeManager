@@ -89,9 +89,9 @@
     <string name="text_message_reset_success">Reset is success</string>
     <string name="text_order_bartender">Order Bartender</string>
     <string name="table_manager">Table Manager</string>
+    <string name="total_order">%1$s$</string>
     <string-array name="position">
         <item>employee</item>
-        <item>manager</item>
         <item>bartender</item>
     </string-array>
 </resources>

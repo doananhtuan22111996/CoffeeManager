@@ -124,7 +124,7 @@ public class OrderDetailBartenderActivity extends BaseActivity implements ViewLi
     private int total(List<Drink> drinkOrderList) {
         int sum = 0;
         for (Drink drinkOrder : drinkOrderList) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }

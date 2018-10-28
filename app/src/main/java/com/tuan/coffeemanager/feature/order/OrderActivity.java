@@ -16,12 +16,14 @@ import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
+import com.tuan.coffeemanager.feature.order.listener.IOnItemClickListener;
+import com.tuan.coffeemanager.feature.order.listener.IOrderListener;
 import com.tuan.coffeemanager.feature.order.presenter.OrderPresenter;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
-import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.Table;
+import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.sharepref.DataUtil;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderActivity extends BaseActivity implements View.OnClickListener, ViewListener.ViewListDataListener<Drink>, ViewListener.ViewPostListener {
+public class OrderActivity extends BaseActivity implements View.OnClickListener, IOrderListener.IOrderViewListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -54,9 +56,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     private OrderPresenter orderPresenter;
     private Table table = null;
-    private String user_id = null;
+    private User user = null;
+
+    private List<Drink> drinkList = new ArrayList<>();
     private List<Drink> drinkOrderList = new ArrayList<>();
-    private List<Drink> drinkOrderListPost = new ArrayList<>();
+    private OrderMenuAdapter orderMenuAdapter;
+    private OrderAdapter orderAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,28 +71,42 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
         showLoading();
 
-        orderPresenter = new OrderPresenter(this, this);
-        rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        init();
+        event();
+
+        orderPresenter.requestDrinkCoffee();
+    }
+
+    private void init() {
         tvTitle.setText(R.string.text_order_title);
-        tvTime.setText(getString(R.string.text_time_bill, getCalendar()));
-        ivBack.setOnClickListener(this);
-        tvSaveCoffee.setOnClickListener(this);
+        tvTime.setText(getString(R.string.text_time_bill, getCurrentCalendar()));
+
+        user = DataUtil.newInstance(this).getDataUser();
+        tvUser.setText(getString(R.string.text_employee_bill,
+                (user != null && !user.getName().isEmpty()) ? user.getName() : getString(R.string.text_example)));
 
         if (getIntent().getExtras() != null) {
             table = (Table) getIntent().getExtras().getSerializable(ConstApp.TABLE_OBJ);
-            if (table != null) {
-                tvNumberTable.setText(getString(R.string.text_number_table, String.valueOf(table.getNumber())));
-            }
+            tvNumberTable.setText(getString(R.string.text_number_table,
+                    (table != null && table.getNumber() != 0) ? String.valueOf(table.getNumber()) : "0"));
         }
-        String nameUser = DataUtil.newInstance(this).getDataUser().getName();
-        user_id = DataUtil.newInstance(this).getDataUser().getId();
-        if (nameUser.trim().isEmpty()) {
-            tvUser.setText(getString(R.string.text_employee_bill, getString(R.string.text_example)));
-        } else {
-            tvUser.setText(getString(R.string.text_employee_bill, nameUser));
-        }
-        orderPresenter.getListDataDrink();
+
+        orderPresenter = new OrderPresenter(this);
+        rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rvOrder.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        orderAdapter = new OrderAdapter(this, null);
+        orderMenuAdapter = new OrderMenuAdapter(this, null);
+        rvMenu.setAdapter(orderMenuAdapter);
+        rvOrder.setAdapter(orderAdapter);
+        orderMenuAdapter.notifyDataSetChanged();
+        orderAdapter.notifyDataSetChanged();
+    }
+
+    private void event() {
+        ivBack.setOnClickListener(this);
+        tvSaveCoffee.setOnClickListener(this);
+        setOnClickMenuListener();
+        setOnClickOrderListener();
     }
 
     @Override
@@ -99,64 +118,51 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             }
             case R.id.tvSaveCoffee: {
                 showLoading();
-                for (Drink drinkOrder : drinkOrderList) {
-                    drinkOrderListPost.add(new Drink(drinkOrder.getId(), false, drinkOrder.getAmount()));
-                }
-                OrderDetail orderDetail = new OrderDetail(null, user_id, getCalendar(), true, drinkOrderListPost);
-                orderPresenter.postDataOrder(this, orderDetail, table.getId());
+                OrderDetail orderDetail = new OrderDetail(user.getId(), getCurrentCalendar(), false, drinkOrderList);
+                orderPresenter.requestOrder(orderDetail, table.getId());
                 break;
             }
         }
     }
 
-    @Override
-    public void onSuccess(final List<Drink> drinks) {
-        hideLoading();
-        OrderMenuAdapter orderMenuAdapter = new OrderMenuAdapter(this, drinks);
-        final OrderAdapter orderAdapter = new OrderAdapter(OrderActivity.this, drinkOrderList);
-        rvMenu.setAdapter(orderMenuAdapter);
-        orderMenuAdapter.notifyDataSetChanged();
-        orderAdapter.setOnOrderItemClickListener(new OnItemClickListener.OnOrderItemClickListener() {
+    private void setOnClickOrderListener() {
+        orderAdapter.setOnItemClickListener(new IOnItemClickListener() {
             @Override
-            public void onItemClickListener(int position) {
+            public void onRemoveItemClickListener(int position) {
                 drinkOrderList.remove(position);
                 orderAdapter.setDrinkOrderList(drinkOrderList);
                 rvOrder.setAdapter(orderAdapter);
                 orderAdapter.notifyDataSetChanged();
-                tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
+                tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
             }
 
             @Override
-            public void onItemClickBtnListener(int position, int amount) {
-                Drink drinkOrder = drinkOrderList.get(position);
-                drinkOrder.setAmount(String.valueOf(amount));
-                tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
+            public void onChangeAmountItemClickListener(int position, int amount) {
+                drinkOrderList.get(position).setAmount(amount);
+                tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
             }
         });
+    }
+
+    private void setOnClickMenuListener() {
         orderMenuAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                final Drink drink = drinks.get(position);
+                final Drink drink = drinkList.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new Drink(drink.getId(), drink.getName(), drink.getPrice(), "1", drink.getUuid(), drink.getUrl(), false));
-                    if (drinkOrderList.size() > 0) {
-                        orderAdapter.setDrinkOrderList(drinkOrderList);
-                        rvOrder.setAdapter(orderAdapter);
-                        orderAdapter.notifyDataSetChanged();
-                        tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
-                    }
+                    drink.setAmount(ConstApp.DEFAULT_AMOUNT);
+                    drink.setStatus(false);
+                    drinkOrderList.add(drink);
+                    orderAdapter.setDrinkOrderList(drinkOrderList);
+                    rvOrder.setAdapter(orderAdapter);
+                    orderAdapter.notifyDataSetChanged();
+                    tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
                 }
             }
         });
     }
 
-    @Override
-    public void onFailure(String error) {
-        hideLoading();
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-    }
-
-    private String getCalendar() {
+    private String getCurrentCalendar() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -173,27 +179,43 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         return false;
     }
 
-    private int total(List<Drink> drinkOrderList) {
+    private int total(List<Drink> drinkList) {
         int sum = 0;
-        for (Drink drinkOrder : drinkOrderList) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+        for (Drink drinkOrder : drinkList) {
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }
 
+
     @Override
-    public void postSuccess(String message) {
+    public void drinkCoffeeSuccess(List<Drink> drinkList) {
         hideLoading();
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        this.drinkList = drinkList;
+        orderMenuAdapter.setDrinkList(drinkList);
+        orderMenuAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void drinkCoffeeFailure(String error) {
+        hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void orderSuccess(String error) {
+        hideLoading();
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
         Intent intent = NavUtils.getParentActivityIntent(this);
         assert intent != null;
-        intent.putExtra("FLAG", 1);
+        intent.putExtra(ConstApp.PAGE, ConstApp.PAGE_TABLE);
         NavUtils.navigateUpTo(this, intent);
         finish();
     }
 
     @Override
-    public void postFailure(String error) {
+    public void orderFailure(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }

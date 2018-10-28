@@ -16,6 +16,7 @@ import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.feature.editOrder.presenter.EditOrderPresenter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderAdapter;
 import com.tuan.coffeemanager.feature.order.adapter.OrderMenuAdapter;
+import com.tuan.coffeemanager.feature.order.listener.IOnItemClickListener;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
 import com.tuan.coffeemanager.model.Drink;
@@ -59,7 +60,7 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
     private String user_id = null;
     private String order_drink_id = null;
     private String date = null;
-    private List<Drink> drinkOrderList = new ArrayList<>();
+    private List<Drink> drinkList = new ArrayList<>();
     private List<Drink> drinkOrderListPost = new ArrayList<>();
 
     @Override
@@ -100,42 +101,46 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
     @Override
     public void onSuccess(final List<Drink> drinkOrders, final List<Drink> drinkList) {
         hideLoading();
-        this.drinkOrderList = drinkOrders;
+        this.drinkList = drinkList;
+        this.drinkOrderListPost = drinkOrders;
         orderMenuAdapter = new OrderMenuAdapter(this, drinkList);
-        orderAdapter = new OrderAdapter(this, drinkOrderList);
-        tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
+        orderAdapter = new OrderAdapter(this, drinkOrderListPost);
+        tvTotal.setText(String.valueOf(total(drinkOrderListPost)) + "$");
         rvMenu.setAdapter(orderMenuAdapter);
         rvOrder.setAdapter(orderAdapter);
         orderMenuAdapter.notifyDataSetChanged();
         orderAdapter.notifyDataSetChanged();
-        orderAdapter.setOnOrderItemClickListener(new OnItemClickListener.OnOrderItemClickListener() {
+        orderAdapter.setOnItemClickListener(new IOnItemClickListener() {
             @Override
-            public void onItemClickListener(int position) {
-                drinkOrderList.remove(position);
-                orderAdapter.setDrinkOrderList(drinkOrderList);
+            public void onRemoveItemClickListener(int position) {
+                drinkOrderListPost.remove(position);
+                orderAdapter.setDrinkOrderList(drinkOrderListPost);
                 rvOrder.setAdapter(orderAdapter);
                 orderAdapter.notifyDataSetChanged();
-                tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
+                tvTotal.setText(String.valueOf(total(drinkOrderListPost)) + "$");
             }
 
             @Override
-            public void onItemClickBtnListener(int position, int amount) {
-                Drink drinkOrder = drinkOrderList.get(position);
-                drinkOrder.setAmount(String.valueOf(amount));
-                tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
+            public void onChangeAmountItemClickListener(int position, int amount) {
+                Drink drinkOrder = drinkOrderListPost.get(position);
+                drinkOrder.setAmount(amount);
+                tvTotal.setText(String.valueOf(total(drinkOrderListPost)) + "$");
             }
         });
+
         orderMenuAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
                 final Drink drink = drinkList.get(position);
                 if (!isExist(drink)) {
-                    drinkOrderList.add(new Drink(drink.getId(), drink.getName(), drink.getPrice(), drink.getUuid(), drink.getUrl(), "1", false));
-                    if (drinkOrderList.size() > 0) {
-                        orderAdapter.setDrinkOrderList(drinkOrderList);
+                    drink.setAmount(ConstApp.DEFAULT_AMOUNT);
+                    drink.setStatus(false);
+                    drinkOrderListPost.add(drink);
+                    if (drinkOrderListPost.size() > 0) {
+                        orderAdapter.setDrinkOrderList(drinkOrderListPost);
                         rvOrder.setAdapter(orderAdapter);
                         orderAdapter.notifyDataSetChanged();
-                        tvTotal.setText(String.valueOf(total(drinkOrderList)) + "$");
+                        tvTotal.setText(String.valueOf(total(drinkOrderListPost)) + "$");
                     }
                 }
             }
@@ -157,13 +162,13 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
     private int total(List<Drink> drinkOrderList) {
         int sum = 0;
         for (Drink drinkOrder : drinkOrderList) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }
 
     private Boolean isExist(Drink drink) {
-        for (Drink drinkOrder : drinkOrderList) {
+        for (Drink drinkOrder : drinkOrderListPost) {
             if (drinkOrder.getId().equals(drink.getId()) && drinkOrder.getStatus() == false) {
                 return true;
             }
@@ -176,7 +181,7 @@ public class EditOrderActivity extends BaseActivity implements ViewListener.View
         switch (view.getId()) {
             case R.id.tvSaveCoffee: {
                 showLoading();
-                for (Drink drinkOrder : drinkOrderList) {
+                for (Drink drinkOrder : drinkOrderListPost) {
                     drinkOrderListPost.add(new Drink(drinkOrder.getId(), drinkOrder.getStatus(), drinkOrder.getAmount()));
                 }
                 OrderDetail orderDetail = new OrderDetail(order_drink_id, user_id, date, true, drinkOrderListPost);

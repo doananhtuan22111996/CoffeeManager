@@ -36,10 +36,10 @@ public class PayPresenter implements FirebaseListener.ListDataObjectDoubleListen
 
     @Override
     public void getDataSuccess(OrderDetail orderDetail, List<Drink> drinkList) {
-        for (int i = 0; i < orderDetail.getDrinkOrderList().size(); i++) {
-            DrinkOrder drinkOrder = orderDetail.getDrinkOrderList().get(i);
+        for (int i = 0; i < orderDetail.getDrinkList().size(); i++) {
+            Drink drinkOrder = orderDetail.getDrinkList().get(i);
             for (Drink drink : drinkList) {
-                if (drinkOrder.getDrink_id().equals(drink.getId())) {
+                if (drinkOrder.getId().equals(drink.getId())) {
                     drinkOrder.setPrice(drink.getPrice());
                     drinkOrder.setUrl(drink.getUrl());
                     drinkOrder.setUuid(drink.getUuid());

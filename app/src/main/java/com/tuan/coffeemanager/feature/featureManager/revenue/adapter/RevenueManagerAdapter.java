@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
+import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.OrderDetail;
 
 import java.util.List;
@@ -68,8 +69,8 @@ public class RevenueManagerAdapter extends RecyclerView.Adapter<RevenueManagerAd
 
     private int totalBill(OrderDetail orderDetail) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : orderDetail.getDrinkOrderList()) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+        for (Drink drinkOrder : orderDetail.getDrinkList()) {
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }

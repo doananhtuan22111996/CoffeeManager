@@ -82,7 +82,7 @@ public class TableOrderCoffeeAdapter extends RecyclerView.Adapter<RecyclerView.V
     public int getItemViewType(int position) {
         if (tableList.size() > position) {
             for (Order order : orderList) {
-                if (order.getTable_id().equals(tableList.get(position).getId())) {
+                if (order.getTableId().equals(tableList.get(position).getId())) {
                     return R.layout.item_coffee_table_close;
                 }
             }

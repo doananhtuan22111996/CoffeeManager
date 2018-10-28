@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -122,14 +123,12 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
-            if (resultCode == RESULT_OK) {
-                if (data != null && data.getExtras() != null) {
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    ivCoffee.setImageBitmap(bitmap);
-                    if (bitmap != null) {
-                        uri = convertUri(bitmap);
-                    }
+        if (resultCode == RESULT_OK && requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                ivCoffee.setImageBitmap(bitmap);
+                if (bitmap != null) {
+                    uri = convertUri(bitmap);
                 }
             }
         }
@@ -157,6 +156,9 @@ public class AddCoffeeActivity extends BaseActivity implements View.OnClickListe
     public void addCoffeeSuccess(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        Intent intent = getParentActivityIntent();
+        assert intent != null;
+        NavUtils.navigateUpTo(this, intent);
     }
 
     @Override

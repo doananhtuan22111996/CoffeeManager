@@ -13,6 +13,7 @@ import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.interactor.FirebaseDataApp;
 import com.tuan.coffeemanager.listener.FirebaseListener;
 import com.tuan.coffeemanager.listener.ViewListener;
+import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.OrderBartender;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
@@ -38,16 +39,16 @@ public class OrderDetailBartenderPresenter implements FirebaseListener.ListDataL
 
     public void doneBill(final Activity activity, OrderBartender orderBartender) {
         orderBartender.setStatus(false);
-        for (DrinkOrder drinkOrder : orderBartender.getDrinkOrderList()) {
-            drinkOrder.setIsStatus_detail(true);
+        for (Drink drinkOrder : orderBartender.getDrinkOrderList()) {
+            drinkOrder.setStatus(true);
         }
         OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrder_detail_id(orderBartender.getOrder_detail_id());
+        orderDetail.setOrderId(orderBartender.getOrder_detail_id());
         orderDetail.setDate(orderBartender.getDate());
-        orderDetail.setDrinkOrderList(orderBartender.getDrinkOrderList());
-        orderDetail.setIsStatus(orderBartender.getStatus());
-        orderDetail.setUser_id(orderBartender.getUser_id());
-        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(orderDetail.getOrder_detail_id()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        orderDetail.setDrinkList(orderBartender.getDrinkOrderList());
+        orderDetail.setStatus(orderBartender.getStatus());
+        orderDetail.setUserId(orderBartender.getUser_id());
+        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(orderDetail.getOrderId()).setValue(orderDetail).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

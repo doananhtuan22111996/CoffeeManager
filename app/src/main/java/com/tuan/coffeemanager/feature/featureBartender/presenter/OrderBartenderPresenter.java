@@ -81,16 +81,16 @@ public class OrderBartenderPresenter {
                 orderBartenderList = new ArrayList<>();
                 for (DataSnapshot value : dataSnapshot.getChildren()) {
                     OrderDetail orderDetail = value.getValue(OrderDetail.class);
-                    if (orderDetail != null && orderDetail.getIsStatus() == true) {
+                    if (orderDetail != null && orderDetail.getStatus() == true) {
                         for (Order order : orderList) {
-                            if (order.getOrder_detail_id().equals(orderDetail.getOrder_detail_id())) {
+                            if (order.getOrderDetailId().equals(orderDetail.getOrderId())) {
                                 OrderBartender orderBartender = new OrderBartender();
-                                orderBartender.setOrder_detail_id(orderDetail.getOrder_detail_id());
+                                orderBartender.setOrder_detail_id(orderDetail.getOrderId());
                                 orderBartender.setDate(orderDetail.getDate());
-                                orderBartender.setDrinkOrderList(orderDetail.getDrinkOrderList());
-                                orderBartender.setUser_id(orderDetail.getUser_id());
+                                orderBartender.setDrinkOrderList(orderDetail.getDrinkList());
+                                orderBartender.setUser_id(orderDetail.getUserId());
                                 orderBartender.setStatus(true);
-                                orderBartender.setTable_id(order.getTable_id());
+                                orderBartender.setTable_id(order.getTableId());
                                 orderBartenderList.add(orderBartender);
                             }
                         }
@@ -128,9 +128,9 @@ public class OrderBartenderPresenter {
                 }
                 for (OrderBartender orderBartender : orderBartenderList) {
                     for (int i = 0; i < orderBartender.getDrinkOrderList().size(); i++) {
-                        DrinkOrder drinkOrder = orderBartender.getDrinkOrderList().get(i);
+                        Drink drinkOrder = orderBartender.getDrinkOrderList().get(i);
                         for (Drink drink : drinkList) {
-                            if (drinkOrder.getDrink_id().equals(drink.getId())) {
+                            if (drinkOrder.getId().equals(drink.getId())) {
                                 drinkOrder.setPrice(drink.getPrice());
                                 drinkOrder.setUrl(drink.getUrl());
                                 drinkOrder.setUuid(drink.getUuid());

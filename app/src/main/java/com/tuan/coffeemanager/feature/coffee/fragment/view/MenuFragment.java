@@ -82,21 +82,23 @@ public class MenuFragment extends BaseFragment implements ViewListener.ViewListD
 
     @Override
     public void onSuccess(List<Drink> drinks) {
-        hideLoading();
-        svMenu.setRefreshing(false);
-        drinkList = drinks;
-        drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
-        rvMenu.setAdapter(drinkCoffeeAdapter);
-        drinkCoffeeAdapter.notifyDataSetChanged();
-        drinkCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClickListener(int position) {
-                KeyBoardExt.hideKeyBoard(getActivity());
-                Intent intent = new Intent(getActivity(), CoffeeDetailActivity.class);
-                intent.putExtra(ConstApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
-                startActivity(intent);
-            }
-        });
+        if (getActivity() != null) {
+            hideLoading();
+            svMenu.setRefreshing(false);
+            drinkList = drinks;
+            drinkCoffeeAdapter = new DrinkCoffeeAdapter(getContext(), drinks);
+            rvMenu.setAdapter(drinkCoffeeAdapter);
+            drinkCoffeeAdapter.notifyDataSetChanged();
+            drinkCoffeeAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClickListener(int position) {
+                    KeyBoardExt.hideKeyBoard(getActivity());
+                    Intent intent = new Intent(getActivity(), CoffeeDetailActivity.class);
+                    intent.putExtra(ConstApp.DRINK_ID, drinkCoffeeAdapter.getDrinkList().get(position).getId());
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override

@@ -43,11 +43,11 @@ public class EditOrderPresenter implements FirebaseListener.ListDataDoubleListen
     @Override
     public void getDataSuccess(List<OrderDetail> orderDetailList, List<Drink> drinkList) {
         for (OrderDetail orderDetail : orderDetailList) {
-            if (orderDetail.getOrder_detail_id().equals(drink_order_id)) {
-                for (int i = 0; i < orderDetail.getDrinkOrderList().size(); i++) {
-                    DrinkOrder drinkOrder = orderDetail.getDrinkOrderList().get(i);
+            if (orderDetail.getOrderId().equals(drink_order_id)) {
+                for (int i = 0; i < orderDetail.getDrinkList().size(); i++) {
+                    Drink drinkOrder = orderDetail.getDrinkList().get(i);
                     for (Drink drink : drinkList) {
-                        if (drinkOrder.getDrink_id().equals(drink.getId())) {
+                        if (drinkOrder.getId().equals(drink.getId())) {
                             drinkOrder.setPrice(drink.getPrice());
                             drinkOrder.setUrl(drink.getUrl());
                             drinkOrder.setUuid(drink.getUuid());
@@ -57,7 +57,7 @@ public class EditOrderPresenter implements FirebaseListener.ListDataDoubleListen
                     }
                 }
                 viewDataListener.onSuccess(orderDetail);
-                viewlistDataDoubleListener.onSuccess(orderDetail.getDrinkOrderList(), drinkList);
+                viewlistDataDoubleListener.onSuccess(orderDetail.getDrinkList(), drinkList);
                 break;
             }
         }

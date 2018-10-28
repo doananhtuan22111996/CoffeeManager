@@ -21,6 +21,7 @@ import com.tuan.coffeemanager.feature.featureManager.revenue.presenter.RevenueMa
 import com.tuan.coffeemanager.feature.pay.PayActivity;
 import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.listener.ViewListener;
+import com.tuan.coffeemanager.model.Drink;
 import com.tuan.coffeemanager.model.OrderDetail;
 import com.tuan.coffeemanager.model.User;
 import com.tuan.coffeemanager.ext.KeyBoardExt;
@@ -91,8 +92,8 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
             @Override
             public void onItemClickListener(int position) {
                 showLoading();
-                orderDetail_id = revenueManagerAdapter.getOrderDetailList().get(position).getOrder_detail_id();
-                revenueManagerPresenter.getDataUser(revenueManagerAdapter.getOrderDetailList().get(position).getUser_id());
+                orderDetail_id = revenueManagerAdapter.getOrderDetailList().get(position).getOrderId();
+                revenueManagerPresenter.getDataUser(revenueManagerAdapter.getOrderDetailList().get(position).getUserId());
             }
         });
     }
@@ -114,8 +115,8 @@ public class RevenueManagerActivity extends BaseActivity implements ViewListener
 
     private int totalOnlyBill(OrderDetail orderDetail) {
         int sum = 0;
-        for (DrinkOrder drinkOrder : orderDetail.getDrinkOrderList()) {
-            sum += Integer.parseInt(drinkOrder.getAmount()) * Integer.parseInt(drinkOrder.getPrice());
+        for (Drink drinkOrder : orderDetail.getDrinkList()) {
+            sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }

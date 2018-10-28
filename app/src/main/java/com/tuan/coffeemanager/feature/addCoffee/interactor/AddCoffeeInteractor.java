@@ -43,6 +43,7 @@ public class AddCoffeeInteractor {
         storageReference.child("images/" + uuid).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                drink.setUuid(uuid);
                 getUrlImageCoffee(uuid);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -53,10 +54,11 @@ public class AddCoffeeInteractor {
         });
     }
 
-    private void getUrlImageCoffee(String uuid) {
+    private void getUrlImageCoffee(final String uuid) {
         storageReference.child("images/" + uuid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                drink.setUrl(uri.toString());
                 postCoffee(drink);
             }
         }).addOnFailureListener(new OnFailureListener() {

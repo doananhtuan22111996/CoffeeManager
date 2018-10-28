@@ -143,8 +143,8 @@ public class TableFragment extends BaseFragment implements ViewListener.ViewList
                     navOrder.setEnabled(false);
                     navEditOrder.setEnabled(true);
                     for (Order order : orderList) {
-                        if (order.getTable_id().equals(table.getId())) {
-                            order_drink_id = order.getOrder_detail_id();
+                        if (order.getTableId().equals(table.getId())) {
+                            order_drink_id = order.getOrderDetailId();
                         }
                     }
                     dlTable.openDrawer(Gravity.START);

@@ -11,7 +11,7 @@ public class Drink {
     private String uuid;
     private String url;
     private Boolean isStatus;
-    private String amount;
+    private int amount;
 
     public Drink() {
     }
@@ -33,7 +33,7 @@ public class Drink {
         this.isStatus = isStatus;
     }
 
-    public Drink(String id, String name, String description, String price, String uuid, String url, Boolean isStatus, String amount) {
+    public Drink(String id, String name, String description, String price, String uuid, String url, Boolean isStatus, int amount) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -44,7 +44,7 @@ public class Drink {
         this.amount = amount;
     }
 
-    public Drink(String id, Boolean isStatus, String amount) {
+    public Drink(String id, Boolean isStatus, int amount) {
         this.id = id;
         this.isStatus = isStatus;
         this.amount = amount;
@@ -121,12 +121,12 @@ public class Drink {
     }
 
     @PropertyName("amount")
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
     @PropertyName("amount")
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 }

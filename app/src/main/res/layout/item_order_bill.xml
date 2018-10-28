@@ -22,6 +22,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Mocha"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"

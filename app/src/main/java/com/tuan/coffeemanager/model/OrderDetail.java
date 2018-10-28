@@ -1,62 +1,82 @@
 package com.tuan.coffeemanager.model;
 
+import com.google.firebase.database.PropertyName;
+
 import java.util.List;
 
 public class OrderDetail {
-    private String order_detail_id;
-    private String user_id;
+    private String orderId;
+    private String userId;
     private String date;
     private Boolean isStatus;
-    private List<Drink> drinkOrderList;
+    private List<Drink> drinkList;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String order_detail_id, String user_id, String date, Boolean isStatus, List<Drink> drinkOrderList) {
-        this.order_detail_id = order_detail_id;
-        this.user_id = user_id;
+
+    public OrderDetail(String orderId, String userId, String date, Boolean isStatus, List<Drink> drinkList) {
+        this.orderId = orderId;
+        this.userId = userId;
         this.date = date;
         this.isStatus = isStatus;
-        this.drinkOrderList = drinkOrderList;
+        this.drinkList = drinkList;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public OrderDetail(String userId, String date, Boolean isStatus, List<Drink> drinkList) {
+        this.userId = userId;
+        this.date = date;
+        this.isStatus = isStatus;
+        this.drinkList = drinkList;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    @PropertyName("order_id")
+    public String getOrderId() {
+        return orderId;
     }
 
+    @PropertyName("order_id")
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    @PropertyName("user_id")
+    public String getUserId() {
+        return userId;
+    }
+
+    @PropertyName("user_id")
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @PropertyName("date")
     public String getDate() {
         return date;
     }
 
+    @PropertyName("date")
     public void setDate(String date) {
         this.date = date;
     }
 
-    public List<Drink> getDrinkOrderList() {
-        return drinkOrderList;
-    }
-
-    public void setDrinkOrderList(List<Drink> drinkOrderList) {
-        this.drinkOrderList = drinkOrderList;
-    }
-
-    public String getOrder_detail_id() {
-        return order_detail_id;
-    }
-
-    public void setOrder_detail_id(String order_detail_id) {
-        this.order_detail_id = order_detail_id;
-    }
-
-    public Boolean getIsStatus() {
+    @PropertyName("isStatus")
+    public Boolean getStatus() {
         return isStatus;
     }
 
-    public void setIsStatus(Boolean status) {
+    @PropertyName("isStatus")
+    public void setStatus(Boolean status) {
         isStatus = status;
+    }
+
+    @PropertyName("drink_order_list")
+    public List<Drink> getDrinkList() {
+        return drinkList;
+    }
+
+    @PropertyName("drink_order_list")
+    public void setDrinkList(List<Drink> drinkList) {
+        this.drinkList = drinkList;
     }
 }

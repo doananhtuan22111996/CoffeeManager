@@ -1,31 +1,37 @@
 package com.tuan.coffeemanager.model;
 
+import com.google.firebase.database.PropertyName;
+
 public class Order {
 
-    private String table_id;
-    private String order_detail_id;
+    private String tableId;
+    private String orderDetailId;
 
     public Order() {
     }
 
-    public Order(String table_id, String order_detail_id) {
-        this.table_id = table_id;
-        this.order_detail_id = order_detail_id;
+    public Order(String tableId, String orderDetailId) {
+        this.tableId = tableId;
+        this.orderDetailId = orderDetailId;
     }
 
-    public String getOrder_detail_id() {
-        return order_detail_id;
+    @PropertyName("table_id")
+    public String getTableId() {
+        return tableId;
     }
 
-    public void setOrder_detail_id(String order_detail_id) {
-        this.order_detail_id = order_detail_id;
+    @PropertyName("table_id")
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
     }
 
-    public String getTable_id() {
-        return table_id;
+    @PropertyName("order_detail_id")
+    public String getOrderDetailId() {
+        return orderDetailId;
     }
 
-    public void setTable_id(String table_id) {
-        this.table_id = table_id;
+    @PropertyName("order_detail_id")
+    public void setOrderDetailId(String orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 }

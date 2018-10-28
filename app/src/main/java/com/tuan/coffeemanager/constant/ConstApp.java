@@ -3,13 +3,15 @@ package com.tuan.coffeemanager.constant;
 public class ConstApp {
 
     public static final int NUM_TAB = 3;
-    public static final String PAGE = "PAGE";
+    public static final String PAGE = "FLAG";
+    public static final int PAGE_TABLE = 1;
 
     public static final String NODE_USER = "USER";
     public static final String NODE_TABLE = "TABLE";
     public static final String NODE_DRINK = "DRINK";
     public static final String NODE_ORDER = "ORDER";
     public static final String NODE_ORDER_DETAIL = "ORDER_DETAIL";
+    public static final String NODE_STATUS = "isStatus";
     public static final String DRINK_ID = "DRINK_ID";
     public static final String SHARED_PREF = "SHARED_PREF";
     public static final String ID_USER = "ID_USER";
@@ -44,5 +46,14 @@ public class ConstApp {
     public static final String ADD_COFFEE_E005 = "Name coffee is empty!";
     public static final String ADD_COFFEE_E006 = "Description coffee is empty!";
     public static final String ADD_COFFEE_E007 = "Price coffee is empty!";
+
+    //Error Order
+    public static final int DEFAULT_AMOUNT = 1;
+    public static final String ORDER_COFFEE_E001 = "Get drink coffee failure!";
+    public static final String ORDER_COFFEE_E002 = "Post order coffee failure!";
+    public static final String ORDER_COFFEE_E003 = "Request order coffee is empty!";
+    public static final String ORDER_COFFEE_E004 = "Post order detail coffee failure!";
+    public static final String ORDER_COFFEE_E005 = "Post order coffee success!";
+
 
 }

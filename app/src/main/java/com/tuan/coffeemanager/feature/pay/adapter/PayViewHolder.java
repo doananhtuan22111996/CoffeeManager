@@ -37,8 +37,8 @@ public class PayViewHolder extends RecyclerView.ViewHolder {
     public void bind(Context context, Drink drinkOrder) {
         GlideExt.showImage(context, ivCoffee, drinkOrder.getUrl());
         tvNameCoffee.setText(drinkOrder.getName());
-        tvAmount.setText(drinkOrder.getAmount());
-        int amount = Integer.parseInt(drinkOrder.getAmount());
+        tvAmount.setText(String.valueOf(drinkOrder.getAmount()));
+        int amount = drinkOrder.getAmount();
         tvPrice.setText(String.valueOf(amount * Integer.parseInt(drinkOrder.getPrice()) + "$"));
         if (drinkOrder.getStatus()) {
             ivCheck.setVisibility(View.VISIBLE);
