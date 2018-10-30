@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
 import com.tuan.coffeemanager.ext.KeyBoardExt;
+import com.tuan.coffeemanager.feature.editProfileEmployee.listener.IDatePickerListener;
 import com.tuan.coffeemanager.feature.editProfileEmployee.listener.IEditProfileEmployeeListener;
 import com.tuan.coffeemanager.feature.editProfileEmployee.presenter.EditProfileEmployeePresenter;
 import com.tuan.coffeemanager.model.User;
@@ -22,7 +23,8 @@ import com.tuan.coffeemanager.widget.DialogDatePickerFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditProfileEmployeeActivity extends BaseActivity implements View.OnClickListener, IEditProfileEmployeeListener.IEditProfileViewListener {
+public class EditProfileEmployeeActivity extends BaseActivity implements View.OnClickListener,
+        IEditProfileEmployeeListener.IEditProfileViewListener, IDatePickerListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -46,6 +48,7 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
     TextView tvPosition;
 
     private EditProfileEmployeePresenter editProfileEmployeePresenter;
+    private DialogDatePickerFragment dialogDatePickerFragment;
     private User user = new User();
 
     @Override
@@ -53,13 +56,15 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
-        editProfileEmployeePresenter = new EditProfileEmployeePresenter(this);
         init();
         user = DataUtil.newInstance(this).getDataUser();
         setView(user);
     }
 
     private void init() {
+        editProfileEmployeePresenter = new EditProfileEmployeePresenter(this);
+        dialogDatePickerFragment = DialogDatePickerFragment.newInstance();
+
         tvTitle.setText(R.string.text_edit_profile);
         btnSave.setText(R.string.text_save);
         ivBack.setOnClickListener(this);
@@ -101,7 +106,7 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
                 break;
             }
             case R.id.tvBirthDayDP: {
-                DialogDatePickerFragment.newInstance().show(getSupportFragmentManager(), "fragment");
+                dialogDatePickerFragment.show(getSupportFragmentManager(), "fragment");
                 break;
             }
             case R.id.btnSave: {
@@ -133,5 +138,11 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
     public void updateFailure(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResultDate(String strDate) {
+        tvBirthDayDP.setText(strDate);
+        dialogDatePickerFragment.dismiss();
     }
 }

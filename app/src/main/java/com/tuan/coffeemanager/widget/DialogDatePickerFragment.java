@@ -1,6 +1,9 @@
 package com.tuan.coffeemanager.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 
 import com.tuan.coffeemanager.R;
+import com.tuan.coffeemanager.feature.editProfileEmployee.listener.IDatePickerListener;
 
 import java.util.Calendar;
 
@@ -27,6 +31,7 @@ public class DialogDatePickerFragment extends DialogFragment {
 
     @BindView(R.id.dpDate)
     DatePicker dpDate;
+    private IDatePickerListener iDatePickerListener;
     Unbinder unbinder;
 
     public static DialogDatePickerFragment newInstance() {
@@ -54,9 +59,11 @@ public class DialogDatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
         dialog.setCanceledOnTouchOutside(false);
         return dialog;
     }
@@ -68,9 +75,20 @@ public class DialogDatePickerFragment extends DialogFragment {
         dpDate.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+                iDatePickerListener.onResultDate(getString(R.string.date, String.valueOf(dayOfMonth),
+                        String.valueOf(monthOfYear + 1), String.valueOf(year)));
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            iDatePickerListener = (IDatePickerListener) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -99,5 +117,15 @@ public class DialogDatePickerFragment extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            iDatePickerListener = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
