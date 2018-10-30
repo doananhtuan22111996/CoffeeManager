@@ -89,7 +89,6 @@
                 android:background="@drawable/line_background_edit"
                 android:gravity="top"
                 android:hint="@string/text_email_user"
-                android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="15sp"

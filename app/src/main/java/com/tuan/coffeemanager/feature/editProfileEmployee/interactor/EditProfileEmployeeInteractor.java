@@ -21,19 +21,24 @@ public class EditProfileEmployeeInteractor {
         this.editProfilePresenterListener = editProfilePresenterListener;
     }
 
+    //4. Xử lý cập nhật thông tin
+    //4.a Request update profile
     public void updateProfile(User user) {
         databaseReference.child(ConstApp.NODE_USER).child(user.getId()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    //4.a.1 Update profile success
                     editProfilePresenterListener.responseSuccess(ConstApp.EDIT_PROFILE_E002);
                 } else {
+                    //4.a.2 Update profile failure
                     editProfilePresenterListener.responseFailure(ConstApp.EDIT_PROFILE_E001);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                //4.a.2 Update profile failure
                 editProfilePresenterListener.responseFailure(ConstApp.EDIT_PROFILE_E001);
             }
         });

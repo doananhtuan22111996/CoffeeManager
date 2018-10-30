@@ -35,8 +35,9 @@ public class ConstApp {
     public static final String SIGN_IN_E008 = "Get user data failure!";
 
     //Error Edit Profile
-    public static final String EDIT_PROFILE_E001 = "Update profile failure";
-    public static final String EDIT_PROFILE_E002 = "Update profile success";
+    public static final String EDIT_PROFILE_E001 = "Update profile failure!";
+    public static final String EDIT_PROFILE_E002 = "Update profile success!";
+    public static final String EDIT_PROFILE_E003 = "Name is empty!";
 
     //Error Add Coffee
     public static final String ADD_COFFEE_E001 = "Add image failure!";

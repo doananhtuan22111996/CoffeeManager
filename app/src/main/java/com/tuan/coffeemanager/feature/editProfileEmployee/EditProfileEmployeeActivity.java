@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.base.BaseActivity;
+import com.tuan.coffeemanager.constant.ConstApp;
 import com.tuan.coffeemanager.ext.KeyBoardExt;
 import com.tuan.coffeemanager.feature.editProfileEmployee.listener.IDatePickerListener;
 import com.tuan.coffeemanager.feature.editProfileEmployee.listener.IEditProfileEmployeeListener;
@@ -51,19 +52,22 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
     private DialogDatePickerFragment dialogDatePickerFragment;
     private User user = new User();
 
+    //Hàm khởi tạo View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
         init();
-        user = DataUtil.newInstance(this).getDataUser();
         setView(user);
     }
 
+    //Hàm khởi tạo các giá trị và sự kiện click
     private void init() {
         editProfileEmployeePresenter = new EditProfileEmployeePresenter(this);
         dialogDatePickerFragment = DialogDatePickerFragment.newInstance();
+
+        user = DataUtil.newInstance(this).getDataUser();
 
         tvTitle.setText(R.string.text_edit_profile);
         btnSave.setText(R.string.text_save);
@@ -73,6 +77,7 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
         tvBirthDayDP.setOnClickListener(this);
     }
 
+    //Hàm hiển thị thông tin user
     private void setView(User user) {
         if (user.getName() != null) {
             edtName.setText(user.getName());
@@ -94,9 +99,11 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
         }
     }
 
+    //Hàm sự kiện click
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            //Xự kiên back
             case R.id.ivBack: {
                 onBackPressed();
                 break;
@@ -105,41 +112,58 @@ public class EditProfileEmployeeActivity extends BaseActivity implements View.On
                 KeyBoardExt.hideKeyBoard(this);
                 break;
             }
+            //Xự kiện chọn lịch
             case R.id.tvBirthDayDP: {
                 dialogDatePickerFragment.show(getSupportFragmentManager(), "fragment");
                 break;
             }
+            //4. Request update profile
             case R.id.btnSave: {
-                showLoading();
                 KeyBoardExt.hideKeyBoard(this);
-                setProfile();
-                editProfileEmployeePresenter.requestUpdateProfile(user);
+                requestUpdateProfile();
                 break;
             }
         }
     }
 
-    private void setProfile() {
-        user.setName(edtName.getText().toString().trim());
-        user.setBirthDay(tvBirthDayDP.getText().toString().trim());
-        user.setPhoneNumber(edtPhone.getText().toString().trim());
-        user.setAddress(edtAddress.getText().toString().trim());
+
+    private void requestUpdateProfile() {
+        //3. Xử lý check name
+        if (edtName.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, ConstApp.EDIT_PROFILE_E003, Toast.LENGTH_SHORT).show();
+        } else {
+            showLoading();
+            //2.1 Get name
+            user.setName(edtName.getText().toString().trim());
+            //2.3 Get Birthday
+            user.setBirthDay(tvBirthDayDP.getText().toString().trim());
+            //2.5 Get Phone
+            user.setPhoneNumber(edtPhone.getText().toString().trim());
+            //2.4 Get Address
+            user.setAddress(edtAddress.getText().toString().trim());
+            //4. Request update profile
+            editProfileEmployeePresenter.requestUpdateProfile(user);
+        }
     }
 
+    //4.a.1 Update profile success
     @Override
     public void updateSuccess(String error) {
         hideLoading();
+        //4.b Nhận dữ liệu và kết thúc
         DataUtil.newInstance(this).setDataUser(user);
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
         finish();
     }
 
+    //4.a.2 Update profile failure
     @Override
     public void updateFailure(String error) {
         hideLoading();
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
+    //Hàm trả kết quả sau khi chọn lich
     @Override
     public void onResultDate(String strDate) {
         tvBirthDayDP.setText(strDate);

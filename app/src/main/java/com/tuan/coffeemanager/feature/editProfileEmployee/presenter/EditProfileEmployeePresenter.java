@@ -14,6 +14,7 @@ public class EditProfileEmployeePresenter implements IEditProfileEmployeeListene
         editProfileEmployeeInteractor = new EditProfileEmployeeInteractor(this);
     }
 
+    //4. Request update profile
     public void requestUpdateProfile(User user) {
         editProfileEmployeeInteractor.updateProfile(user);
     }
