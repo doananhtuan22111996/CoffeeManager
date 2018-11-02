@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.tuan.coffeemanager.R;
 import com.tuan.coffeemanager.feature.order.listener.IOnItemClickListener;
-import com.tuan.coffeemanager.listener.OnItemClickListener;
 import com.tuan.coffeemanager.ext.GlideExt;
 import com.tuan.coffeemanager.model.Drink;
 
@@ -38,10 +37,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     public void setDrinkOrderList(List<Drink> drinkOrderList) {
         this.drinkOrderList = drinkOrderList;
-    }
-
-    public List<Drink> getDrinkOrderList() {
-        return drinkOrderList;
     }
 
     @NonNull
@@ -102,7 +97,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         return drinkOrderList != null ? drinkOrderList.size() : 0;
     }
 
-    static class OrderViewHolder extends RecyclerView.ViewHolder {
+    class OrderViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ivCoffee)
         ImageView ivCoffee;

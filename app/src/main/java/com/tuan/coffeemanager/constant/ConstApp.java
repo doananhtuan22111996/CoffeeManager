@@ -45,8 +45,7 @@ public class ConstApp {
     public static final String ADD_COFFEE_E003 = "Post coffee failure!";
     public static final String ADD_COFFEE_E004 = "Post coffee success!";
     public static final String ADD_COFFEE_E005 = "Name coffee is empty!";
-    public static final String ADD_COFFEE_E006 = "Description coffee is empty!";
-    public static final String ADD_COFFEE_E007 = "Price coffee is empty!";
+    public static final String ADD_COFFEE_E006 = "Price coffee is empty!";
 
     //Error Order
     public static final int DEFAULT_AMOUNT = 1;
