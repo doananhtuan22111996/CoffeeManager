@@ -5,6 +5,7 @@ public class ConstApp {
     public static final int NUM_TAB = 3;
     public static final String PAGE = "FLAG";
     public static final int PAGE_TABLE = 1;
+    public static final String KEY_DATE = "/";
 
     public static final String NODE_USER = "USER";
     public static final String NODE_TABLE = "TABLE";

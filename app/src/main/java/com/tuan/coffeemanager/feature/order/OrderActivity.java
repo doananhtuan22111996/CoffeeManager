@@ -167,7 +167,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
-        return String.valueOf(day + "/" + month + "/" + year);
+        return String.valueOf(day + ConstApp.KEY_DATE + month + ConstApp.KEY_DATE + year);
     }
 
     private Boolean isExist(Drink drink) {
