@@ -52,7 +52,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         GlideExt.showImage(context, orderViewHolder.ivCoffee, drink.getUrl());
         orderViewHolder.tvNameCoffee.setText(drink.getName());
         orderViewHolder.tvAmount.setText(String.valueOf(drink.getAmount()));
-        orderViewHolder.tvPrice.setText(String.valueOf(drink.getAmount() * Integer.parseInt(drink.getPrice()) + "$"));
+        orderViewHolder.tvPrice.setText(context.getString(R.string.total_order, String.valueOf(drink.getAmount() * Integer.parseInt(drink.getPrice()))));
         if (drink.getStatus()) {
             orderViewHolder.btnDown.setVisibility(View.GONE);
             orderViewHolder.btnUp.setVisibility(View.GONE);
@@ -69,7 +69,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                     int amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                     amount--;
                     orderViewHolder.tvAmount.setText(String.valueOf(amount));
-                    orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
+                    orderViewHolder.tvPrice.setText(context.getString(R.string.total_order, String.valueOf(drink.getAmount() * Integer.parseInt(drink.getPrice()))));
                     onItemClickListener.onChangeAmountItemClickListener(position, amount);
                 }
             }
@@ -80,7 +80,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 int amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                 amount++;
                 orderViewHolder.tvAmount.setText(String.valueOf(amount));
-                orderViewHolder.tvPrice.setText(String.valueOf(amount * Integer.parseInt(drink.getPrice()) + "$"));
+                orderViewHolder.tvPrice.setText(context.getString(R.string.total_order, String.valueOf(drink.getAmount() * Integer.parseInt(drink.getPrice()))));
                 onItemClickListener.onChangeAmountItemClickListener(position, amount);
             }
         });
