@@ -88,7 +88,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         if (getIntent().getExtras() != null) {
             table = (Table) getIntent().getExtras().getSerializable(ConstApp.TABLE_OBJ);
             tvNumberTable.setText(getString(R.string.text_number_table,
-                    (table != null && table.getNumber() != 0) ? String.valueOf(table.getNumber()) : "0"));
+                    (table != null && table.getNumber() != 0) ? String.valueOf(table.getNumber()) : getString(R.string.table_default)));
         }
 
         orderPresenter = new OrderPresenter(this);

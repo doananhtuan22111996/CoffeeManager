@@ -91,6 +91,7 @@
     <string name="table_manager">Table Manager</string>
     <string name="total_order">%1$s$</string>
     <string name="date">%1$s/%2$s/%3$s</string>
+    <string name="table_default">0</string>
     <string-array name="position">
         <item>employee</item>
         <item>bartender</item>
