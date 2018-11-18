@@ -78,7 +78,7 @@ public class OrderInteractor {
         }
     }
 
-    private void postOrder(String tableId, String orderDetailId) {
+    private void postOrder(String tableId, final String orderDetailId) {
         Order order = new Order(tableId, orderDetailId);
         databaseReference.child(ConstApp.NODE_ORDER).child(tableId).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -92,8 +92,13 @@ public class OrderInteractor {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                iOrderPresenterListener.responseOrderFailure(ConstApp.ORDER_COFFEE_E002);
+                deleteOrderDetail(orderDetailId);
             }
         });
+    }
+
+    private void deleteOrderDetail(String orderDetailId) {
+        databaseReference.child(ConstApp.NODE_ORDER_DETAIL).child(orderDetailId).setValue(null);
+        iOrderPresenterListener.responseOrderFailure(ConstApp.ORDER_COFFEE_E002);
     }
 }
