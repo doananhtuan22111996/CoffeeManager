@@ -74,9 +74,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         init();
         event();
 
+        //2.1.a Request Menu
         orderPresenter.requestDrinkCoffee();
     }
 
+    //Khởi tạo giá trị ban đầu
     private void init() {
         tvTitle.setText(R.string.text_order_title);
         tvTime.setText(getString(R.string.text_time_bill, getCurrentCalendar()));
@@ -144,18 +146,25 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
+    //2.1.c Xử lý xự kiện nhấn Order
     private void setOnClickMenuListener() {
         orderMenuAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
                 final Drink drink = drinkList.get(position);
+                //2.1.c Xử lý xự kiện nhấn Order -  Kiểm tra item trong danh sách Order
                 if (!isExist(drink)) {
+                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món
+                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món - Amount
                     drink.setAmount(ConstApp.DEFAULT_AMOUNT);
+                    ////2.1.c Xử lý xự kiện nhấn Order - Tạo món - Status
                     drink.setStatus(false);
+                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món - Lưu vào danh sách order
                     drinkOrderList.add(drink);
                     orderAdapter.setDrinkOrderList(drinkOrderList);
                     rvOrder.setAdapter(orderAdapter);
                     orderAdapter.notifyDataSetChanged();
+                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món - Tính tổng giá của Order
                     tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
                 }
             }
@@ -170,24 +179,31 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         return String.valueOf(day + ConstApp.KEY_DATE + month + ConstApp.KEY_DATE + year);
     }
 
+    //2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order
     private Boolean isExist(Drink drink) {
         for (Drink drinkOrder : drinkOrderList) {
             if (drinkOrder.getId().equals(drink.getId())) {
+                //2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order - true
                 return true;
             }
         }
+        //2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order - false
         return false;
     }
 
+    //2.1.c Xử lý sự kiện nhấn Order - Tạo món - Tính tổng giá trị Order
     private int total(List<Drink> drinkList) {
         int sum = 0;
         for (Drink drinkOrder : drinkList) {
+            //priceDrink = amount * price (Giá tiền từng item)
+            //priceOrder = Sum(priceDrink) (Giá tiền của Order)
             sum += drinkOrder.getAmount() * Integer.parseInt(drinkOrder.getPrice());
         }
         return sum;
     }
 
 
+    //2.1.b Hiển thị menu
     @Override
     public void drinkCoffeeSuccess(List<Drink> drinkList) {
         hideLoading();

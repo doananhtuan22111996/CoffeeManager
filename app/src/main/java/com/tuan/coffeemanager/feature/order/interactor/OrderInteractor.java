@@ -32,10 +32,12 @@ public class OrderInteractor {
 
     public void getDrinkCoffee() {
         final List<Drink> drinkList = new ArrayList<>();
+        //2.1.a Request Menu - Lệnh Query
         Query query = databaseReference.child(ConstApp.NODE_DRINK).orderByChild(ConstApp.NODE_STATUS).equalTo(true);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //2.1.a Request Menu - Trường hợp get menu thành công
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     drinkList.add(item.getValue(Drink.class));
                 }
@@ -44,6 +46,7 @@ public class OrderInteractor {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                //2.1.a Request Menu - Trường hợp get menu không thành công
                 iOrderPresenterListener.responseDrinkCoffeeFailure(ConstApp.ORDER_COFFEE_E001);
             }
         });
