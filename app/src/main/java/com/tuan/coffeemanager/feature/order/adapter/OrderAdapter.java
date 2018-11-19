@@ -49,9 +49,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull final OrderViewHolder orderViewHolder, final int position) {
         final Drink drink = drinkOrderList.get(position);
+        //14.2.2 Hiển thị danh sách Order - Hiển thị ảnh
         GlideExt.showImage(context, orderViewHolder.ivCoffee, drink.getUrl());
+        //14.2.2 Hiển thị danh sách Order - Hiển thị tên
         orderViewHolder.tvNameCoffee.setText(drink.getName());
+        //14.2.2 Hiển thị danh sách Order - Hiển thị số lượng
         orderViewHolder.tvAmount.setText(String.valueOf(drink.getAmount()));
+        //14.2.2 Hiển thị danh sách Order - Hiển thị giá
         orderViewHolder.tvPrice.setText(context.getString(R.string.total_order, String.valueOf(drink.getAmount() * Integer.parseInt(drink.getPrice()))));
         if (drink.getStatus()) {
             orderViewHolder.btnDown.setVisibility(View.GONE);
@@ -62,9 +66,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderViewHolder.btnUp.setVisibility(View.VISIBLE);
             orderViewHolder.ivDelete.setVisibility(View.VISIBLE);
         }
+        //14.3.b Xử lý từng item trong danh sách Order - Xử lý click down
         orderViewHolder.btnDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //14.3.b Xử lý từng item trong danh sách Order - Xử lý click down - giảm số lượng
                 if (drink.getAmount() > 1) {
                     int amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                     amount--;
@@ -74,9 +80,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 }
             }
         });
+        //14.3.b Xử lý từng item trong danh sách Order - Xử lý click up
         orderViewHolder.btnUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //14.3.b Xử lý từng item trong danh sách Order - Xử lý click up - tăng số lượng
                 int amount = Integer.parseInt(orderViewHolder.tvAmount.getText().toString());
                 amount++;
                 orderViewHolder.tvAmount.setText(String.valueOf(amount));
@@ -84,6 +92,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 onItemClickListener.onChangeAmountItemClickListener(position, amount);
             }
         });
+        //14.3.a Xử lý từng item trong danh sách Order - Xử lý click delete
         orderViewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

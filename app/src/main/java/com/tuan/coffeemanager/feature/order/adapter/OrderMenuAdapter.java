@@ -53,11 +53,11 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.Orde
     @Override
     public void onBindViewHolder(@NonNull OrderMenuViewHolder orderMenuViewHolder, final int position) {
         Drink drink = drinkList.get(position);
-        //2.1.b Hiển thị menu - Name coffee
+        //10.2.1.b Hiển thị menu - Name coffee
         orderMenuViewHolder.tvNameCoffee.setText(drink.getName());
-        //2.1.b Hiển thị menu - Price Coffee
+        //10.2.1.b Hiển thị menu - Price Coffee
         orderMenuViewHolder.tvPriceCoffee.setText(context.getString(R.string.total_order, String.valueOf(drink.getPrice())));
-        //2.1.c Xự lý xự kiện nhấn order
+        //10.2.1.c Xự lý xự kiện nhấn order
         orderMenuViewHolder.cvOrderMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

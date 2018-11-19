@@ -81,12 +81,15 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     //Khởi tạo giá trị ban đầu
     private void init() {
         tvTitle.setText(R.string.text_order_title);
+        //14.2.1 Hiển thị thông tin Order - Hiển thị time - Hiển thị
         tvTime.setText(getString(R.string.text_time_bill, getCurrentCalendar()));
 
         user = DataUtil.newInstance(this).getDataUser();
+        //14.2.1 Hiển thị thông tin Order - Hiển thị tên nhân viên
         tvUser.setText(getString(R.string.text_employee_bill,
                 (user != null && !user.getName().isEmpty()) ? user.getName() : getString(R.string.text_example)));
 
+        //14.2.1 Hiển thị thông tin Order - Hiển thị số bàn
         if (getIntent().getExtras() != null) {
             table = (Table) getIntent().getExtras().getSerializable(ConstApp.TABLE_OBJ);
             tvNumberTable.setText(getString(R.string.text_number_table,
@@ -120,7 +123,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             }
             case R.id.tvSaveCoffee: {
                 showLoading();
+                //18.2.1 Xử lý tạo order - Xử lý tạo Order Detail (Click Save)
+                //18.2.1 Xử lý tạo order - Xử lý tạo Order Detail (Click Save) - Tạo Order Detail
                 OrderDetail orderDetail = new OrderDetail(user.getId(), getCurrentCalendar(), false, drinkOrderList);
+                //18.2.1 Xử lý tạo order - Xử lý tạo Order Detail (Click Save) - Request Database
                 orderPresenter.requestOrder(orderDetail, table.getId());
                 break;
             }
@@ -131,46 +137,50 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         orderAdapter.setOnItemClickListener(new IOnItemClickListener() {
             @Override
             public void onRemoveItemClickListener(int position) {
+                //14.3.a Xử lý từng item trong danh sách Order - Xử lý click delete
                 drinkOrderList.remove(position);
                 orderAdapter.setDrinkOrderList(drinkOrderList);
                 rvOrder.setAdapter(orderAdapter);
                 orderAdapter.notifyDataSetChanged();
+                //14.3.a Xử lý từng item trong danh sách Order - Xử lý click delete - Cập nhật giá trị Order
                 tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
             }
 
             @Override
             public void onChangeAmountItemClickListener(int position, int amount) {
                 drinkOrderList.get(position).setAmount(amount);
+                //14.3.b Xử lý từng item trong danh sách Order - cập nhật giá của order
                 tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
             }
         });
     }
 
-    //2.1.c Xử lý xự kiện nhấn Order
+    //10.2.1.c Xử lý xự kiện nhấn Order
     private void setOnClickMenuListener() {
         orderMenuAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
                 final Drink drink = drinkList.get(position);
-                //2.1.c Xử lý xự kiện nhấn Order -  Kiểm tra item trong danh sách Order
+                //10.2.1.c Xử lý xự kiện nhấn Order -  Kiểm tra item trong danh sách Order
                 if (!isExist(drink)) {
-                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món
-                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món - Amount
+                    //10.2.1.c Xử lý xự kiện nhấn Order - Tạo món
+                    //10.2.1.c Xử lý xự kiện nhấn Order - Tạo món - Amount
                     drink.setAmount(ConstApp.DEFAULT_AMOUNT);
-                    ////2.1.c Xử lý xự kiện nhấn Order - Tạo món - Status
+                    //10.2.1.c Xử lý xự kiện nhấn Order - Tạo món - Status
                     drink.setStatus(false);
-                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món - Lưu vào danh sách order
+                    //10.2.1.c Xử lý xự kiện nhấn Order - Tạo món - Lưu vào danh sách order
                     drinkOrderList.add(drink);
                     orderAdapter.setDrinkOrderList(drinkOrderList);
                     rvOrder.setAdapter(orderAdapter);
                     orderAdapter.notifyDataSetChanged();
-                    //2.1.c Xử lý xự kiện nhấn Order - Tạo món - Tính tổng giá của Order
+                    //10.2.1.c Xử lý xự kiện nhấn Order - Tạo món - Tính tổng giá của Order
                     tvTotal.setText(getString(R.string.total_order, String.valueOf(total(drinkOrderList))));
                 }
             }
         });
     }
 
+    //14.2.1 Hiển thị thông tin Order - Hiển thị time - Get current time
     private String getCurrentCalendar() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -179,7 +189,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         return String.valueOf(day + ConstApp.KEY_DATE + month + ConstApp.KEY_DATE + year);
     }
 
-    //2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order
+    //10.2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order
     private Boolean isExist(Drink drink) {
         for (Drink drinkOrder : drinkOrderList) {
             if (drinkOrder.getId().equals(drink.getId())) {
@@ -187,11 +197,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 return true;
             }
         }
-        //2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order - false
+        //10.2.1.c Xử lí sự kiện nhấn Order - Kiểm tra item trong danh sách Order - false
         return false;
     }
 
-    //2.1.c Xử lý sự kiện nhấn Order - Tạo món - Tính tổng giá trị Order
+    //10.2.1.c Xử lý sự kiện nhấn Order - Tạo món - Tính tổng giá trị Order
     private int total(List<Drink> drinkList) {
         int sum = 0;
         for (Drink drinkOrder : drinkList) {
@@ -203,7 +213,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    //2.1.b Hiển thị menu
+    //10.2.1.b Hiển thị menu
     @Override
     public void drinkCoffeeSuccess(List<Drink> drinkList) {
         hideLoading();
