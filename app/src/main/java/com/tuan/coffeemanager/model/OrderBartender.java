@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OrderBartender implements Serializable {
+
     private String table_id;
     private int number;
     private String order_detail_id;
@@ -13,16 +14,6 @@ public class OrderBartender implements Serializable {
     private List<Drink> drinkOrderList;
 
     public OrderBartender() {
-    }
-
-    public OrderBartender(String table_id, int number, String order_detail_id, String user_id, String date, Boolean isStatus, List<Drink> drinkOrderList) {
-        this.table_id = table_id;
-        this.number = number;
-        this.order_detail_id = order_detail_id;
-        this.user_id = user_id;
-        this.date = date;
-        this.isStatus = isStatus;
-        this.drinkOrderList = drinkOrderList;
     }
 
     public String getTable_id() {

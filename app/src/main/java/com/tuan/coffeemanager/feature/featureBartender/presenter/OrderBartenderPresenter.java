@@ -81,7 +81,7 @@ public class OrderBartenderPresenter {
                 orderBartenderList = new ArrayList<>();
                 for (DataSnapshot value : dataSnapshot.getChildren()) {
                     OrderDetail orderDetail = value.getValue(OrderDetail.class);
-                    if (orderDetail != null && orderDetail.getStatus() == true) {
+                    if (orderDetail != null && orderDetail.getStatus() == false) {
                         for (Order order : orderList) {
                             if (order.getOrderDetailId().equals(orderDetail.getOrderId())) {
                                 OrderBartender orderBartender = new OrderBartender();

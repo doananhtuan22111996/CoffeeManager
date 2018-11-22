@@ -92,31 +92,32 @@ public class OrderDetailBartenderActivity extends BaseActivity implements ViewLi
             @Override
             public void onClick(View view) {
                 showLoading();
-                OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .connectTimeout(20, TimeUnit.SECONDS)
-                        .writeTimeout(20, TimeUnit.SECONDS)
-                        .readTimeout(30, TimeUnit.SECONDS)
-                        .build();
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Api.BASE_URL)
-                        .client(okHttpClient)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                Api api = retrofit.create(Api.class);
-                Call<NotificationResponse> call = api.pushNotification(user.getToken(), "Complete Order!");
-                call.enqueue(new Callback<NotificationResponse>() {
-                    @Override
-                    public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
-                        if (response != null) {
-                            orderDetailBartenderPresenter.doneBill(OrderDetailBartenderActivity.this, orderBartender);
-                        }
-                    }
+                orderDetailBartenderPresenter.doneBill(OrderDetailBartenderActivity.this, orderBartender);
 
-                    @Override
-                    public void onFailure(Call<NotificationResponse> call, Throwable t) {
-
-                    }
-                });
+//                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                        .connectTimeout(20, TimeUnit.SECONDS)
+//                        .writeTimeout(20, TimeUnit.SECONDS)
+//                        .readTimeout(30, TimeUnit.SECONDS)
+//                        .build();
+//                Retrofit retrofit = new Retrofit.Builder()
+//                        .baseUrl(Api.BASE_URL)
+//                        .client(okHttpClient)
+//                        .addConverterFactory(GsonConverterFactory.create())
+//                        .build();
+//                Api api = retrofit.create(Api.class);
+//                Call<NotificationResponse> call = api.pushNotification(user.getToken(), "Complete Order!");
+//                call.enqueue(new Callback<NotificationResponse>() {
+//                    @Override
+//                    public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+//                        if (response != null) {
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<NotificationResponse> call, Throwable t) {
+//
+//                    }
+//                });
             }
         });
     }

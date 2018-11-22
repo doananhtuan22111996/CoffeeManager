@@ -2,7 +2,9 @@ package com.tuan.coffeemanager.model;
 
 import com.google.firebase.database.PropertyName;
 
-public class Drink {
+import java.io.Serializable;
+
+public class Drink implements Serializable {
 
     private String id;
     private String name;

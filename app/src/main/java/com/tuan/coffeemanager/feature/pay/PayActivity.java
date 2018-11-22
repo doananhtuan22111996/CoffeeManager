@@ -119,31 +119,32 @@ public class PayActivity extends BaseActivity implements View.OnClickListener, V
             }
             case R.id.btnPay: {
                 showLoading();
-                OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .connectTimeout(20, TimeUnit.SECONDS)
-                        .writeTimeout(20, TimeUnit.SECONDS)
-                        .readTimeout(30, TimeUnit.SECONDS)
-                        .build();
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Api.BASE_URL)
-                        .client(okHttpClient)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                Api api = retrofit.create(Api.class);
-                Call<NotificationResponse> call = api.pushNotification(user.getToken(), "Coffee Store has a new bill!");
-                call.enqueue(new Callback<NotificationResponse>() {
-                    @Override
-                    public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
-                        if (response != null) {
-                            payPresenter.payOrder(PayActivity.this, table.getId());
-                        }
-                    }
+                payPresenter.payOrder(PayActivity.this, table.getId());
 
-                    @Override
-                    public void onFailure(Call<NotificationResponse> call, Throwable t) {
-
-                    }
-                });
+//                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                        .connectTimeout(20, TimeUnit.SECONDS)
+//                        .writeTimeout(20, TimeUnit.SECONDS)
+//                        .readTimeout(30, TimeUnit.SECONDS)
+//                        .build();
+//                Retrofit retrofit = new Retrofit.Builder()
+//                        .baseUrl(Api.BASE_URL)
+//                        .client(okHttpClient)
+//                        .addConverterFactory(GsonConverterFactory.create())
+//                        .build();
+//                Api api = retrofit.create(Api.class);
+//                Call<NotificationResponse> call = api.pushNotification(user.getToken(), "Coffee Store has a new bill!");
+//                call.enqueue(new Callback<NotificationResponse>() {
+//                    @Override
+//                    public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+//                        if (response != null) {
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<NotificationResponse> call, Throwable t) {
+//
+//                    }
+//                });
                 break;
             }
         }
